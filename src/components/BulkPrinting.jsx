@@ -1,4 +1,4 @@
-const WA_NUMBER = '971504746525';
+const WA_NUMBER = '919984090593';
 const WA_MSG_BULK = encodeURIComponent('Hi LEEZOO Team, I want to inquire about bulk t-shirt printing.');
 const EMAIL = 'leezoo.official2026@gmail.com';
 
