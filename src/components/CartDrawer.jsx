@@ -34,7 +34,7 @@ export default function CartDrawer() {
       }}>
         {/* Header */}
         <div style={{
-          padding: '1.8rem 2rem', borderBottom: '1px solid var(--border)',
+          padding: '1.8rem 2rem', borderBottom: '1px solid var(--border-light)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
           <div>
@@ -42,7 +42,7 @@ export default function CartDrawer() {
             <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', opacity: 0.4 }}>{count} ITEM{count !== 1 ? 'S' : ''}</span>
           </div>
           <button onClick={closeDrawer} style={{
-            background: 'none', border: 'none', color: 'var(--white)', cursor: 'pointer',
+            background: 'none', border: 'none', color: 'var(--dark)', cursor: 'pointer',
             fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.5,
           }}>Close ✕</button>
         </div>
@@ -57,11 +57,11 @@ export default function CartDrawer() {
           ) : items.map((item, i) => (
             <div key={`${item.id}-${item.size}`} style={{
               display: 'flex', gap: '1.2rem', paddingBottom: '1.5rem',
-              marginBottom: '1.5rem', borderBottom: '1px solid var(--border)',
+              marginBottom: '1.5rem', borderBottom: '1px solid var(--border-light)',
             }}>
               {/* Placeholder image */}
               <div style={{
-                width: 80, height: 80, background: 'var(--ink)', flexShrink: 0,
+                width: 80, height: 80, background: 'var(--surface)', flexShrink: 0,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '0.5rem', letterSpacing: '0.1em', opacity: 0.4,
               }}>IMG</div>
@@ -70,18 +70,18 @@ export default function CartDrawer() {
                 <div style={{ fontSize: '0.6rem', opacity: 0.4, letterSpacing: '0.12em', marginTop: 2 }}>SIZE: {item.size}</div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.8rem' }}>
                   {/* Qty control */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', border: '1px solid var(--border)', padding: '0.3rem 0.8rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', border: '1px solid var(--border-light)', padding: '0.3rem 0.8rem' }}>
                     <button onClick={() => item.qty > 1 ? updateQty(item.id, item.size, item.qty - 1) : removeItem(item.id, item.size)}
-                      style={{ background: 'none', border: 'none', color: 'var(--white)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}>−</button>
+                      style={{ background: 'none', border: 'none', color: 'var(--dark)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}>−</button>
                     <span style={{ fontSize: '0.75rem', minWidth: 16, textAlign: 'center' }}>{item.qty}</span>
                     <button onClick={() => updateQty(item.id, item.size, item.qty + 1)}
-                      style={{ background: 'none', border: 'none', color: 'var(--white)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}>+</button>
+                      style={{ background: 'none', border: 'none', color: 'var(--dark)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}>+</button>
                   </div>
                   <span style={{ fontSize: '0.75rem', letterSpacing: '0.12em', color: 'var(--accent)' }}>AED {item.price * item.qty}</span>
                 </div>
               </div>
               <button onClick={() => removeItem(item.id, item.size)} style={{
-                background: 'none', border: 'none', cursor: 'pointer', color: 'var(--white)',
+                background: 'none', border: 'none', cursor: 'pointer', color: 'var(--dark)',
                 opacity: 0.3, alignSelf: 'flex-start', fontSize: '1rem',
               }}>✕</button>
             </div>
@@ -90,7 +90,7 @@ export default function CartDrawer() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div style={{ padding: '1.5rem 2rem', borderTop: '1px solid var(--border)' }}>
+          <div style={{ padding: '1.5rem 2rem', borderTop: '1px solid var(--border-light)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
               <span style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.5 }}>Subtotal</span>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.06em', color: 'var(--accent)' }}>AED {total}</span>
@@ -98,7 +98,7 @@ export default function CartDrawer() {
             <button onClick={waMessage} style={{
               width: '100%', background: '#25D366', color: '#fff', border: 'none', cursor: 'pointer',
               padding: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.7rem',
-              fontFamily: 'Barlow,sans-serif', fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase',
+              fontFamily: 'Jost,sans-serif', fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase',
             }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>

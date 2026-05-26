@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Barlow:wght@200;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap');
 
 *, *::before, *::after {
   margin: 0;
@@ -7,13 +7,19 @@
 }
 
 :root {
-  --ink: #0D0D0D;
-  --white: #F5F0EA;
-  --sand: #E8DDD0;
-  --brown: #7A5C3F;
-  --accent: #C4995A;
-  --mid: #1A1A1A;
-  --border: rgba(255, 255, 255, 0.08);
+  /* Belle Âme warm neutral palette */
+  --ink: #F5EDE0;          /* warm cream — main background */
+  --white: #2C1F14;        /* deep warm brown — primary text */
+  --sand: #EDE0CE;         /* soft linen — secondary bg */
+  --brown: #7A5740;        /* warm medium brown */
+  --accent: #BFA06A;       /* antique gold */
+  --accent2: #C9A97A;      /* lighter gold for hover */
+  --mid: #EAD8C2;          /* light taupe — card bg */
+  --dark: #3C2A1E;         /* rich dark brown — headers */
+  --border: rgba(122, 87, 64, 0.18);
+  --border-light: rgba(191, 160, 106, 0.25);
+  --muted: #5C3D25;
+  --surface: #F0E6D8;      /* slightly off-cream surface */
 }
 
 html {
@@ -23,15 +29,15 @@ html {
 body {
   background: var(--ink);
   color: var(--white);
-  font-family: 'Barlow', sans-serif;
-  font-weight: 200;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
   overflow-x: hidden;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--ink); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+::-webkit-scrollbar-track { background: var(--sand); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 /* Animations */
@@ -64,4 +70,13 @@ body {
 ::selection {
   background: var(--accent);
   color: var(--ink);
+}
+
+/* Global input/textarea themed styling */
+input, textarea, select {
+  color: var(--white) !important;
+  background: transparent;
+}
+input::placeholder, textarea::placeholder {
+  color: var(--muted) !important;
 }

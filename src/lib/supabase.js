@@ -1,14 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Replace these with your Supabase project credentials
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ─── Auth helpers ───────────────────────────────────────────────
-export const signUp = (email, password) =>
-  supabase.auth.signUp({ email, password });
+// name is stored in user_metadata so it travels with the session
+export const signUp = (email, password, name) =>
+  supabase.auth.signUp({
+    email,
+    password,
+    options: { data: { full_name: name } },
+  });
 
 export const signIn = (email, password) =>
   supabase.auth.signInWithPassword({ email, password });

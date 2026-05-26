@@ -6,11 +6,12 @@ const words = [
 ];
 
 export default function Marquee() {
-  const items = [...words, ...words]; // duplicate for seamless loop
+  const items = [...words, ...words];
   return (
     <div style={{
       borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)',
-      overflow: 'hidden', padding: '1rem 0', background: 'var(--mid)',
+      overflow: 'hidden', padding: '1.1rem 0', background: 'var(--dark)',
+      position: 'relative', zIndex: 0,
     }}>
       <div style={{
         display: 'inline-flex', gap: '3.5rem', whiteSpace: 'nowrap',
@@ -19,10 +20,13 @@ export default function Marquee() {
         {items.map((w, i) => (
           <span key={i} style={{
             fontFamily: "'Bebas Neue',sans-serif",
-            fontSize: '0.85rem', letterSpacing: '0.25em', color: 'var(--white)',
-            opacity: i % 12 === 11 ? 0.7 : 0.35,
-            ...(i % 6 === 5 ? { width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', verticalAlign: 'middle', flexShrink: 0 } : {}),
-          }}>{w === 'LEEZOO' ? <><span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', verticalAlign: 'middle', marginRight: '3.5rem' }} />{w}</> : w}</span>
+            fontSize: '0.85rem', letterSpacing: '0.3em', color: '#F0E6D8',
+            opacity: i % 12 === 11 ? 0.85 : 0.45,
+          }}>
+            {w === 'LEEZOO'
+              ? <><span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', verticalAlign: 'middle', marginRight: '3.5rem' }} />{w}</>
+              : w}
+          </span>
         ))}
       </div>
     </div>
