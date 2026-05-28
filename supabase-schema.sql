@@ -36,6 +36,8 @@ create table if not exists orders (
   created_at    timestamptz default now()
 );
 
+alter table orders add column if not exists display_id text;
+
 -- ── ORDER ITEMS ───────────────────────────────────────────────────
 create table if not exists order_items (
   id          uuid primary key default uuid_generate_v4(),
@@ -95,3 +97,20 @@ insert into products (name, price, color, color_hex, product_id, badge, category
   ('Signature Dark Tee',  199, 'Midnight',        '#0a0a0a', 'LZW-004', 'Limited', 'women', null),
   ('Earth Tee',           155, 'Caramel Brown',   '#7A5C3F', 'LZW-005', null,      'women', null)
 on conflict (product_id) do nothing;
+
+-- Cart items (persisted per user)
+create table if not exists cart_items (
+  id          uuid primary key default uuid_generate_v4(),
+  user_id     uuid references auth.users(id) on delete cascade not null,
+  product_id  uuid references products(id) on delete cascade not null,
+  size        text not null,
+  qty         integer not null default 1,
+  created_at  timestamptz default now(),
+  unique(user_id, product_id, size)
+);
+
+alter table cart_items enable row level security;
+
+create policy "Users manage own cart"
+  on cart_items for all using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);

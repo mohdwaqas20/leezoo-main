@@ -6,7 +6,6 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-k
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ─── Auth helpers ───────────────────────────────────────────────
-// name is stored in user_metadata so it travels with the session
 export const signUp = (email, password, name) =>
   supabase.auth.signUp({
     email,
@@ -44,15 +43,72 @@ export const fetchProductById = async (id) => {
   return data;
 };
 
-// ─── Orders ──────────────────────────────────────────────────────
-export const createOrder = async (orderData) => {
+// ─── Cart ─────────────────────────────────────────────────────────
+export const fetchCart = async (userId) => {
   const { data, error } = await supabase
-    .from('orders')
-    .insert([orderData])
+    .from('cart_items')
+    .select('*, products(*)')
+    .eq('user_id', userId);
+  if (error) throw error;
+  return data;
+};
+
+export const upsertCartItem = async (userId, productId, size, qty) => {
+  const { data, error } = await supabase
+    .from('cart_items')
+    .upsert(
+      { user_id: userId, product_id: productId, size, qty },
+      { onConflict: 'user_id,product_id,size' }
+    )
     .select()
     .single();
   if (error) throw error;
   return data;
+};
+
+export const deleteCartItem = async (userId, productId, size) => {
+  const { error } = await supabase
+    .from('cart_items')
+    .delete()
+    .eq('user_id', userId)
+    .eq('product_id', productId)
+    .eq('size', size);
+  if (error) throw error;
+};
+
+export const clearCartDb = async (userId) => {
+  const { error } = await supabase
+    .from('cart_items')
+    .delete()
+    .eq('user_id', userId);
+  if (error) throw error;
+};
+
+// ─── Orders ──────────────────────────────────────────────────────
+export const createOrder = async (orderData, orderItems) => {
+  // Insert order
+  const { data: order, error: orderError } = await supabase
+    .from('orders')
+    .insert([orderData])
+    .select()
+    .single();
+  if (orderError) throw orderError;
+
+  // Insert order items
+  const items = orderItems.map((i) => ({
+    order_id: order.id,
+    product_id: i.productDbId,   // the UUID from products table
+    size: i.size,
+    qty: i.qty,
+    unit_price: i.price,
+  }));
+
+  const { error: itemsError } = await supabase
+    .from('order_items')
+    .insert(items);
+  if (itemsError) throw itemsError;
+
+  return order;
 };
 
 export const fetchUserOrders = async (userId) => {

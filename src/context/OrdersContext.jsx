@@ -1,45 +1,60 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { useAuth } from './AuthContext';
+import { fetchUserOrders, createOrder } from '../lib/supabase';
 
 const OrdersContext = createContext(null);
-
-const STORAGE_KEY = (userId) => `leezoo_orders_${userId || 'guest'}`;
 
 export const OrdersProvider = ({ children }) => {
   const { user } = useAuth();
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const key = STORAGE_KEY(user?.id);
-    try {
-      const stored = localStorage.getItem(key);
-      setOrders(stored ? JSON.parse(stored) : []);
-    } catch {
+    if (!user) {
       setOrders([]);
+      return;
     }
+    setLoading(true);
+    fetchUserOrders(user.id)
+      .then((data) => setOrders(data || []))
+      .catch(() => setOrders([]))
+      .finally(() => setLoading(false));
   }, [user?.id]);
 
-  useEffect(() => {
-    const key = STORAGE_KEY(user?.id);
-    try {
-      localStorage.setItem(key, JSON.stringify(orders));
-    } catch {}
-  }, [orders, user?.id]);
+  // cartItems shape: [{ id, name, price, qty, size, image, product_id, ... }]
+  const placeOrder = useCallback(async (cartItems, total) => {
+    if (!user) throw new Error('Must be logged in to place an order');
 
-  const placeOrder = useCallback((cartItems, total) => {
-    const order = {
-      id: `LZ-${Date.now()}`,
-      date: new Date().toISOString(),
-      status: 'Confirmed',
-      items: cartItems,
-      total,
+    const displayId = `LZ-${Date.now()}`;
+    const orderData = {
+      user_id: user.id,
+      total_amount: total,
+      status: 'pending',
+      display_id: displayId,
+      customer_email: user.email,
+      customer_name: user.user_metadata?.full_name || '',
     };
-    setOrders((prev) => [order, ...prev]);
+
+    // Map cart items → order_items shape
+    // NOTE: item.id is the product UUID (we store it that way in CartContext)
+    const orderItems = cartItems.map((i) => ({
+      productDbId: i.id,   // UUID for order_items FK
+      size: i.size,
+      qty: i.qty,
+      price: i.price,
+    }));
+
+    const order = await createOrder(orderData, orderItems);
+
+    // Refresh orders list
+    const updated = await fetchUserOrders(user.id);
+    setOrders(updated || []);
+
     return order;
-  }, []);
+  }, [user]);
 
   return (
-    <OrdersContext.Provider value={{ orders, placeOrder }}>
+    <OrdersContext.Provider value={{ orders, loading, placeOrder }}>
       {children}
     </OrdersContext.Provider>
   );

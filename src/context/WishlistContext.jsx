@@ -1,51 +1,67 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { useAuth } from './AuthContext';
+import {
+  fetchWishlist,
+  addToWishlist as dbAdd,
+  removeFromWishlist as dbRemove,
+} from '../lib/supabase';
 
 const WishlistContext = createContext(null);
 
-const STORAGE_KEY = (userId) => `leezoo_wishlist_${userId || 'guest'}`;
-
 export const WishlistProvider = ({ children }) => {
   const { user } = useAuth();
+  // items = full product objects (from joined query)
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Load wishlist from localStorage when user changes
+  // Load wishlist from DB whenever user changes
   useEffect(() => {
-    const key = STORAGE_KEY(user?.id);
-    try {
-      const stored = localStorage.getItem(key);
-      setItems(stored ? JSON.parse(stored) : []);
-    } catch {
+    if (!user) {
       setItems([]);
+      return;
     }
+    setLoading(true);
+    fetchWishlist(user.id)
+      .then((rows) => {
+        // Each row has a `products` join; extract the product object
+        setItems(rows.map((r) => r.products));
+      })
+      .catch(() => setItems([]))
+      .finally(() => setLoading(false));
   }, [user?.id]);
 
-  // Persist to localStorage on change
-  useEffect(() => {
-    const key = STORAGE_KEY(user?.id);
+  const addToWishlist = useCallback(async (product) => {
+    if (!user) return;
+    // Optimistic update
+    setItems((prev) => (prev.find((p) => p.id === product.id) ? prev : [...prev, product]));
     try {
-      localStorage.setItem(key, JSON.stringify(items));
-    } catch {}
-  }, [items, user?.id]);
+      await dbAdd(user.id, product.id);
+    } catch {
+      // Rollback on failure
+      setItems((prev) => prev.filter((p) => p.id !== product.id));
+    }
+  }, [user]);
 
-  const addToWishlist = useCallback((product) => {
-    setItems((prev) => {
-      if (prev.find((p) => p.id === product.id)) return prev;
-      return [...prev, product];
-    });
-  }, []);
-
-  const removeFromWishlist = useCallback((productId) => {
+  const removeFromWishlist = useCallback(async (productId) => {
+    if (!user) return;
+    const removed = items.find((p) => p.id === productId);
     setItems((prev) => prev.filter((p) => p.id !== productId));
-  }, []);
+    try {
+      await dbRemove(user.id, productId);
+    } catch {
+      // Rollback
+      if (removed) setItems((prev) => [...prev, removed]);
+    }
+  }, [user, items]);
 
-  const toggleWishlist = useCallback((product) => {
-    setItems((prev) => {
-      const exists = prev.find((p) => p.id === product.id);
-      if (exists) return prev.filter((p) => p.id !== product.id);
-      return [...prev, product];
-    });
-  }, []);
+  const toggleWishlist = useCallback(async (product) => {
+    const exists = items.find((p) => p.id === product.id);
+    if (exists) {
+      await removeFromWishlist(product.id);
+    } else {
+      await addToWishlist(product);
+    }
+  }, [items, addToWishlist, removeFromWishlist]);
 
   const isWishlisted = useCallback(
     (productId) => items.some((p) => p.id === productId),
@@ -53,7 +69,7 @@ export const WishlistProvider = ({ children }) => {
   );
 
   return (
-    <WishlistContext.Provider value={{ items, addToWishlist, removeFromWishlist, toggleWishlist, isWishlisted }}>
+    <WishlistContext.Provider value={{ items, loading, addToWishlist, removeFromWishlist, toggleWishlist, isWishlisted }}>
       {children}
     </WishlistContext.Provider>
   );

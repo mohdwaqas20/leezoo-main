@@ -1,10 +1,18 @@
-import { createContext, useContext, useReducer, useCallback, useEffect, useRef } from 'react';
+import { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+import {
+  fetchCart,
+  upsertCartItem,
+  deleteCartItem,
+  clearCartDb,
+} from '../lib/supabase';
 
 const CartContext = createContext(null);
 
 const cartReducer = (state, action) => {
   switch (action.type) {
+    case 'LOAD':
+      return { ...state, items: action.items };
     case 'ADD_ITEM': {
       const existing = state.items.find(
         (i) => i.id === action.item.id && i.size === action.item.size
@@ -45,15 +53,10 @@ const cartReducer = (state, action) => {
       return { ...state, drawerOpen: true };
     case 'CLOSE_DRAWER':
       return { ...state, drawerOpen: false };
-    case 'LOAD':
-      return { ...state, items: action.items };
     default:
       return state;
   }
 };
-
-// Per-user cart key so different users never share a cart
-const CART_KEY = (userId) => userId ? `leezoo_cart_${userId}` : null;
 
 const initialState = { items: [], drawerOpen: false };
 
@@ -61,62 +64,86 @@ export const CartProvider = ({ children }) => {
   const { user } = useAuth();
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
-  // Track previous user so we can save before switching
-  const prevUserRef = useRef(user?.id ?? null);
-
-  // When user changes: save old cart, then load new user's cart (or clear)
+  // Load cart from DB on login; clear on logout
   useEffect(() => {
-    const prevId = prevUserRef.current;
-    const nextId = user?.id ?? null;
-
-    if (prevId === nextId) return; // no change
-
-    // Save current cart for the previous user (if they were logged in)
-    if (prevId) {
-      try {
-        localStorage.setItem(CART_KEY(prevId), JSON.stringify(state.items));
-      } catch {}
-    }
-
-    prevUserRef.current = nextId;
-
-    if (nextId) {
-      // Load this user's saved cart
-      try {
-        const stored = localStorage.getItem(CART_KEY(nextId));
-        dispatch({ type: 'LOAD', items: stored ? JSON.parse(stored) : [] });
-      } catch {
-        dispatch({ type: 'CLEAR' });
-      }
-    } else {
-      // Logged out — clear cart from UI (data already saved above)
+    if (!user) {
       dispatch({ type: 'CLEAR' });
+      return;
     }
-  }, [user?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+    fetchCart(user.id)
+      .then((rows) => {
+        // Map DB rows → cart item shape
+        const items = rows.map((r) => ({
+          id: r.products.id,           // product UUID
+          name: r.products.name,
+          price: r.products.price,
+          image: r.products.image_url,
+          color: r.products.color,
+          product_id: r.products.product_id,
+          size: r.size,
+          qty: r.qty,
+        }));
+        dispatch({ type: 'LOAD', items });
+      })
+      .catch(() => dispatch({ type: 'CLEAR' }));
+  }, [user?.id]);
 
-  // Persist to localStorage whenever items change (for logged-in users)
-  useEffect(() => {
-    const key = CART_KEY(user?.id);
-    if (!key) return;
-    try {
-      localStorage.setItem(key, JSON.stringify(state.items));
-    } catch {}
-  }, [state.items, user?.id]);
+  // ── DB-synced actions ──────────────────────────────────────────
 
-  const addItem = useCallback((item) => {
+  const addItem = useCallback(async (item) => {
+    // Optimistic update
     dispatch({ type: 'ADD_ITEM', item });
     dispatch({ type: 'OPEN_DRAWER' });
-  }, []);
+    if (user) {
+      const existing = state.items.find(
+        (i) => i.id === item.id && i.size === item.size
+      );
+      const newQty = existing ? existing.qty + 1 : 1;
+      try {
+        await upsertCartItem(user.id, item.id, item.size, newQty);
+      } catch (e) {
+        console.error('Cart sync error:', e);
+      }
+    }
+  }, [user, state.items]);
 
-  const removeItem = useCallback(
-    (id, size) => dispatch({ type: 'REMOVE_ITEM', id, size }),
-    []
-  );
-  const updateQty = useCallback(
-    (id, size, qty) => dispatch({ type: 'UPDATE_QTY', id, size, qty }),
-    []
-  );
-  const clearCart = useCallback(() => dispatch({ type: 'CLEAR' }), []);
+  const removeItem = useCallback(async (id, size) => {
+    dispatch({ type: 'REMOVE_ITEM', id, size });
+    if (user) {
+      try {
+        await deleteCartItem(user.id, id, size);
+      } catch (e) {
+        console.error('Cart remove error:', e);
+      }
+    }
+  }, [user]);
+
+  const updateQty = useCallback(async (id, size, qty) => {
+    dispatch({ type: 'UPDATE_QTY', id, size, qty });
+    if (user) {
+      try {
+        if (qty <= 0) {
+          await deleteCartItem(user.id, id, size);
+        } else {
+          await upsertCartItem(user.id, id, size, qty);
+        }
+      } catch (e) {
+        console.error('Cart update error:', e);
+      }
+    }
+  }, [user]);
+
+  const clearCart = useCallback(async () => {
+    dispatch({ type: 'CLEAR' });
+    if (user) {
+      try {
+        await clearCartDb(user.id);
+      } catch (e) {
+        console.error('Cart clear error:', e);
+      }
+    }
+  }, [user]);
+
   const toggleDrawer = useCallback(() => dispatch({ type: 'TOGGLE_DRAWER' }), []);
   const closeDrawer = useCallback(() => dispatch({ type: 'CLOSE_DRAWER' }), []);
   const openDrawer = useCallback(() => dispatch({ type: 'OPEN_DRAWER' }), []);

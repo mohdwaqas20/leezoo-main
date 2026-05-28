@@ -4,20 +4,19 @@ import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 
 export default function WishlistPage({ onBack }) {
-  const { items, removeFromWishlist } = useWishlist();
+  const { items, removeFromWishlist, loading } = useWishlist();
   const { addItem, openDrawer } = useCart();
   const { displayName } = useAuth();
   const [addedIds, setAddedIds] = useState([]);
 
   const handleAddToCart = (product) => {
-    // Add with default size M; in a full app you'd prompt size
     addItem({
       id: product.id,
       name: product.name,
       price: product.price,
       size: 'M',
       image: product.image_url,
-      productId: product.product_id,
+      product_id: product.product_id,
     });
     setAddedIds((prev) => [...prev, product.id]);
     setTimeout(() => {
@@ -64,7 +63,11 @@ export default function WishlistPage({ onBack }) {
       </div>
 
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2.5rem 2rem 0' }}>
-        {items.length === 0 ? (
+        {loading ? (
+          <div style={{ textAlign: 'center', paddingTop: '5rem', opacity: 0.35, fontSize: '0.7rem', letterSpacing: '0.2em' }}>
+            Loading wishlist…
+          </div>
+        ) : items.length === 0 ? (
           <EmptyState onBack={onBack} />
         ) : (
           <div style={{

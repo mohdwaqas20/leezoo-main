@@ -2,15 +2,15 @@ import { useOrders } from '../context/OrdersContext';
 import { useAuth } from '../context/AuthContext';
 
 const STATUS_COLORS = {
-  Confirmed: { bg: 'rgba(234,179,8,0.15)', text: '#f59e0b', border: 'rgba(234,179,8,0.3)' },
-  Processing: { bg: 'rgba(59,130,246,0.15)', text: '#60a5fa', border: 'rgba(59,130,246,0.3)' },
-  Shipped: { bg: 'rgba(139,92,246,0.15)', text: '#a78bfa', border: 'rgba(139,92,246,0.3)' },
-  Delivered: { bg: 'rgba(34,197,94,0.15)', text: '#4ade80', border: 'rgba(34,197,94,0.3)' },
-  Cancelled: { bg: 'rgba(239,68,68,0.12)', text: '#f87171', border: 'rgba(239,68,68,0.3)' },
+  pending:   { bg: 'rgba(234,179,8,0.15)',   text: '#f59e0b', border: 'rgba(234,179,8,0.3)' },
+  confirmed: { bg: 'rgba(59,130,246,0.15)',  text: '#60a5fa', border: 'rgba(59,130,246,0.3)' },
+  shipped:   { bg: 'rgba(139,92,246,0.15)',  text: '#a78bfa', border: 'rgba(139,92,246,0.3)' },
+  delivered: { bg: 'rgba(34,197,94,0.15)',   text: '#4ade80', border: 'rgba(34,197,94,0.3)' },
+  cancelled: { bg: 'rgba(239,68,68,0.12)',   text: '#f87171', border: 'rgba(239,68,68,0.3)' },
 };
 
 export default function OrdersPage({ onBack }) {
-  const { orders } = useOrders();
+  const { orders, loading } = useOrders();
   const { displayName } = useAuth();
 
   return (
@@ -42,7 +42,11 @@ export default function OrdersPage({ onBack }) {
       </div>
 
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '2.5rem 2rem 0' }}>
-        {orders.length === 0 ? (
+        {loading ? (
+          <div style={{ textAlign: 'center', paddingTop: '5rem', opacity: 0.35, fontSize: '0.7rem', letterSpacing: '0.2em' }}>
+            Loading orders…
+          </div>
+        ) : orders.length === 0 ? (
           <EmptyState onBack={onBack} />
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -57,10 +61,13 @@ export default function OrdersPage({ onBack }) {
 }
 
 function OrderCard({ order }) {
-  const statusStyle = STATUS_COLORS[order.status] || STATUS_COLORS.Confirmed;
-  const date = new Date(order.date).toLocaleDateString('en-AE', {
+  const statusStyle = STATUS_COLORS[order.status] || STATUS_COLORS.pending;
+
+  const date = new Date(order.created_at).toLocaleDateString('en-AE', {
     day: 'numeric', month: 'short', year: 'numeric',
   });
+
+  const displayId = order.display_id || order.id.slice(0, 8).toUpperCase();
 
   return (
     <div style={{
@@ -78,7 +85,7 @@ function OrderCard({ order }) {
         <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
           <div>
             <p style={{ fontSize: '0.52rem', letterSpacing: '0.18em', opacity: 0.4, textTransform: 'uppercase', marginBottom: '0.2rem' }}>Order ID</p>
-            <p style={{ fontSize: '0.68rem', letterSpacing: '0.08em', fontFamily: 'Jost,sans-serif', color: 'var(--accent)' }}>{order.id}</p>
+            <p style={{ fontSize: '0.68rem', letterSpacing: '0.08em', fontFamily: 'Jost,sans-serif', color: 'var(--accent)' }}>{displayId}</p>
           </div>
           <div>
             <p style={{ fontSize: '0.52rem', letterSpacing: '0.18em', opacity: 0.4, textTransform: 'uppercase', marginBottom: '0.2rem' }}>Date</p>
@@ -86,7 +93,7 @@ function OrderCard({ order }) {
           </div>
           <div>
             <p style={{ fontSize: '0.52rem', letterSpacing: '0.18em', opacity: 0.4, textTransform: 'uppercase', marginBottom: '0.2rem' }}>Total</p>
-            <p style={{ fontSize: '0.68rem', letterSpacing: '0.06em', fontFamily: 'Jost,sans-serif', color: 'var(--dark)' }}>AED {order.total.toFixed(0)}</p>
+            <p style={{ fontSize: '0.68rem', letterSpacing: '0.06em', fontFamily: 'Jost,sans-serif', color: 'var(--dark)' }}>AED {Number(order.total_amount).toFixed(0)}</p>
           </div>
         </div>
 
@@ -103,7 +110,7 @@ function OrderCard({ order }) {
 
       {/* Order items */}
       <div style={{ padding: '1rem 1.6rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {order.items.map((item, idx) => (
+        {(order.order_items || []).map((item, idx) => (
           <div key={idx} style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
             {/* Image */}
             <div style={{
@@ -112,8 +119,12 @@ function OrderCard({ order }) {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               overflow: 'hidden',
             }}>
-              {item.image ? (
-                <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
+              {item.products?.image_url ? (
+                <img
+                  src={item.products.image_url}
+                  alt={item.products.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }}
+                />
               ) : (
                 <span style={{ opacity: 0.6, fontSize: '1.2rem' }}>👕</span>
               )}
@@ -121,11 +132,13 @@ function OrderCard({ order }) {
 
             {/* Details */}
             <div style={{ flex: 1 }}>
-              <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1rem', letterSpacing: '0.06em', marginBottom: '0.2rem' }}>{item.name}</p>
+              <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1rem', letterSpacing: '0.06em', marginBottom: '0.2rem' }}>
+                {item.products?.name || 'Product'}
+              </p>
               <div style={{ display: 'flex', gap: '1.2rem', flexWrap: 'wrap' }}>
                 <span style={metaStyle}>Size: <span style={{ color: 'var(--dark)', opacity: 0.8 }}>{item.size}</span></span>
                 <span style={metaStyle}>Qty: <span style={{ color: 'var(--dark)', opacity: 0.8 }}>{item.qty}</span></span>
-                <span style={metaStyle}>AED <span style={{ color: 'var(--accent)' }}>{(item.price * item.qty).toFixed(0)}</span></span>
+                <span style={metaStyle}>AED <span style={{ color: 'var(--accent)' }}>{(item.unit_price * item.qty).toFixed(0)}</span></span>
               </div>
             </div>
           </div>
