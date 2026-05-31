@@ -152,7 +152,7 @@ export default function CartDrawer() {
             )}
 
             {/* WhatsApp — always visible */}
-            <button onClick={handleWhatsApp} style={{
+            <button onClick={waMessage} style={{
               width: '100%', background: '#25D366', color: '#fff', border: 'none', cursor: 'pointer',
               padding: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.7rem',
               fontFamily: 'Jost,sans-serif', fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase',
