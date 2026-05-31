@@ -83,7 +83,7 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
           <div style={{ padding: '1.4rem 1.6rem 1.8rem', background: 'var(--mid)', borderTop: '1px solid var(--border-light)' }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.5rem', letterSpacing: '0.04em', marginBottom: '0.4rem', color: 'var(--dark)' }}>{product.name}</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.3rem' }}>
-              <span style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--dark)', fontFamily: 'Jost,sans-serif', letterSpacing: '0.02em' }}>AED {product.price}</span>
+              <span style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--dark)', fontFamily: 'Jost,sans-serif', letterSpacing: '0.02em' }}>RS {product.price}</span>
               <span style={{ width: 1, height: 12, background: 'var(--border)', display: 'inline-block' }} />
               <span style={{ fontSize: '0.75rem', color: 'var(--muted)', letterSpacing: '0.06em', fontFamily: 'Jost,sans-serif' }}>{product.color}</span>
             </div>
@@ -134,7 +134,7 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
           <div style={{ padding: '1rem 1.2rem 1.4rem', borderTop: '1px solid var(--border-light)' }}>
             <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.25rem', letterSpacing: '0.04em', marginBottom: '0.3rem', color: 'var(--dark)' }}>{product.name}</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.9rem' }}>
-              <span style={{ fontSize: '0.92rem', fontWeight: 500, color: 'var(--dark)', fontFamily: 'Jost,sans-serif' }}>AED {product.price}</span>
+              <span style={{ fontSize: '0.92rem', fontWeight: 500, color: 'var(--dark)', fontFamily: 'Jost,sans-serif' }}>RS {product.price}</span>
               {product.color && <>
                 <span style={{ width: 1, height: 11, background: 'var(--border)', display: 'inline-block' }} />
                 <span style={{ fontSize: '0.72rem', color: 'var(--muted)', letterSpacing: '0.04em', fontFamily: 'Jost,sans-serif' }}>{product.color}</span>
@@ -187,7 +187,7 @@ function ProductDetailModal({ product, addItem, onClose }) {
 
   const handleBuyWA = () => {
     const sizeText = selectedSize ? ` — Size: ${selectedSize}` : '';
-    const msg = `Hi LEEZOO! I want to buy ${product.name} (ID: ${product.product_id})${sizeText} — AED ${product.price}`;
+    const msg = `Hi LEEZOO! I want to buy ${product.name} (ID: ${product.product_id})${sizeText} — RS ${product.price}`;
     window.open(`https://wa.me/971504746525?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
@@ -220,11 +220,11 @@ function ProductDetailModal({ product, addItem, onClose }) {
         <div style={{ flex: 1, padding: '2.5rem 2.5rem 2.5rem 2rem', display: 'flex', flexDirection: 'column', gap: '1.4rem' }}>
           <div>
             <div style={{ fontSize: '0.5rem', letterSpacing: '0.3em', color: 'var(--accent)', textTransform: 'uppercase', fontFamily: 'Jost,sans-serif', marginBottom: '0.6rem', opacity: 0.7 }}>
-              LEEZOO — EDGE COLLECTION 2026
+              LEEZOO — EDGE COLLECTION
             </div>
             <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2.2rem', letterSpacing: '0.06em', lineHeight: 1, marginBottom: '0.6rem' }}>{product.name}</h2>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-              <span style={{ fontSize: '1.1rem', color: 'var(--accent)', fontFamily: 'Jost,sans-serif', fontWeight: 300 }}>AED {product.price}</span>
+              <span style={{ fontSize: '1.1rem', color: 'var(--accent)', fontFamily: 'Jost,sans-serif', fontWeight: 300 }}>RS {product.price}</span>
               {product.color && <>
                 <span style={{ width: 1, height: 14, background: 'var(--border)' }} />
                 <span style={{ fontSize: '0.6rem', letterSpacing: '0.18em', opacity: 0.5, textTransform: 'uppercase', fontFamily: 'Jost,sans-serif' }}>{product.color}</span>

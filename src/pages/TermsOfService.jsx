@@ -25,13 +25,13 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         </button>
         <p style={{ fontSize: '0.58rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--brown)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
           <span style={{ width: 30, height: 1, background: 'var(--brown)', display: 'inline-block' }} />
-          LEEZOO Pvt. Ltd. — Legal
+          LEEZOO — Legal
         </p>
         <h1 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(3rem,7vw,6rem)', letterSpacing: '0.05em', lineHeight: 1, marginBottom: '1rem', color: 'var(--dark)' }}>
           {title}
         </h1>
         <p style={{ fontSize: '0.72rem', letterSpacing: '0.08em', color: 'rgba(26,20,10,0.65)', marginTop: '1rem' }}>
-          Last updated: {lastUpdated} &nbsp;·&nbsp; LEEZOO Pvt. Ltd. (GST Registered Business, India)
+          Last updated: {lastUpdated} &nbsp;·&nbsp; LEEZOO (GST Registered Business, India)
         </p>
       </div>
 
@@ -41,10 +41,10 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         <div style={{ marginBottom: '4rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
           {/* FIXED: Changed from light rgba to a solid dark-mix for high readability */}
           <p style={{ fontSize: '0.85rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
-            Welcome to <strong style={{ color: 'var(--dark)' }}>LEEZOO Pvt. Ltd.</strong>, a GST-registered clothing brand headquartered in India. By accessing our website, placing an order, or engaging with our services — including custom printing — you agree to be bound by the following Terms of Service. Please read them carefully.
+            Welcome to <strong style={{ color: 'var(--dark)' }}>LEEZOO</strong>, These Terms of Service govern your access to and use of our website, products, and services. By using our website, purchasing products, or interacting with our services, you agree to comply with these terms.
+            If you do not agree with these Terms of Service, please discontinue use of the website immediately.
           </p>
         </div>
-
         {sections.map((s, i) => (
           <div key={i} style={{ marginBottom: '3.5rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.2rem', marginBottom: '1.2rem' }}>
@@ -72,6 +72,13 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
                   ))}
                 </ul>
               )}
+
+              {/* ADD THIS BLOCK RIGHT HERE 👇 */}
+              {s.note && s.note.map((noteText, j) => (
+                <p key={j} style={{ fontSize: '0.8rem', lineHeight: 2, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', marginTop: '1rem' }}>
+                  {noteText}
+                </p>
+              ))}
             </div>
           </div>
         ))}
@@ -83,7 +90,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
             For any questions regarding these terms, reach us at:<br />
             <strong style={{ color: 'var(--dark)' }}>Email:</strong> leezoo.official2026@gmail.com<br />
-            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-8709708827<br />
+            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746<br />
             <strong style={{ color: 'var(--dark)' }}>Business Hours:</strong> Monday–Saturday, 10:00 AM – 8:00 PM IST
           </p>
         </div>
@@ -94,77 +101,99 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
 
 const termsContent = [
   {
-    heading: 'Acceptance of Terms',
+    heading: 'Eligibility',
     body: [
-      'By using this website or placing any order with LEEZOO Pvt. Ltd., you confirm that you are at least 18 years of age, or are accessing the site under the supervision of a parent or guardian, and you agree to these Terms of Service in full.',
-      'LEEZOO reserves the right to update or modify these terms at any time without prior notice. Continued use of the website after changes constitutes your acceptance of the revised terms.',
+      'To use this website, you must: ',
+    ],
+    bullets: [
+      'Be at least 18 years old or use the website under parental supervision.',
+      'Provide accurate and complete information.',
+      'Use the website only for lawful purposes.',
+    ],
+    note: [
+      'LEEZOO reserves the right to suspend or terminate accounts that violate these eligibility requirements.',
+    ]
+  },
+  {
+    heading: 'Product Information',
+    body: [
+      'LEEZOO specializes in custom and premium apparel products including:',
+    ],
+    bullets: [
+      'Oversized T-Shirts',
+      'Custom Printed T-Shirts',
+      'Puff Print Apparel',
+      'Streetwear Collections',
+      'Personalized Clothing',
+    ],
+    note: [
+      'We strive to display accurate product colors, descriptions, and pricing. However, slight variations may occur due to photography, screen settings, or manufacturing processes.',
+    ]
+  },
+  {
+    heading: 'Pricing and Payments',
+    body: [
+      'All prices displayed on the website are listed in the applicable currency and may change without prior notice',
+      'We accept secure online payments through trusted third-party payment gateways. By placing an order, you authorize LEEZOO to process the payment for the total order amount including shipping and taxes.',
+      'LEEZOO is not responsible for payment gateway failures or banking issues.'
     ],
   },
   {
-    heading: 'Products & Descriptions',
+    heading: 'Orders and Acceptance',
     body: [
-      'We take every effort to display our products accurately. However, colours may slightly vary depending on your screen settings and device calibration. LEEZOO does not guarantee that product colours, textures, or descriptions are 100% accurate on all displays.',
+      'Placing an order does not guarantee acceptance. LEEZOO reserves the right to:',
     ],
     bullets: [
-      'All products are subject to availability.',
-      'We reserve the right to limit quantities per order.',
-      'Product specifications may change without notice.',
-      'Custom-printed items are made-to-order and are non-refundable once production begins.',
+      'Cancel suspicious or fraudulent orders.',
+      'Refuse orders due to stock unavailability.',
+      'Limit quantities on selected products.',
+      'Cancel orders with incorrect pricing or technical issues.',
     ],
-  },
-  {
-    heading: 'Orders & Acceptance',
-    body: [
-      'Placing an order constitutes an offer to purchase. An order is only confirmed after you receive a confirmation message or email from LEEZOO. We reserve the right to refuse or cancel any order at our discretion, including if we suspect fraudulent activity, pricing errors, or supply constraints.',
-    ],
-    bullets: [
-      'Orders cannot be modified after 12 hours of placement.',
-      'Cancellations are only accepted before production begins for custom orders.',
-      'LEEZOO is not liable for delays caused by incorrect address or contact information provided by the customer.',
-    ],
-  },
-  {
-    heading: 'Pricing & Payments',
-    body: [
-      'All prices listed are in Indian Rupees (INR) unless otherwise specified and are inclusive of applicable GST. LEEZOO Pvt. Ltd. is a GST-registered entity and complies with Indian tax regulations.',
-      'We accept payments via UPI, net banking, debit/credit cards, and approved wallet services. Payment must be completed at the time of order. LEEZOO does not store card information.',
-    ],
-    bullets: [
-      'Prices are subject to change without notice.',
-      'In case of a pricing error, LEEZOO will notify you and offer a cancellation or the corrected price.',
-      'Bulk orders may be subject to custom invoicing with GST breakdown.',
-    ],
+    note: [
+      'Customers will receive order confirmation once payment is successfully processed.',
+    ]
   },
   {
     heading: 'Intellectual Property',
     body: [
-      'All content on this website — including logos, graphics, product photographs, brand name, taglines, and design assets — is the exclusive intellectual property of LEEZOO Pvt. Ltd. and is protected under applicable Indian and international copyright laws.',
-      'You may not reproduce, distribute, modify, or use any LEEZOO content for commercial purposes without express written permission from LEEZOO Pvt. Ltd.',
+      'All content on this website including logos, designs, graphics, product images, videos, and branding belongs to LEEZOO Company.',
+      'Unauthorized copying, reproduction, or commercial use of any content without written permission is strictly prohibited.',
     ],
   },
   {
-    heading: 'Custom Printing & User Responsibility',
+    heading: 'User Conduct',
     body: [
-      'LEEZOO offers custom printing services. By submitting a design or image for printing, you confirm that you own or have full legal rights to use that design. LEEZOO is not responsible for any copyright infringement that arises from customer-submitted artwork.',
+      'By using this website, you agree not to:',
     ],
     bullets: [
-      'LEEZOO reserves the right to reject any design containing offensive, illegal, or inappropriate content.',
-      'Custom orders are final once confirmed — no refunds or exchanges unless there is a production defect.',
-      'Turnaround time for custom orders is 5–10 business days.',
-      'Bulk custom orders (50+ units) must be confirmed via WhatsApp before placing.',
+      'Upload harmful or malicious content.',
+      'Attempt unauthorized access to systems.',
+      'Use the website for fraudulent activities.',
+      'Copy or misuse LEEZOO branding.',
     ],
+    note: [
+      'Violation of these terms may result in account suspension or legal action.',
+    ]
   },
   {
     heading: 'Limitation of Liability',
     body: [
-      'To the fullest extent permitted by law, LEEZOO Pvt. Ltd. and its founders shall not be liable for any indirect, incidental, special, or consequential damages arising from the use of our products or services, including but not limited to loss of profit, loss of data, or personal injury.',
-      'Our total liability in any matter arising out of or related to these terms shall not exceed the amount paid by you for the relevant order.',
+      'LEEZOO shall not be liable for indirect, incidental, or consequential damages arising from the use of our website, products, or services.',
+      'Our maximum liability shall not exceed the total purchase amount paid for the specific order.',
+    ],
+  },
+  {
+    heading: 'Modifications to Terms',
+    body: [
+      'LEEZOO reserves the right to update or modify these Terms of Service at any time without prior notice.',
+      'Continued use of the website after updates means you accept the revised terms.',
     ],
   },
   {
     heading: 'Governing Law',
     body: [
-      'These Terms of Service are governed by and construed in accordance with the laws of India. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts of India.',
+      'These Terms of Service are governed by the laws applicable in your jurisdiction.',
+      'Any disputes related to the website or purchases shall be resolved through the appropriate courts under applicable law.',
     ],
   },
 ];

@@ -38,7 +38,7 @@ export default function Hero({ onNavigate }) {
     <section style={{
       position: 'relative',
       zIndex: 0,
-      height: 'calc(100vh - 64px)',
+      height: 'calc(100vh - 24px)',
       display: 'flex',
       alignItems: 'center',
       overflow: 'hidden',
@@ -106,7 +106,7 @@ export default function Hero({ onNavigate }) {
           display: 'flex', alignItems: 'center', gap: '1rem',
         }}>
           <span style={{ width: 36, height: 2, background: '#7A5740', display: 'inline-block' }} />
-          EDGE COLLECTION 2026
+          EDGE COLLECTION
         </p>
 
         {/* H1 */}

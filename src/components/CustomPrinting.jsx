@@ -165,21 +165,6 @@ export default function CustomPrinting() {
           </svg>
           Email Us
         </a>
-        {/* Send Inquiry — solid dark button */}
-        <a
-          href={`mailto:${EMAIL}?subject=Custom T-Shirt Printing Inquiry`}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.7rem',
-            background: '#2a1f14', color: '#f5ede3', border: '1.5px solid #2a1f14',
-            padding: '1rem 2.2rem', fontSize: '0.62rem', letterSpacing: '0.25em',
-            textTransform: 'uppercase', fontFamily: 'Jost,sans-serif',
-            textDecoration: 'none', cursor: 'pointer', transition: 'background 0.3s, transform 0.2s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = '#3d2d1c'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = '#2a1f14'; e.currentTarget.style.transform = 'translateY(0)'; }}
-        >
-          Send Inquiry →
-        </a>
       </div>
 
       <style>{`

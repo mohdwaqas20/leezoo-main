@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Footer({ onNavigate }) {
   const [feedback, setFeedback] = useState({ name: '', email: '', rating: 0, message: '' });
@@ -6,6 +6,38 @@ export default function Footer({ onNavigate }) {
   const [hoverStar, setHoverStar] = useState(0);
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [contactSent, setContactSent] = useState(false);
+  useEffect(() => {
+    if (contactSent) {
+      const timer = setTimeout(() => {
+        setContactSent(false);
+
+        setContact({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+        });
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [contactSent]);
+  useEffect(() => {
+    if (feedbackSent) {
+      const timer = setTimeout(() => {
+        setFeedbackSent(false);
+
+        setFeedback({
+          name: '',
+          email: '',
+          rating: 0,
+          message: '',
+        });
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [feedbackSent]);
 
   const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); };
 
@@ -45,19 +77,19 @@ export default function Footer({ onNavigate }) {
     {
       name: 'Mohd Waqas',
       role: 'Co-Founder & Digital Head',
-      desc: 'Drives all online operations — from Instagram & Facebook to digital sales, product listings, and brand presence across every platform.',
+      desc: 'Oversees the brand’s global digital ecosystem and e-commerce strategy. From scaling performance marketing across social media to optimizing multi-platform product listings, he drives the digital operations and online brand presence that fuel growth.',
       icon: '◈',
     },
     {
       name: 'Praveen',
       role: 'Co-Founder & Production Head',
-      desc: "Leads raw material sourcing, printing, and custom T-shirt manufacturing — ensuring every piece meets LEEZOO's quality standard.",
+      desc: "Directs end-to-end supply chain execution, raw material sourcing, and custom T-shirt manufacturing. By blending cutting-edge printing technology with strict quality control, he ensures every single piece meets the highest standards of the brand.",
       icon: '◈',
     },
     {
       name: 'Suraj',
       role: 'Co-Founder & Field Director',
-      desc: 'Oversees end-to-end field operations — from production floor to delivery — making sure every order reaches customers flawlessly.',
+      desc: 'Manages the brand’s core logistical and operational framework. Moving seamlessly from the production floor to final fulfillment, he streamlines field operations to ensure flawless, on-time delivery to every customer.',
       icon: '◈',
     },
   ];
@@ -189,42 +221,42 @@ export default function Footer({ onNavigate }) {
           <svg className="lz-wrap" viewBox="0 0 420 185" width="88%" style={{ maxWidth: 490 }} fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <mask id="lzO1">
-                <rect width="420" height="185" fill="white"/>
-                <rect x="224" y="47" width="72" height="11" rx="1" fill="black"/>
+                <rect width="420" height="185" fill="white" />
+                <rect x="224" y="47" width="72" height="11" rx="1" fill="black" />
               </mask>
               <mask id="lzO2">
-                <rect width="420" height="185" fill="white"/>
-                <rect x="310" y="47" width="72" height="11" rx="1" fill="black"/>
+                <rect width="420" height="185" fill="white" />
+                <rect x="310" y="47" width="72" height="11" rx="1" fill="black" />
               </mask>
             </defs>
 
             <g className="lz-float-wrap">
               {/* L */}
-              <line className="lz-s" x1="10" y1="14" x2="10" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.3s'}}/>
-              <line className="lz-s" x1="10" y1="96" x2="56" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.38s'}}/>
+              <line className="lz-s" x1="10" y1="14" x2="10" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.3s' }} />
+              <line className="lz-s" x1="10" y1="96" x2="56" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.38s' }} />
               {/* E */}
-              <line className="lz-s" x1="72" y1="14" x2="72" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.46s'}}/>
-              <line className="lz-s" x1="72" y1="14" x2="116" y2="14" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.52s'}}/>
-              <line className="lz-s" x1="72" y1="55" x2="108" y2="55" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.58s'}}/>
-              <line className="lz-s" x1="72" y1="96" x2="116" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.64s'}}/>
+              <line className="lz-s" x1="72" y1="14" x2="72" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.46s' }} />
+              <line className="lz-s" x1="72" y1="14" x2="116" y2="14" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.52s' }} />
+              <line className="lz-s" x1="72" y1="55" x2="108" y2="55" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.58s' }} />
+              <line className="lz-s" x1="72" y1="96" x2="116" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.64s' }} />
               {/* E */}
-              <line className="lz-s" x1="132" y1="14" x2="132" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.72s'}}/>
-              <line className="lz-s" x1="132" y1="14" x2="176" y2="14" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.78s'}}/>
-              <line className="lz-s" x1="132" y1="55" x2="168" y2="55" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.84s'}}/>
-              <line className="lz-s" x1="132" y1="96" x2="176" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.9s'}}/>
+              <line className="lz-s" x1="132" y1="14" x2="132" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.72s' }} />
+              <line className="lz-s" x1="132" y1="14" x2="176" y2="14" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.78s' }} />
+              <line className="lz-s" x1="132" y1="55" x2="168" y2="55" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.84s' }} />
+              <line className="lz-s" x1="132" y1="96" x2="176" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.9s' }} />
               {/* Z */}
-              <line className="lz-s" x1="192" y1="14" x2="232" y2="14" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'0.98s'}}/>
-              <line className="lz-s" x1="232" y1="14" x2="192" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'1.06s'}}/>
-              <line className="lz-s" x1="192" y1="96" x2="232" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{animationDelay:'1.12s'}}/>
+              <line className="lz-s" x1="192" y1="14" x2="232" y2="14" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '0.98s' }} />
+              <line className="lz-s" x1="232" y1="14" x2="192" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '1.06s' }} />
+              <line className="lz-s" x1="192" y1="96" x2="232" y2="96" stroke="#4A3008" strokeWidth="7.5" strokeLinecap="square" style={{ animationDelay: '1.12s' }} />
               {/* O */}
-              <circle className="lz-s" cx="268" cy="55" r="40" stroke="#4A3008" strokeWidth="7.5" fill="none" mask="url(#lzO1)" style={{animationDelay:'1.2s'}}/>
+              <circle className="lz-s" cx="268" cy="55" r="40" stroke="#4A3008" strokeWidth="7.5" fill="none" mask="url(#lzO1)" style={{ animationDelay: '1.2s' }} />
               {/* O */}
-              <circle className="lz-s" cx="354" cy="55" r="40" stroke="#4A3008" strokeWidth="7.5" fill="none" mask="url(#lzO2)" style={{animationDelay:'1.32s'}}/>
-              
+              <circle className="lz-s" cx="354" cy="55" r="40" stroke="#4A3008" strokeWidth="7.5" fill="none" mask="url(#lzO2)" style={{ animationDelay: '1.32s' }} />
+
               {/* Tagline — pushed down with generous gap */}
-              <line className="lz-ln" x1="25" y1="148" x2="128" y2="148" stroke="#3D2606" strokeWidth="0.85" style={{animationDelay:'1.9s'}}/>
-              <text className="lz-tl" x="200" y="153" textAnchor="middle" fontFamily="Jost,sans-serif" fontSize="12" fill="#4A3008" letterSpacing="6" fontWeight="600" style={{animationDelay:'1.9s'}}>WEAR YOUR EDGE</text>
-              <line className="lz-ln" x1="295" y1="148" x2="398" y2="148" stroke="#3D2606" strokeWidth="0.85" style={{animationDelay:'1.9s'}}/>
+              <line className="lz-ln" x1="25" y1="148" x2="128" y2="148" stroke="#3D2606" strokeWidth="0.85" style={{ animationDelay: '1.9s' }} />
+              <text className="lz-tl" x="200" y="153" textAnchor="middle" fontFamily="Jost,sans-serif" fontSize="12" fill="#4A3008" letterSpacing="6" fontWeight="600" style={{ animationDelay: '1.9s' }}>WEAR YOUR EDGE</text>
+              <line className="lz-ln" x1="295" y1="148" x2="398" y2="148" stroke="#3D2606" strokeWidth="0.85" style={{ animationDelay: '1.9s' }} />
             </g>
           </svg>
         </div>
@@ -250,19 +282,19 @@ export default function Footer({ onNavigate }) {
           {founders.map((f) => (
             <div key={f.name} style={{
               background: '#FFFFFF',
-              border: '1px solid rgba(122, 87, 64, 0.15)', 
+              border: '1px solid rgba(122, 87, 64, 0.15)',
               padding: '2.8rem',
               borderRadius: '8px',
               transition: 'all 0.3s ease',
               boxShadow: '0 2px 8px rgba(122, 87, 64, 0.08)',
             }}
-              onMouseEnter={e => { 
-                e.currentTarget.style.borderColor = '#BFA06A'; 
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = '#BFA06A';
                 e.currentTarget.style.transform = 'translateY(-6px)';
                 e.currentTarget.style.boxShadow = '0 12px 24px rgba(122, 87, 64, 0.15)';
               }}
-              onMouseLeave={e => { 
-                e.currentTarget.style.borderColor = 'rgba(122, 87, 64, 0.15)'; 
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'rgba(122, 87, 64, 0.15)';
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = '0 2px 8px rgba(122, 87, 64, 0.08)';
               }}
@@ -440,9 +472,16 @@ export default function Footer({ onNavigate }) {
               {
                 icon: '◉',
                 label: 'WhatsApp',
-                value: '+91-9984090593 , +91-9169697273 , +91-9653026764',
-                sub: 'Mon – Sat, 10am – 8pm IST',
+                value: '+91-9984090593, +91-9653026746 ',
+                sub: '24*7',
                 href: 'https://wa.me/919984090593',
+              },
+
+              {
+                icon: '◉',
+                label: 'Calling Number',
+                value: '+91-9169697273, +91-9653026746 ',
+                sub: 'Mon – Sat, 10am – 8pm IST',
               },
               {
                 icon: '◉',
@@ -511,7 +550,7 @@ export default function Footer({ onNavigate }) {
                     transition: 'border-color 0.3s',
                   }}
                     placeholder="Your name"
-                    value={contact.name} 
+                    value={contact.name}
                     onChange={e => setContact(p => ({ ...p, name: e.target.value }))}
                     onFocus={e => e.target.style.borderColor = '#BFA06A'}
                     onBlur={e => e.target.style.borderColor = 'rgba(122, 87, 64, 0.25)'}
@@ -533,7 +572,7 @@ export default function Footer({ onNavigate }) {
                     transition: 'border-color 0.3s',
                   }}
                     placeholder="+91 XXXXX XXXXX"
-                    value={contact.phone} 
+                    value={contact.phone}
                     onChange={e => setContact(p => ({ ...p, phone: e.target.value }))}
                     onFocus={e => e.target.style.borderColor = '#BFA06A'}
                     onBlur={e => e.target.style.borderColor = 'rgba(122, 87, 64, 0.25)'}
@@ -557,7 +596,7 @@ export default function Footer({ onNavigate }) {
                 }}
                   type="email"
                   placeholder="you@example.com"
-                  value={contact.email} 
+                  value={contact.email}
                   onChange={e => setContact(p => ({ ...p, email: e.target.value }))}
                   onFocus={e => e.target.style.borderColor = '#BFA06A'}
                   onBlur={e => e.target.style.borderColor = 'rgba(122, 87, 64, 0.25)'}
@@ -581,7 +620,7 @@ export default function Footer({ onNavigate }) {
                   minHeight: 110
                 }}
                   placeholder="Tell us how we can help — orders, custom printing, bulk enquiries..."
-                  value={contact.message} 
+                  value={contact.message}
                   onChange={e => setContact(p => ({ ...p, message: e.target.value }))}
                   onFocus={e => e.target.style.borderColor = '#BFA06A'}
                   onBlur={e => e.target.style.borderColor = 'rgba(122, 87, 64, 0.25)'}

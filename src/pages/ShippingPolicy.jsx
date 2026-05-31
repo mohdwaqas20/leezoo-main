@@ -12,11 +12,11 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         </button>
         <p style={{ fontSize: '0.58rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--brown)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
           <span style={{ width: 30, height: 1, background: 'var(--brown)', display: 'inline-block' }} />
-          LEEZOO Pvt. Ltd. — Legal
+          LEEZOO — Legal
         </p>
         <h1 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(3rem,7vw,6rem)', letterSpacing: '0.05em', lineHeight: 1, marginBottom: '1rem', color: 'var(--dark)' }}>{title}</h1>
         <p style={{ fontSize: '0.72rem', letterSpacing: '0.08em', color: 'rgba(26,20,10,0.65)', marginTop: '1rem' }}>
-          Last updated: {lastUpdated} &nbsp;·&nbsp; LEEZOO Pvt. Ltd. (GST Registered Business, India)
+          Last updated: {lastUpdated} &nbsp;·&nbsp; LEEZOO (GST Registered Business, India)
         </p>
       </div>
 
@@ -42,7 +42,8 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         <div style={{ marginBottom: '4rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
           {/* FIXED: Changed text color to clear dark contrast */}
           <p style={{ fontSize: '0.85rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
-            At <strong style={{ color: 'var(--dark)' }}>LEEZOO Pvt. Ltd.</strong>, we are committed to delivering your order safely, on time, and in perfect condition. Please read this shipping policy carefully before placing your order.
+            <strong style={{ color: 'var(--dark)' }}>LEEZOO </strong>Company, delivers products across India and selected international regions.
+            Shipping charges and delivery timelines are displayed during checkout.
           </p>
         </div>
 
@@ -78,7 +79,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
             For shipping queries, tracking issues, or delivery concerns:<br />
             <strong style={{ color: 'var(--dark)' }}>Email:</strong> leezoo.official2026@gmail.com<br />
-            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273<br />
+            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746<br />
             <strong style={{ color: 'var(--dark)' }}>Hours:</strong> Mon–Sat, 10:00 AM – 8:00 PM IST
           </p>
         </div>
@@ -89,7 +90,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
 
 const shippingContent = [
   {
-    heading: 'Order Processing Time',
+    heading: 'Processing Time',
     body: [
       'All standard orders are processed within 1–2 business days (Monday–Saturday, excluding public holidays) after payment confirmation. Custom printing orders require 5–10 additional business days for production before dispatch.',
       'Orders placed after 6:00 PM IST or on Sundays will be processed the next business day.',

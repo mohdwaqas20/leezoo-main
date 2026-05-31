@@ -235,7 +235,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         letterSpacing: '0.25em', textTransform: 'uppercase',
         color: 'var(--ink)', fontWeight: 400,
       }}>
-        Free shipping on orders above AED 349 &nbsp;·&nbsp; New Drop: Edge Collection 2026
+        Free shipping on orders above RS 499 &nbsp;·&nbsp; New Drop: Edge Collection
       </div>
 
       {/* Full-screen mobile menu */}
@@ -428,7 +428,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
                             <p style={{ fontSize: '0.62rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--dark)', fontFamily: 'Jost,sans-serif', fontWeight: 500, margin: 0 }}>{product.name}</p>
                             <p style={{ fontSize: '0.55rem', color: 'var(--muted)', fontFamily: 'Jost,sans-serif', margin: 0 }}>{product.color} · {product.category}</p>
                           </div>
-                          <p style={{ fontSize: '0.62rem', color: 'var(--accent)', fontFamily: 'Jost,sans-serif', fontWeight: 500 }}>AED {product.price}</p>
+                          <p style={{ fontSize: '0.62rem', color: 'var(--accent)', fontFamily: 'Jost,sans-serif', fontWeight: 500 }}>RS {product.price}</p>
                         </button>
                       ))
                     ) : (
