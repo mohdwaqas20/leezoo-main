@@ -22,8 +22,8 @@ export default function ShopPage({ category, onBack, onViewProduct }) {
   const isWomen = category === 'women';
   const title = isWomen ? 'Shop Women' : 'Shop Men';
   const subtitle = isWomen
-    ? "Curated women's styles — Edge Collection 2026"
-    : "Premium men's collection — Edge Collection 2026";
+    ? "Curated women's styles — Edge Collection"
+    : "Premium men's collection — Edge Collection";
 
   const badges = ['all', ...Array.from(new Set(products.filter(p => p.badge).map(p => p.badge)))];
 
@@ -105,7 +105,7 @@ export default function ShopPage({ category, onBack, onViewProduct }) {
             fontFamily: 'Jost, sans-serif', fontWeight: 400,
           }}>
             <span style={{ width: 36, height: 1, background: 'linear-gradient(90deg, transparent, #BFA06A)', display: 'inline-block' }} />
-            LEEZOO — EDGE COLLECTION 2026
+            LEEZOO — EDGE COLLECTION
           </p>
 
           {/* Main title — gold gradient text */}

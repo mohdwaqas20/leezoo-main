@@ -68,7 +68,7 @@ export default function ProductPage({ product, onBack }) {
 
   const handleBuyWA = () => {
     const sizeText = selectedSize ? ` — Size: ${selectedSize}` : '';
-    const msg = `Hi LEEZOO! I want to buy ${product.name} (ID: ${product.product_id})${sizeText} — AED ${product.price}`;
+    const msg = `Hi LEEZOO! I want to buy ${product.name} (ID: ${product.product_id})${sizeText} — RS ${product.price}`;
     window.open(`https://wa.me/971504746525?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
@@ -247,7 +247,7 @@ export default function ProductPage({ product, onBack }) {
         >
           {/* Collection label */}
           <div style={{ fontSize: '0.48rem', letterSpacing: '0.32em', color: 'var(--accent)', textTransform: 'uppercase', fontFamily: 'Barlow,sans-serif', opacity: 0.65 }}>
-            LEEZOO — EDGE COLLECTION 2026
+            LEEZOO — EDGE COLLECTION
           </div>
 
           {/* Name + Price */}
@@ -257,7 +257,7 @@ export default function ProductPage({ product, onBack }) {
             </h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '1.4rem', color: 'var(--accent)', fontFamily: 'Barlow,sans-serif', fontWeight: 300 }}>
-                AED {product.price}
+                RS {product.price}
               </span>
               {product.color && (
                 <>

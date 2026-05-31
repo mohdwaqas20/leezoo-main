@@ -12,11 +12,11 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         </button>
         <p style={{ fontSize: '0.58rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--brown)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
           <span style={{ width: 30, height: 1, background: 'var(--brown)', display: 'inline-block' }} />
-          LEEZOO Pvt. Ltd. — Legal
+          LEEZOO — Legal
         </p>
         <h1 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(3rem,7vw,6rem)', letterSpacing: '0.05em', lineHeight: 1, marginBottom: '1rem', color: 'var(--dark)' }}>{title}</h1>
         <p style={{ fontSize: '0.72rem', letterSpacing: '0.08em', color: 'rgba(26,20,10,0.65)', marginTop: '1rem' }}>
-          Last updated: {lastUpdated} &nbsp;·&nbsp; LEEZOO Pvt. Ltd. (GST Registered Business, India)
+          Last updated: {lastUpdated} &nbsp;·&nbsp; LEEZOO (GST Registered Business, India)
         </p>
       </div>
 
@@ -26,7 +26,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         <div style={{ marginBottom: '4rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
           {/* FIXED: Swapped light color value to dark for sharp visibility */}
           <p style={{ fontSize: '0.85rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
-            At <strong style={{ color: 'var(--dark)' }}>LEEZOO Pvt. Ltd.</strong>, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, store, and protect the information you share with us when using our website or services.
+            <strong style={{ color: 'var(--dark)' }}>LEEZOO </strong>Company, values your privacy and is committed to protecting your personal information.This Privacy Policy explains how we collect, use, store, and protect your data when you use our website or services.
           </p>
         </div>
 
@@ -51,6 +51,14 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
                   ))}
                 </ul>
               )}
+
+              {/* ADD THIS BLOCK RIGHT HERE 👇 */}
+              {s.note && s.note.map((noteText, j) => (
+                <p key={j} style={{ fontSize: '0.8rem', lineHeight: 2, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', marginTop: '1rem' }}>
+                  {noteText}
+                </p>
+              ))}
+
             </div>
           </div>
         ))}
@@ -62,7 +70,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
             For any privacy-related concerns or data deletion requests:<br />
             <strong style={{ color: 'var(--dark)' }}>Email:</strong> leezoo.official2026@gmail.com<br />
-            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593<br />
+            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746<br />
             We will respond to all data requests within 7 business days.
           </p>
         </div>
@@ -74,69 +82,77 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
 const privacyContent = [
   {
     heading: 'Information We Collect',
-    body: ['When you interact with LEEZOO, we may collect the following categories of personal information:'],
+    body: ['We may collect the following information:'],
     bullets: [
-      'Name, email address, and phone number — provided during account creation or checkout.',
-      'Delivery address and billing information for processing orders.',
-      'Payment transaction data (processed securely via third-party gateways; LEEZOO does not store card details).',
-      'Custom printing files or designs you upload for print orders.',
-      'Website interaction data, including browsing history on our platform, device type, and IP address.',
-      'Feedback and review content submitted voluntarily.',
+      'Full Name',
+      'Email Address',
+      'Phone Number',
+      'Shipping Address',
+      'Billing Details',
+      'Payment Information',
+      'Order History',
+      'Device and Browser Information',
     ],
   },
   {
     heading: 'How We Use Your Information',
-    body: ['Your data is used solely to provide and improve our services. Specifically:'],
+    body: ['Your information may be used to:'],
     bullets: [
-      'To process and fulfil orders, including tracking and delivery.',
-      'To send order confirmations, updates, and customer service communications.',
-      'To personalise your shopping experience and recommend products.',
-      'To respond to queries, complaints, and custom printing requests.',
-      'To comply with legal obligations including GST records and tax filings.',
-      'To send promotional messages — only with your consent, and you may opt out at any time.',
+      'Process and deliver orders',
+      'Provide customer support',
+      'Improve our website and services',
+      'Send order updates and notifications',
+      'Share promotional offers and new launches',
+      'Prevent fraud and misuse',
     ],
   },
   {
-    heading: 'Data Sharing & Third Parties',
+    heading: 'Payment Security',
     body: [
-      'LEEZOO does not sell or rent your personal data to third parties. We only share information with trusted partners required to deliver our services:',
-    ],
-    bullets: [
-      'Logistics and delivery partners — for order fulfillment.',
-      'Payment gateway providers — for secure payment processing.',
-      'Cloud service and hosting providers — for data storage and website operation.',
-      'Legal authorities — if required by law, court order, or government regulation.',
+      'All payments are processed through secure third-party payment gateways.',
+      'LEEZOO does not store complete debit or credit card details on its servers.',
     ],
   },
   {
-    heading: 'Data Security',
+    heading: 'Cookies and Tracking',
     body: [
-      'We implement industry-standard security measures to protect your data from unauthorised access, disclosure, or destruction. However, no method of internet transmission is 100% secure, and LEEZOO cannot guarantee absolute security.',
-      'All sensitive transactions are encrypted. We use secure authentication systems and routinely review our data protection practices.',
+      'Our website may use cookies and analytics tools to improve user experience and understand visitor behavior.',
+      'You can disable cookies through your browser settings.',
     ],
   },
   {
-    heading: 'Cookies & Tracking',
+    heading: 'Sharing of Information',
     body: [
-      'Our website may use cookies and similar tracking technologies to enhance your experience, understand user behaviour, and improve our platform. You may disable cookies via your browser settings; however, this may affect certain website functionality.',
+      'LEEZOO does not sell or rent customer information to third parties.',
+      'Information may only be shared with:',
     ],
     bullets: [
-      'Session cookies — to maintain your cart and login state.',
-      'Analytics cookies — to understand how visitors use our site.',
-      'Preference cookies — to remember your settings and preferences.',
+      'Shipping partners',
+      'Payment providers',
+      'Legal authorities if required by law',
+    ],
+  },
+  {
+    heading: 'Data Protection',
+    body: [
+      'We implement security measures to protect your personal information from unauthorized access, misuse, or disclosure.',
+      'However, no online system can guarantee complete security.',
     ],
   },
   {
     heading: 'Your Rights',
     body: [
-      'As a user, you have the right to access, correct, or request deletion of your personal data. You may also withdraw consent for marketing communications at any time. To exercise any of these rights, contact us at leezoo.official2026@gmail.com.',
+      'Customers may request to:',
     ],
-  },
-  {
-    heading: 'Data Retention',
-    body: [
-      'We retain your personal data for as long as your account is active or as required to fulfil orders and comply with legal obligations (including GST records, which may require retention for up to 7 years under Indian tax law). After this period, data is securely deleted.',
+    bullets: [
+      'Access personal data',
+      'Correct inaccurate information',
+      'Delete personal data',
+      'Unsubscribe from promotional emails',
     ],
+    note: [
+      'For assistance, contact our support team.',
+    ]
   },
   {
     heading: 'Children\'s Privacy',

@@ -79,7 +79,7 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
 
   const handleBuyWA = () => {
     if (!selectedSize) { setSizeError(true); setTimeout(() => setSizeError(false), 1800); return; }
-    const msg = `Hi, I'm interested in buying *${product.name}*\n\n📦 Product ID: ${product.product_id}\n👕 Size: ${selectedSize}\n🎨 Color: ${selectedColor.name}\n💰 Price: AED ${product.price}\n\nPlease confirm availability.`;
+    const msg = `Hi, I'm interested in buying *${product.name}*\n\n📦 Product ID: ${product.product_id}\n👕 Size: ${selectedSize}\n🎨 Color: ${selectedColor.name}\n💰 Price: RS ${product.price}\n\nPlease confirm availability.`;
     window.open(`https://wa.me/971501234567?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
@@ -135,13 +135,13 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
           {/* Title block */}
           <div>
             <div style={{ fontSize:'0.62rem', letterSpacing:'0.28em', color:T.accent, textTransform:'uppercase', fontFamily:'Jost,sans-serif', marginBottom:'0.7rem' }}>
-              LEEZOO — EDGE COLLECTION 2026
+              LEEZOO — EDGE COLLECTION
             </div>
             <h1 style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:'2.6rem', letterSpacing:'0.04em', lineHeight:1.05, marginBottom:'1rem', color:T.dark }}>{product.name}</h1>
 
             {/* Price row */}
             <div style={{ display:'flex', alignItems:'center', gap:'1rem', marginBottom:'0.5rem' }}>
-              <span style={{ fontSize:'1.6rem', fontFamily:'Jost,sans-serif', fontWeight:600, color:T.dark, letterSpacing:'0.02em' }}>AED {product.price}</span>
+              <span style={{ fontSize:'1.6rem', fontFamily:'Jost,sans-serif', fontWeight:600, color:T.dark, letterSpacing:'0.02em' }}>RS {product.price}</span>
               {product.color && <>
                 <span style={{ width:1, height:22, background:T.border, display:'inline-block' }} />
                 <span style={{ fontSize:'0.8rem', letterSpacing:'0.1em', textTransform:'uppercase', color:T.muted, fontFamily:'Jost,sans-serif' }}>{product.color}</span>
@@ -264,7 +264,7 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
 
           {/* Shipping perks */}
           <div style={{ display:'flex', flexDirection:'column', gap:'0.4rem', paddingTop:'0.5rem' }}>
-            {['Free shipping on orders over AED 200', 'Easy returns within 30 days', 'Authentic quality guaranteed'].map((t) => (
+            {['Free shipping on orders over RS 499', 'Easy returns within 30 days', 'Authentic quality guaranteed'].map((t) => (
               <div key={t} style={{ display:'flex', alignItems:'center', gap:'0.6rem', fontSize:'0.75rem', color:T.muted, fontFamily:'Jost,sans-serif', letterSpacing:'0.04em' }}>
                 <span style={{ color:T.accent, fontSize:'0.9rem' }}>✓</span> {t}
               </div>
@@ -311,7 +311,7 @@ function SimilarCard({ prod, onViewProduct }) {
       </div>
       <div style={{ padding:'1rem 1.1rem 1.2rem', borderTop:'1px solid var(--border-light)' }}>
         <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:'1.1rem', letterSpacing:'0.04em', marginBottom:'0.3rem', color:'var(--dark)' }}>{prod.name}</div>
-        <div style={{ fontSize:'0.85rem', fontWeight:500, color:'var(--dark)', fontFamily:'Jost,sans-serif', marginBottom:'0.7rem' }}>AED {prod.price}</div>
+        <div style={{ fontSize:'0.85rem', fontWeight:500, color:'var(--dark)', fontFamily:'Jost,sans-serif', marginBottom:'0.7rem' }}>RS {prod.price}</div>
         <button onClick={(e) => { e.stopPropagation(); handleView(); }}
           style={{ width:'100%', padding:'0.65rem', background: hovered ? 'var(--accent)' : 'var(--dark)', color: hovered ? '#1a0f00' : '#F5EDE0', border:'none', cursor:'pointer', fontFamily:'Jost,sans-serif', fontSize:'0.7rem', fontWeight:500, letterSpacing:'0.12em', textTransform:'uppercase', transition:'background 0.2s, color 0.2s' }}>
           View

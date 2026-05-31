@@ -140,7 +140,7 @@ function WishlistCard({ product, onRemove, onAddToCart, added }) {
           {product.name}
         </div>
         <div style={{ fontSize: '0.62rem', letterSpacing: '0.15em', color: 'var(--accent)', marginBottom: '1rem' }}>
-          AED {product.price} {product.color && `· ${product.color}`}
+          RS {product.price} {product.color && `· ${product.color}`}
         </div>
 
         {/* Actions */}

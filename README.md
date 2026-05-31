@@ -89,10 +89,10 @@ Update `image_url` in the `products` table. Use Supabase Storage:
 3. Copy the public URL → paste into `products.image_url`
 
 ### Change WhatsApp number
-Search for `971504746525` and replace with your number (no `+` prefix, no spaces).
+Search for `919984090593` and replace with your number (no `+` prefix, no spaces).
 
 ### Update pricing currency
-Replace `AED` with your currency in `ProductCard.jsx` and `CartDrawer.jsx`.
+Replace `RS` with your currency in `ProductCard.jsx` and `CartDrawer.jsx`.
 
 ---
 

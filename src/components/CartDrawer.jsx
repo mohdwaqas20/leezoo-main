@@ -9,9 +9,9 @@ export default function CartDrawer() {
   const { user } = useAuth();
   const [placing, setPlacing] = useState(false);
 
-  const handleWhatsApp = () => {
-    const lines = items.map(i => `• ${i.name} (${i.size}) x${i.qty} — AED ${i.price * i.qty}`).join('%0A');
-    const msg = `Hi LEEZOO! I'd like to order:%0A${lines}%0A%0ATotal: AED ${total}`;
+  const waMessage = () => {
+    const lines = items.map(i => `• ${i.name} (${i.size}) x${i.qty} — RS ${i.price * i.qty}`).join('%0A');
+    const msg = `Hi LEEZOO! I'd like to order:%0A${lines}%0A%0ATotal: RS ${total}`;
     window.open(`https://wa.me/971504746525?text=${msg}`, '_blank');
   };
 
@@ -111,7 +111,7 @@ export default function CartDrawer() {
                       style={{ background: 'none', border: 'none', color: 'var(--dark)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}
                     >+</button>
                   </div>
-                  <span style={{ fontSize: '0.75rem', letterSpacing: '0.12em', color: 'var(--accent)' }}>AED {item.price * item.qty}</span>
+                  <span style={{ fontSize: '0.75rem', letterSpacing: '0.12em', color: 'var(--accent)' }}>RS {item.price * item.qty}</span>
                 </div>
               </div>
 
@@ -128,7 +128,7 @@ export default function CartDrawer() {
           <div style={{ padding: '1.5rem 2rem', borderTop: '1px solid var(--border-light)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
               <span style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.5 }}>Subtotal</span>
-              <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.06em', color: 'var(--accent)' }}>AED {total}</span>
+              <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.06em', color: 'var(--accent)' }}>RS {total}</span>
             </div>
 
             {/* Place Order — only for logged-in users, saves to DB */}
@@ -165,7 +165,7 @@ export default function CartDrawer() {
             </button>
 
             <p style={{ fontSize: '0.55rem', letterSpacing: '0.12em', opacity: 0.3, textAlign: 'center', marginTop: '0.8rem' }}>
-              {user ? 'Order saved to your account · Free shipping above AED 299' : 'Sign in to save your order history'}
+              {user ? 'Order saved to your account · Free shipping above 499' : 'Sign in to save your order history'}
             </p>
           </div>
         )}
