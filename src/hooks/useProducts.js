@@ -25,3 +25,5 @@ export const useProducts = (category = null) => {
 
   return { products, loading, error };
 };
+
+export const ALL_PRODUCTS = []
