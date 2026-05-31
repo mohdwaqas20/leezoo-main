@@ -63,27 +63,13 @@ export default function Hero({ onNavigate }) {
 
       {/* T-shirt silhouette — right side, same background tones, NO separate panel */}
       <div style={{
-        position: 'absolute', right: '8%', top: '50%', transform: 'translateY(-50%)',
-        opacity: 0.18, pointerEvents: 'none',
+        position: 'absolute', right: '-1%', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none',
       }}>
-        <svg viewBox="0 0 260 280" width="320" height="350" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* T-shirt outline */}
-          <path
-            d="M75 35 L20 80 L55 95 L55 255 L205 255 L205 95 L240 80 L185 35 Q162 58 130 58 Q98 58 75 35Z"
-            stroke="#7A5740"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* LEEZOO text inside shirt */}
-          <text
-            x="130" y="168"
-            textAnchor="middle"
-            fill="#7A5740"
-            fontFamily="'Bebas Neue', sans-serif"
-            fontSize="28"
-            letterSpacing="6"
-          >LEEZOO</text>
-        </svg>
+        <img
+          src="https://tpsjxaqxsedgshxiqvst.supabase.co/storage/v1/object/public/Web%20images%20Home%20LEEZOO/HomePage-1.png"
+          alt="LEEZOO T-Shirt"
+          className="w-[320px] h-auto"
+        />
       </div>
 
       {/* Vertical gold accent line — far right */}

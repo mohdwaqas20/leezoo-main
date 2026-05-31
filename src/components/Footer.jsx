@@ -76,20 +76,32 @@ export default function Footer({ onNavigate }) {
   const founders = [
     {
       name: 'Mohd Waqas',
-      role: 'Co-Founder & Digital Head',
-      desc: 'Oversees the brand’s global digital ecosystem and e-commerce strategy. From scaling performance marketing across social media to optimizing multi-platform product listings, he drives the digital operations and online brand presence that fuel growth.',
+      role: 'Co-Founder & Digital Operations Head',
+      desc: 'Leads product design, online operations, marketplace management, e-commerce growth, and digital strategy across all platforms.',
       icon: '◈',
     },
     {
       name: 'Praveen',
       role: 'Co-Founder & Production Head',
-      desc: "Directs end-to-end supply chain execution, raw material sourcing, and custom T-shirt manufacturing. By blending cutting-edge printing technology with strict quality control, he ensures every single piece meets the highest standards of the brand.",
+      desc: 'Oversees production planning, sourcing, printing operations, quality control, and manufacturing excellence.',
       icon: '◈',
     },
     {
       name: 'Suraj',
-      role: 'Co-Founder & Field Director',
-      desc: 'Manages the brand’s core logistical and operational framework. Moving seamlessly from the production floor to final fulfillment, he streamlines field operations to ensure flawless, on-time delivery to every customer.',
+      role: 'Co-Founder & Operations Head',
+      desc: 'Manages day-to-day field operations, logistics coordination, fulfillment processes, and operational efficiency.',
+      icon: '◈',
+    },
+    {
+      name: 'Vishal',
+      role: 'Co-Founder & Operations Head',
+      desc: 'Supervises offline operations, inventory movement, logistics execution, and customer order fulfillment.',
+      icon: '◈',
+    },
+    {
+      name: 'Rahul',
+      role: 'Sales Executive',
+      desc: 'Drives customer acquisition, sales growth, lead generation, and business development through commission-based sales activities.',
       icon: '◈',
     },
   ];
@@ -270,39 +282,68 @@ export default function Footer({ onNavigate }) {
           display: 'flex', alignItems: 'center', gap: '0.8rem',
         }}>
           <span style={{ width: 30, height: 1, background: '#7A5740', display: 'inline-block' }} />
-          The People Behind LEEZOO
+          The Team Behind LEEZOO
         </p>
         <h2 style={{
           fontFamily: "'Bebas Neue',sans-serif",
           fontSize: 'clamp(2.5rem,5vw,4rem)', letterSpacing: '0.04em',
-          marginBottom: '3.5rem',
+          marginBottom: '1.5rem',
           color: '#2C1F14',
-        }}>MEET THE FOUNDERS</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
+        }}>MEET THE LEADERSHIP TEAM</h2>
+        <p style={{
+          maxWidth: '750px',
+          fontSize: '0.95rem',
+          lineHeight: 1.8,
+          color: '#5C4B3A',
+          marginBottom: '3rem',
+          letterSpacing: '0.02em',
+          margin: '0 auto 3rem'
+        }}>
+          The people driving LEEZOO forward through innovation, production excellence, operations management, and customer-focused growth.
+        </p>
+
+        {/* All 5 Team Members - Single Row */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1.8rem', maxWidth: '1400px', margin: '0 auto' }}>
           {founders.map((f) => (
             <div key={f.name} style={{
-              background: '#FFFFFF',
-              border: '1px solid rgba(122, 87, 64, 0.15)',
-              padding: '2.8rem',
-              borderRadius: '8px',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 2px 8px rgba(122, 87, 64, 0.08)',
+              background: f.name === 'Rahul'
+                ? 'linear-gradient(135deg, #FFF9F0 0%, #F8EDE2 100%)'
+                : '#FFFFFF',
+              border: f.name === 'Rahul' 
+                ? '2px solid #BFA06A' 
+                : '2px solid rgba(191,160,106,0.3)',
+              padding: '2.2rem 1.8rem',
+              borderRadius: '16px',
+              minHeight: '280px',
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
+              boxShadow: f.name === 'Rahul'
+                ? '0 6px 16px rgba(191,160,106,0.16)'
+                : '0 2px 8px rgba(122, 87, 64, 0.04)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
             }}
               onMouseEnter={e => {
                 e.currentTarget.style.borderColor = '#BFA06A';
-                e.currentTarget.style.transform = 'translateY(-6px)';
-                e.currentTarget.style.boxShadow = '0 12px 24px rgba(122, 87, 64, 0.15)';
+                e.currentTarget.style.transform = 'translateY(-5px)';
+                e.currentTarget.style.boxShadow = f.name === 'Rahul'
+                  ? '0 12px 24px rgba(191,160,106,0.2)'
+                  : '0 8px 20px rgba(122, 87, 64, 0.12)';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.borderColor = 'rgba(122, 87, 64, 0.15)';
+                e.currentTarget.style.borderColor = f.name === 'Rahul' ? '#BFA06A' : 'rgba(191,160,106,0.3)';
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(122, 87, 64, 0.08)';
+                e.currentTarget.style.boxShadow = f.name === 'Rahul'
+                  ? '0 6px 16px rgba(191,160,106,0.16)'
+                  : '0 2px 8px rgba(122, 87, 64, 0.04)';
               }}
             >
-              <span style={{ fontSize: '1.6rem', color: '#BFA06A', display: 'block', marginBottom: '1.5rem' }}>{f.icon}</span>
-              <h3 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.08em', color: '#2C1F14', marginBottom: '0.5rem' }}>{f.name}</h3>
-              <p style={{ fontSize: '0.62rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#7A5740', marginBottom: '1.5rem', fontWeight: 500 }}>{f.role}</p>
-              <p style={{ fontSize: '0.8rem', lineHeight: 1.8, color: '#5C4B3A', letterSpacing: '0.03em' }}>{f.desc}</p>
+              <span style={{ fontSize: '1.5rem', color: '#BFA06A', display: 'block', marginBottom: '0.9rem', position: 'relative', zIndex: 1 }}>{f.icon}</span>
+              <h3 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.15rem', letterSpacing: '0.08em', color: '#2C1F14', marginBottom: '0.4rem', textTransform: 'uppercase', position: 'relative', zIndex: 1 }}>{f.name}</h3>
+              <p style={{ fontSize: '0.52rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: f.name === 'Rahul' ? '#BFA06A' : '#BFA06A', marginBottom: '1rem', fontWeight: 600, position: 'relative', zIndex: 1 }}>{f.role}</p>
+              <p style={{ fontSize: '0.72rem', lineHeight: 1.7, color: '#5C4B3A', letterSpacing: '0.01em', position: 'relative', zIndex: 1 }}>{f.desc}</p>
             </div>
           ))}
         </div>
@@ -472,7 +513,7 @@ export default function Footer({ onNavigate }) {
               {
                 icon: '◉',
                 label: 'WhatsApp',
-                value: '+91-9984090593, +91-9653026746 ',
+                value: '+91-9984090593, +91-9653026746 , +91-9118604515 ',
                 sub: '24*7',
                 href: 'https://wa.me/919984090593',
               },
@@ -480,7 +521,7 @@ export default function Footer({ onNavigate }) {
               {
                 icon: '◉',
                 label: 'Calling Number',
-                value: '+91-9169697273, +91-9653026746 ',
+                value: '+91-9169697273, +91-9653026746 , +91-9118604515 ',
                 sub: 'Mon – Sat, 10am – 8pm IST',
               },
               {

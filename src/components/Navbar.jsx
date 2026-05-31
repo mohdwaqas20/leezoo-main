@@ -357,9 +357,27 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         {/* Center logo */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <button onClick={() => { setShopOpen(false); setServicesOpen(false); onNavigate?.('home'); }} style={{
-            fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.9rem',
-            letterSpacing: '0.18em', color: 'var(--dark)', background: 'none', border: 'none', cursor: 'pointer',
-          }}>LEEZOO</button>
+            background: 'none', border: 'none', cursor: 'pointer', padding: 0, height: 'auto'
+          }}>
+            <img
+              src="https://tpsjxaqxsedgshxiqvst.supabase.co/storage/v1/object/public/Web%20images%20Home%20LEEZOO/LOGO%20WEBSITE.png"
+              alt="LEEZOO"
+              style={{
+                height: '32px',  // Slightly larger
+                width: 'auto',
+                objectFit: 'contain',
+                transition: 'opacity 0.3s, transform 0.3s',
+                filter: 'drop-shadow(0 0 0.5px rgba(0,0,0,0.1))'  // Subtle depth
+              }}
+              onMouseEnter={e => {
+                e.target.style.opacity = '0.85';
+                e.target.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={e => {
+                e.target.style.opacity = '1';
+                e.target.style.transform = 'scale(1)';
+              }}
+            />        </button>
         </div>
 
         {/* Right icons */}
@@ -535,7 +553,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
             </svg>
           </a>
 
-          
+
           {/* Hamburger */}
           <svg style={iconStyle} viewBox="0 0 24 24" onClick={() => setMenuOpen(true)}>
             <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />

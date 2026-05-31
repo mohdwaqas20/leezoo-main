@@ -90,7 +90,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
             For any questions regarding these terms, reach us at:<br />
             <strong style={{ color: 'var(--dark)' }}>Email:</strong> leezoo.official2026@gmail.com<br />
-            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746<br />
+            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746| +91-9118604515<br />
             <strong style={{ color: 'var(--dark)' }}>Business Hours:</strong> Monday–Saturday, 10:00 AM – 8:00 PM IST
           </p>
         </div>

@@ -82,7 +82,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
           {/* FIXED: Changed details text color to clear dark contrast */}
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>
             Ready to create something extraordinary? Reach out and let's build it together.<br />
-            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746<br />
+            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746| +91-9118604515<br />
             <strong style={{ color: 'var(--dark)' }}>Email:</strong> leezoo.official2026@gmail.com<br />
             <strong style={{ color: 'var(--dark)' }}>Minimum Quantity:</strong> 1 piece (individual) | 10 pieces (bulk/wholesale rate)
           </p>

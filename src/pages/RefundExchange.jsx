@@ -78,7 +78,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
           {/* FIXED: Changed description text color to clear dark contrast */}
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>
             To initiate a return or exchange, reach us within your eligible window:<br />
-            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746<br />
+            <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746| +91-9118604515<br />
             <strong style={{ color: 'var(--dark)' }}>Email:</strong> leezoo.official2026@gmail.com<br />
             Please include your order number, issue description, and photos of the product.
           </p>
