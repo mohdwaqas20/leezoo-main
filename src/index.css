@@ -7,24 +7,21 @@
 }
 
 :root {
-  /* Belle Âme warm neutral palette */
-  --ink: #F5EDE0;          /* warm cream — main background */
-  --white: #2C1F14;        /* deep warm brown — primary text */
-  --sand: #EDE0CE;         /* soft linen — secondary bg */
-  --brown: #7A5740;        /* warm medium brown */
-  --accent: #BFA06A;       /* antique gold */
-  --accent2: #C9A97A;      /* lighter gold for hover */
-  --mid: #EAD8C2;          /* light taupe — card bg */
-  --dark: #3C2A1E;         /* rich dark brown — headers */
+  --ink: #F5EDE0;
+  --white: #2C1F14;
+  --sand: #EDE0CE;
+  --brown: #7A5740;
+  --accent: #BFA06A;
+  --accent2: #C9A97A;
+  --mid: #EAD8C2;
+  --dark: #3C2A1E;
   --border: rgba(122, 87, 64, 0.18);
   --border-light: rgba(191, 160, 106, 0.25);
   --muted: #5C3D25;
-  --surface: #F0E6D8;      /* slightly off-cream surface */
+  --surface: #F0E6D8;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { -webkit-text-size-adjust: 100%; }
 
 body {
   background: var(--ink);
@@ -34,49 +31,141 @@ body {
   overflow-x: hidden;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--sand); }
 ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* Animations */
 @keyframes heroIn {
   from { opacity: 0; transform: translateY(30px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes scrollPulse {
   0%, 100% { opacity: 0.3; }
   50%       { opacity: 0.7; }
 }
-
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-
 @keyframes pulse {
   0%, 100% { opacity: 0.4; }
   50%       { opacity: 0.7; }
 }
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Selection */
-::selection {
-  background: var(--accent);
-  color: var(--ink);
+::selection { background: var(--accent); color: var(--ink); }
+
+input, textarea, select { color: var(--white) !important; background: transparent; }
+input::placeholder, textarea::placeholder { color: var(--muted) !important; }
+
+/* ── Global responsive helpers ── */
+@media (max-width: 768px) {
+  .desktop-only { display: none !important; }
+}
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
 }
 
-/* Global input/textarea themed styling */
-input, textarea, select {
-  color: var(--white) !important;
-  background: transparent;
+/* ═══════════════════════════════════════
+   MOBILE RESPONSIVE — max 768px
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Navbar */
+  nav { padding: 0 1rem !important; }
+
+  /* Hero */
+  section[style*="calc(100vh"] {
+    min-height: 85vh !important;
+    align-items: flex-start !important;
+    padding-top: 3rem !important;
+  }
+
+  /* Product slider cards — show 1 at a time */
+  [style*="minWidth: '33.333%'"],
+  [style*="minWidth: \"33.333%\""] {
+    min-width: 85vw !important;
+  }
+
+  /* Shop page grid — 2 cols min */
+  [style*="minmax(300px"] {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+  }
+
+  /* Footer about section */
+  #about { grid-template-columns: 1fr !important; }
+
+  /* Stats row wrap */
+  [style*="gap: '3rem'"][style*="marginTop: '3rem'"] {
+    gap: 1.5rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  /* Section paddings */
+  footer section { padding: 3rem 1rem !important; }
+  footer > div { padding: 2.5rem 1rem !important; }
+
+  /* Announcement bar text */
+  [style*="letterSpacing: '0.25em'"][style*="background: 'var(--accent)'"] {
+    font-size: 0.5rem !important;
+    letter-spacing: 0.08em !important;
+    padding: 0.4rem 0.5rem !important;
+  }
+
+  /* Mobile menu */
+  [style*="flexDirection: 'column'"][style*="justifyContent: 'center'"][style*="padding: 'clamp"] ul {
+    gap: 0.25rem !important;
+  }
+
+  /* Cart drawer full width */
+  [style*="position: 'fixed'"][style*="right: 0"][style*="top: 0"] {
+    width: 100vw !important;
+  }
+
+  /* AuthModal full width */
+  [style*="borderRadius: 2"][style*="maxWidth"] {
+    max-width: 92vw !important;
+    margin: 0 auto !important;
+  }
 }
-input::placeholder, textarea::placeholder {
-  color: var(--muted) !important;
+
+/* ═══════════════════════════════════════
+   SMALL MOBILE — max 480px
+═══════════════════════════════════════ */
+@media (max-width: 480px) {
+
+  /* Product cards in slider — almost full width */
+  [style*="minWidth: '33.333%'"],
+  [style*="minWidth: \"33.333%\""] {
+    min-width: 92vw !important;
+  }
+
+  /* Hero heading already uses clamp, just ensure padding */
+  [style*="padding: 'clamp(2rem,5vw,5rem)'"] {
+    padding: 1.5rem !important;
+  }
+
+  /* Founders cards */
+  [style*="gridTemplateColumns: 'repeat(auto-fit, minmax(200px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Footer cols */
+  [style*="gridTemplateColumns: 'repeat(auto-fit, minmax(150px"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Process steps */
+  [style*="gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))'"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Platform buttons wrap nicely */
+  [style*="flexWrap: 'wrap'"][style*="justifyContent: 'center'"] {
+    gap: 0.5rem !important;
+  }
 }

@@ -3,7 +3,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ALL_PRODUCTS } from '../hooks/useProducts';
 
-const WA_NUMBER = '971504746525';
+const WA_NUMBER = '919984090593';
 
 export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }) {
   const { count, toggleDrawer, openDrawer } = useCart();
@@ -231,8 +231,8 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
       {/* Announcement bar */}
       <div style={{
         background: 'var(--accent)', textAlign: 'center',
-        padding: '0.55rem 1rem', fontSize: '0.65rem',
-        letterSpacing: '0.25em', textTransform: 'uppercase',
+        padding: '0.45rem 0.5rem', fontSize: 'clamp(0.48rem,1.8vw,0.65rem)',
+        letterSpacing: 'clamp(0.05em,1vw,0.25em)', textTransform: 'uppercase',
         color: 'var(--ink)', fontWeight: 400,
       }}>
         Free shipping on orders above RS 499 &nbsp;·&nbsp; New Drop: Edge Collection
@@ -243,7 +243,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         position: 'fixed', inset: 0, zIndex: 500, background: 'var(--surface)',
         transform: menuOpen ? 'translateX(0)' : 'translateX(-100%)',
         transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)',
-        display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '4rem',
+        display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'clamp(2rem,6vw,4rem)',
       }}>
         <button onClick={() => setMenuOpen(false)} style={{
           position: 'absolute', top: '2rem', right: '3rem', background: 'none', border: 'none',
@@ -299,11 +299,11 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         background: scrolled ? 'rgba(240,230,216,0.97)' : 'rgba(245,237,224,0.92)',
         borderBottom: '1px solid var(--border)', backdropFilter: 'blur(12px)',
         display: 'grid', gridTemplateColumns: '1fr auto 1fr',
-        alignItems: 'center', padding: '0 3rem', height: 64, transition: 'background 0.3s',
+        alignItems: 'center', padding: '0 clamp(1rem,3vw,3rem)', height: 64, transition: 'background 0.3s',
       }}>
 
         {/* Left: nav links */}
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+        <div className="desktop-only" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
           {currentPage !== 'home' && (
             <button
               onClick={() => onNavigate?.('home')}
@@ -360,10 +360,10 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
             background: 'none', border: 'none', cursor: 'pointer', padding: 0, height: 'auto'
           }}>
             <img
-              src="https://tpsjxaqxsedgshxiqvst.supabase.co/storage/v1/object/public/Web%20images%20Home%20LEEZOO/LOGO%20WEBSITE.png"
+              src="https://tpsjxaqxsedgshxiqvst.supabase.co/storage/v1/object/public/Web%20images%20Home%20LEEZOO/LEEZOO%20Logo.png"
               alt="LEEZOO"
               style={{
-                height: '32px',  // Slightly larger
+                height: '45px',  // Slightly larger
                 width: 'auto',
                 objectFit: 'contain',
                 transition: 'opacity 0.3s, transform 0.3s',
@@ -540,14 +540,19 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
               )}
             </div>
           ) : (
-            <svg style={{ ...iconStyle, cursor: 'pointer' }} viewBox="0 0 24 24" onClick={onAuthClick} title="Sign in">
+            <svg
+              style={{ ...iconStyle, cursor: 'pointer' }}
+              viewBox="0 0 24 24"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onAuthClick?.(); }}
+              title="Sign in"
+            >
               <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
             </svg>
           )}
 
           {/* WhatsApp */}
           <a href={`https://wa.me/${+919984090593}`} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center' }}>
-            <svg style={{ ...iconStyle, fill: '#25D366', stroke: 'none' }} viewBox="0 0 24 24">
+            <svg style={{ ...iconStyle, fill: 'var(--dark)', stroke: 'none' }} viewBox="0 0 24 24">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
               <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.122 1.532 5.856L0 24l6.335-1.508A11.956 11.956 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.006-1.371l-.36-.214-3.732.888.936-3.627-.235-.373A9.808 9.808 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z" />
             </svg>

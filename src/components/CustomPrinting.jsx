@@ -61,7 +61,7 @@ const steps = [
 
 export default function CustomPrinting() {
   return (
-    <section id="custom-printing" style={{ background: 'var(--sand)', color: '#2a1f14', padding: '0 4rem 7rem', borderTop: '2px solid rgba(122,87,64,0.25)' }}>
+    <section id="custom-printing" style={{ background: 'var(--sand)', color: '#2a1f14', padding: '0 clamp(1rem,4vw,4rem) clamp(3rem,6vw,7rem)', borderTop: '2px solid rgba(122,87,64,0.25)' }}>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '5rem', paddingTop: '4rem' }}>
         <h2 style={{
@@ -87,7 +87,7 @@ export default function CustomPrinting() {
         <p style={{ fontSize: '0.82rem', lineHeight: 2, color: 'rgba(26,20,10,0.6)', letterSpacing: '0.04em', maxWidth: 620, margin: '0 auto 1.5rem' }}>
           LEEZOO brings your vision to life with precision custom printing. Whether it's a single piece or a full collection — your artwork, your brand, your identity. We handle every detail from file to final print.
         </p>
-        <div style={{ display: 'inline-flex', gap: '2rem', padding: '1rem 2rem', border: '1px solid rgba(122,92,63,0.2)', borderRadius: 2, background: 'rgba(122,92,63,0.05)' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', padding: '1rem clamp(0.75rem,2vw,2rem)', border: '1px solid rgba(122,92,63,0.2)', borderRadius: 2, background: 'rgba(122,92,63,0.05)' }}>
           {[['No MOQ', 'Single piece accepted'], ['Any Quantity', 'From 1 to 10,000+'], ['All Designs', 'Logo, art, photo']].map(([val, lbl]) => (
             <div key={lbl} style={{ textAlign: 'center' }}>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', color: 'var(--brown)', display: 'block', lineHeight: 1, letterSpacing: '0.05em' }}>{val}</span>
@@ -101,7 +101,7 @@ export default function CustomPrinting() {
       <div style={{ position: 'relative', marginBottom: '5rem' }}>
         {/* Connector line */}
         <div style={{ position: 'absolute', top: 50, left: '10%', right: '10%', height: 1, background: 'rgba(122,92,63,0.2)', zIndex: 0 }} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
           {steps.map((step, i) => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <div style={{

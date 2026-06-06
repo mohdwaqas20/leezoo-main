@@ -44,6 +44,7 @@ function AppContent() {
             product={selectedProduct} 
             onBack={() => { setSelectedProduct(null); setPage('home'); }}
             onViewProduct={(product) => { setSelectedProduct(product); setPage('product-detail'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            allProducts={[...menProducts, ...womenProducts]}
           />
         ) : null;
       case 'shop-men':

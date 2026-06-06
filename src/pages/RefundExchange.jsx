@@ -73,8 +73,8 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         ))}
 
         {/* WhatsApp CTA */}
-        <div style={{ background: 'rgba(37,211,102,0.05)', border: '1px solid rgba(37,211,102,0.2)', padding: '2.5rem', marginTop: '2rem' }}>
-          <h3 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.1em', color: '#25D366', marginBottom: '1rem' }}>RAISE A RETURN REQUEST</h3>
+        <div style={{ background: 'rgba(191,160,106,0.08)', border: '1px solid rgba(191,160,106,0.25)', padding: '2.5rem', marginTop: '2rem' }}>
+          <h3 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.1em', color: 'var(--dark)', marginBottom: '1rem' }}>RAISE A RETURN REQUEST</h3>
           {/* FIXED: Changed description text color to clear dark contrast */}
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>
             To initiate a return or exchange, reach us within your eligible window:<br />
@@ -86,7 +86,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
             href="https://wa.me/919984090593"
             target="_blank"
             rel="noreferrer"
-            style={{ display: 'inline-block', background: '#25D366', color: '#0D0D0D', textDecoration: 'none', padding: '0.85rem 2rem', fontSize: '0.62rem', letterSpacing: '0.22em', textTransform: 'uppercase', fontFamily: 'Jost,sans-serif', fontWeight: 400 }}
+            style={{ display: 'inline-block', background: 'var(--dark)', color: '#F5EDE0', textDecoration: 'none', padding: '0.85rem 2rem', fontSize: '0.62rem', letterSpacing: '0.22em', textTransform: 'uppercase', fontFamily: 'Jost,sans-serif', fontWeight: 400 }}
           >
             WhatsApp Us Now →
           </a>

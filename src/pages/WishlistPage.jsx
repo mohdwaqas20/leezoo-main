@@ -124,7 +124,7 @@ function WishlistCard({ product, onRemove, onAddToCart, added }) {
           <img
             src={product.image_url} alt={product.name}
             style={{
-              width: '100%', height: '100%', objectFit: 'contain', padding: '1rem',
+              width: '100%', height: '100%', objectFit: 'cover',
               transform: hovered ? 'scale(1.04)' : 'scale(1)',
               transition: 'transform 0.5s ease',
             }}

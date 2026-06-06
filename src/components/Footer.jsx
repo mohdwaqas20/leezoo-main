@@ -74,16 +74,17 @@ export default function Footer({ onNavigate }) {
   ];
 
   const founders = [
-    {
-      name: 'Mohd Waqas',
-      role: 'Co-Founder & Digital Operations Head',
-      desc: 'Leads product design, online operations, marketplace management, e-commerce growth, and digital strategy across all platforms.',
-      icon: '◈',
-    },
+
     {
       name: 'Praveen',
       role: 'Co-Founder & Production Head',
       desc: 'Oversees production planning, sourcing, printing operations, quality control, and manufacturing excellence.',
+      icon: '◈',
+    },
+    {
+      name: 'Mohd Waqas',
+      role: 'Co-Founder & Digital Operations Head',
+      desc: 'Leads product design, online operations, marketplace management, e-commerce growth, and digital strategy across all platforms.',
       icon: '◈',
     },
     {
@@ -135,9 +136,9 @@ export default function Footer({ onNavigate }) {
       {/* ── Our Story ── */}
       <section id="about" style={{
         background: 'var(--mid)', color: 'var(--dark)',
-        display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 520,
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', minHeight: 'auto',
       }}>
-        <div style={{ padding: '6rem 5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ padding: 'clamp(2.5rem,6vw,6rem) clamp(1.5rem,5vw,5rem)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <p style={{
             fontSize: '0.72rem', letterSpacing: '0.3em', textTransform: 'uppercase',
             color: 'var(--brown)', fontWeight: 700, marginBottom: '1.5rem',
@@ -275,7 +276,7 @@ export default function Footer({ onNavigate }) {
       </section>
 
       {/* ── Meet the Founders ── */}
-      <section id="founders" style={{ padding: '6rem 4rem', borderBottom: '1px solid rgba(122, 87, 64, 0.15)', background: 'linear-gradient(135deg, #F5EDE0 0%, #EAD8C2 100%)' }}>
+      <section id="founders" style={{ padding: 'clamp(3rem,6vw,6rem) clamp(1rem,4vw,4rem)', borderBottom: '1px solid rgba(122, 87, 64, 0.15)', background: 'linear-gradient(135deg, #F5EDE0 0%, #EAD8C2 100%)' }}>
         <p style={{
           fontSize: '0.6rem', letterSpacing: '0.35em', textTransform: 'uppercase',
           color: '#7A5740', marginBottom: '1rem',
@@ -303,7 +304,7 @@ export default function Footer({ onNavigate }) {
         </p>
 
         {/* All 5 Team Members - Single Row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1.8rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', maxWidth: '1400px', margin: '0 auto' }}>
           {founders.map((f) => (
             <div key={f.name} style={{
               background: f.name === 'Rahul'
@@ -350,7 +351,7 @@ export default function Footer({ onNavigate }) {
       </section>
 
       {/* ── Customer Feedback ── */}
-      <section id="feedback" style={{ padding: '6rem 4rem', borderBottom: '1px solid rgba(122, 87, 64, 0.15)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'center', background: 'linear-gradient(135deg, #F5EDE0 0%, #EAD8C2 100%)' }}>
+      <section id="feedback" style={{ padding: 'clamp(3rem,6vw,6rem) clamp(1rem,4vw,4rem)', borderBottom: '1px solid rgba(122, 87, 64, 0.15)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'clamp(2rem,4vw,6rem)', alignItems: 'center', background: 'linear-gradient(135deg, #F5EDE0 0%, #EAD8C2 100%)' }}>
         {/* Left — copy */}
         <div>
           <p style={{ fontSize: '0.6rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#7A5740', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
@@ -492,7 +493,7 @@ export default function Footer({ onNavigate }) {
       </section>
 
       {/* ── Contact Us ── */}
-      <section id="contact-us" style={{ padding: '6rem 4rem', borderBottom: '1px solid rgba(122, 87, 64, 0.15)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start', background: 'linear-gradient(135deg, #F5EDE0 0%, #EAD8C2 100%)' }}>
+      <section id="contact-us" style={{ padding: 'clamp(3rem,6vw,6rem) clamp(1rem,4vw,4rem)', borderBottom: '1px solid rgba(122, 87, 64, 0.15)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'clamp(2rem,4vw,6rem)', alignItems: 'start', background: 'linear-gradient(135deg, #F5EDE0 0%, #EAD8C2 100%)' }}>
         {/* Left — contact info */}
         <div>
           <p style={{ fontSize: '0.6rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#7A5740', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
@@ -574,7 +575,7 @@ export default function Footer({ onNavigate }) {
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.8rem', background: '#FFFFFF', padding: '2.5rem', borderRadius: '8px', boxShadow: '0 4px 12px rgba(122, 87, 64, 0.1)' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '1.5rem' }}>
                 <div>
                   <label style={{ fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#7A5740', display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>Full Name</label>
                   <input style={{
@@ -683,10 +684,10 @@ export default function Footer({ onNavigate }) {
                 <a href="https://wa.me/919984090593" target="_blank" rel="noreferrer" style={{
                   border: '1px solid #BFA06A', padding: '0.95rem 1.8rem',
                   fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase',
-                  color: '#25D366', textDecoration: 'none', transition: 'all 0.3s', borderRadius: '4px', fontWeight: 500,
+                  color: 'var(--dark)', textDecoration: 'none', transition: 'all 0.3s', borderRadius: '4px', fontWeight: 500,
                 }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#25D366'; e.currentTarget.style.backgroundColor = 'rgba(37, 211, 102, 0.08)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#BFA06A'; e.currentTarget.style.backgroundColor = 'transparent'; }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.backgroundColor = 'var(--accent)'; e.currentTarget.style.color = '#1a0f00'; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#BFA06A'; e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'var(--dark)'; }}
                 >WhatsApp Us</a>
               </div>
             </div>
@@ -695,25 +696,25 @@ export default function Footer({ onNavigate }) {
       </section>
 
       {/* ── Platforms ── */}
-      <section id="platforms" style={{ padding: '4rem', borderBottom: '1px solid rgba(191,160,106,0.3)', background: 'var(--dark)' }}>
+      <section id="platforms" style={{ padding: 'clamp(2rem,4vw,4rem) clamp(1rem,3vw,4rem)', borderBottom: '1px solid rgba(191,160,106,0.3)', background: 'var(--dark)' }}>
         <p style={{ textAlign: 'center', fontSize: '0.78rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(240,230,216,0.85)', marginBottom: '2.5rem', fontWeight: 600 }}>Also available on</p>
         <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
           {['Amazon', 'Flipkart', 'Meesho', 'Myntra', 'AJIO'].map(p => (
-            <a key={p} href="#" style={{
+            <button key={p} onClick={(e) => e.preventDefault()} style={{
               display: 'inline-block', textDecoration: 'none', fontSize: '0.62rem',
               letterSpacing: '0.22em', textTransform: 'uppercase', color: '#E8D9C5',
               border: '1px solid rgba(191,160,106,0.4)', padding: '0.7rem 2rem', transition: 'all 0.3s',
-              borderRadius: '2px',
+              borderRadius: '2px', background: 'transparent', cursor: 'pointer',
             }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = '#BFA06A'; e.currentTarget.style.color = '#BFA06A'; e.currentTarget.style.background = 'rgba(191,160,106,0.08)'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(191,160,106,0.4)'; e.currentTarget.style.color = '#E8D9C5'; e.currentTarget.style.background = 'transparent'; }}
-            >Shop on {p}</a>
+            >Shop on {p}</button>
           ))}
         </div>
       </section>
 
       {/* ── Footer links ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '4rem', padding: '5rem 4rem 4rem', borderBottom: '1px solid rgba(191,160,106,0.2)', background: 'var(--dark)' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'clamp(2rem,3vw,4rem)', padding: 'clamp(2.5rem,4vw,5rem) clamp(1rem,4vw,4rem) clamp(2rem,3vw,4rem)', borderBottom: '1px solid rgba(191,160,106,0.2)', background: 'var(--dark)' }}>
         <div>
           <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2.2rem', letterSpacing: '0.2em', marginBottom: '1rem', display: 'block', color: '#F0E6D8' }}>LEEZOO</span>
           <p style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: 'italic', fontSize: '0.95rem', color: '#BFA06A', letterSpacing: '0.1em' }}>Wear Your Edge.</p>
@@ -741,7 +742,7 @@ export default function Footer({ onNavigate }) {
       </div>
 
       {/* ── Bottom bar ── */}
-      <div style={{ padding: '1.8rem 4rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#2A1D13', flexWrap: 'wrap', gap: '1rem' }}>
+      <div style={{ padding: '1.5rem clamp(1rem,4vw,4rem)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#2A1D13', flexWrap: 'wrap', gap: '1rem' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
           <p style={{ fontSize: '0.62rem', letterSpacing: '0.1em', color: 'rgba(240,230,216,0.7)', fontFamily: 'Jost,sans-serif' }}>
             © {new Date().getFullYear()} LEEZOO. All rights reserved.

@@ -20,7 +20,7 @@ const highlights = [
 
 export default function BulkPrinting() {
   return (
-    <section id="bulk-printing" style={{ background: 'var(--sand)', color: '#2a1f14', padding: '0 4rem 7rem', borderTop: '2px solid rgba(122,87,64,0.25)' }}>
+    <section id="bulk-printing" style={{ background: 'var(--sand)', color: '#2a1f14', padding: '0 clamp(1rem,4vw,4rem) clamp(3rem,6vw,7rem)', borderTop: '2px solid rgba(122,87,64,0.25)' }}>
 
       {/* Section heading — inside the section */}
       <div style={{ textAlign: 'center', paddingTop: '4rem', marginBottom: '5rem' }}>

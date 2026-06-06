@@ -14,7 +14,7 @@ export default function AuthModal({ onClose }) {
 
   // Focus first input on open / mode switch
   useEffect(() => {
-    const t = setTimeout(() => firstInputRef.current?.focus(), 120);
+    const t = setTimeout(() => firstInputRef.current?.focus({ preventScroll: true }), 120);
     return () => clearTimeout(t);
   }, [mode]);
 
@@ -189,7 +189,7 @@ export default function AuthModal({ onClose }) {
         )}
         {success && (
           <p style={{
-            fontSize: '0.65rem', color: '#25D366',
+            fontSize: '0.65rem', color: 'var(--accent)',
             marginBottom: '1rem', letterSpacing: '0.05em',
           }}>
             {success}

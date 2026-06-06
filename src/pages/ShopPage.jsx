@@ -211,7 +211,7 @@ export default function ShopPage({ category, onBack, onViewProduct }) {
       </div>
 
       {/* PRODUCT GRID */}
-      <div style={{ padding: '3rem 4rem 7rem' }}>
+      <div style={{ padding: 'clamp(1.5rem,3vw,3rem) clamp(1rem,4vw,4rem) clamp(3rem,6vw,7rem)' }}>
         {loading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 3 }}>
             {Array.from({ length: 8 }).map((_, i) => (

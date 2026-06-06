@@ -5,21 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { createPortal } from 'react-dom';
 import AuthModal from '../components/AuthModal';
 
-const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
-const COLOR_SWATCHES = [
-  { name: 'Sahara Beige', hex: '#d4a574' },
-  { name: 'Charcoal',     hex: '#1a1a1a' },
-  { name: 'Off-White',    hex: '#f5f5f5' },
-  { name: 'Brown',        hex: '#6b4423' },
-];
-
-const SIMILAR_PRODUCTS = [
-  { id:'prod-001', name:'Urban Minimal Tee',      price:129, image_url:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop', color:'Black',  badge:'New',     product_id:'LZO-001' },
-  { id:'prod-002', name:'Classic Heritage',        price:149, image_url:'https://images.unsplash.com/photo-1503341455253-b2e723bb12d5?w=500&h=500&fit=crop', color:'White',  badge:'Sale',    product_id:'LZO-003' },
-  { id:'prod-003', name:'Luxury Comfort',          price:169, image_url:'https://images.unsplash.com/photo-1618354691551-418cb14ba0c0?w=500&h=500&fit=crop', color:'Cream',  badge:'Hot',     product_id:'LZO-004' },
-  { id:'prod-004', name:'Premium Edition',         price:189, image_url:'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500&h=500&fit=crop', color:'Navy',   badge:'Premium', product_id:'LZO-005' },
-  { id:'prod-005', name:'Minimalist Statement',    price:139, image_url:'https://images.unsplash.com/photo-1455818735494-66ebf59b0e21?w=500&h=500&fit=crop', color:'Gray',   badge:'New',     product_id:'LZO-006' },
-];
+const SIZES = ['S', 'M', 'L', 'XL'];
 
 // ─── css tokens ────────────────────────────────────────────────────────────────
 const T = {
@@ -42,12 +28,11 @@ const label = {
   marginBottom: '0.9rem',
 };
 
-export default function ProductDetailPage({ product, onBack, onViewProduct }) {
+export default function ProductDetailPage({ product, onBack, onViewProduct, allProducts = [] }) {
   const { addItem }           = useCart();
   const { toggleWishlist, isWishlisted } = useWishlist();
   const { user }              = useAuth();
   const [selectedSize,  setSelectedSize]  = useState(null);
-  const [selectedColor, setSelectedColor] = useState(COLOR_SWATCHES[0]);
   const [mainImage,     setMainImage]     = useState(0);
   const [added,         setAdded]         = useState(false);
   const [wishlistAnim,  setWishlistAnim]  = useState(false);
@@ -71,7 +56,7 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
   const handleAddToCart = () => {
     requireAuth(() => {
       if (!selectedSize) { setSizeError(true); setTimeout(() => setSizeError(false), 1800); return; }
-      addItem({ ...product, size: selectedSize, color: selectedColor.name, quantity: 1 });
+      addItem({ ...product, size: selectedSize, quantity: 1 });
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);
     });
@@ -79,8 +64,8 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
 
   const handleBuyWA = () => {
     if (!selectedSize) { setSizeError(true); setTimeout(() => setSizeError(false), 1800); return; }
-    const msg = `Hi, I'm interested in buying *${product.name}*\n\n📦 Product ID: ${product.product_id}\n👕 Size: ${selectedSize}\n🎨 Color: ${selectedColor.name}\n💰 Price: RS ${product.price}\n\nPlease confirm availability.`;
-    window.open(`https://wa.me/971501234567?text=${encodeURIComponent(msg)}`, '_blank');
+    const msg = `Hi, I'm interested in buying *${product.name}*\n\n📦 Product ID: ${product.product_id}\n👕 Size: ${selectedSize}\n🎨 💰 Price: RS ${product.price}\n\nPlease confirm availability.`;
+    window.open(`https://wa.me/919984090593?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   const handleWishlist = () => {
@@ -95,14 +80,18 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
     <div style={{ background: T.sand, color: T.dark, minHeight: '100vh' }}>
 
       {/* ── Sticky header ── */}
-      <div style={{ position:'sticky', top:0, zIndex:100, background:T.sand, borderBottom:`1px solid ${T.borderL}`, padding:'1rem 2rem', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+      <div style={{ position:'sticky', top:0, zIndex:100, background:T.sand, borderBottom:`1px solid ${T.borderL}`, padding:'1.2rem 2rem', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
         <button onClick={onBack}
           style={{ background:'transparent', border:`1px solid ${T.border}`, color:T.dark, padding:'0.55rem 1.4rem', cursor:'pointer', fontFamily:'Jost,sans-serif', fontSize:'0.72rem', fontWeight:400, letterSpacing:'0.14em', textTransform:'uppercase', transition:'all 0.2s' }}
           onMouseEnter={(e) => { e.currentTarget.style.background = T.accent; e.currentTarget.style.borderColor = T.accent; e.currentTarget.style.color = '#F5EDE0'; }}
           onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.dark; }}>
           ← Back
         </button>
-        <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:'1.4rem', letterSpacing:'0.1em', color:T.accent }}>WEAR YOUR EDGE</div>
+        <img
+          src="https://tpsjxaqxsedgshxiqvst.supabase.co/storage/v1/object/public/Web%20images%20Home%20LEEZOO/wear%20your%20edge.png"
+          alt="Wear Your Edge"
+          style={{ height:'52px', width:'auto', objectFit:'contain' }}
+        />
         <div style={{ width:80 }} />
       </div>
 
@@ -111,7 +100,7 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
 
         {/* Gallery */}
         <div>
-          <div style={{ position:'relative', background:'#111', display:'flex', alignItems:'center', justifyContent:'center', minHeight:'600px', marginBottom:'1.2rem', overflow:'hidden' }}>
+          <div style={{ position:'relative', background:'var(--sand)', display:'flex', alignItems:'center', justifyContent:'center', minHeight:'600px', marginBottom:'1.2rem', overflow:'hidden' }}>
             {product.badge && (
               <div style={{ position:'absolute', top:'1.2rem', left:'1.2rem', background: product.badge === 'Limited' ? '#1a1007' : T.accent, color: product.badge === 'Limited' ? '#F5EDE0' : '#1a0f00', fontSize:'0.62rem', fontWeight:600, letterSpacing:'0.18em', padding:'0.45rem 1rem', fontFamily:'Jost,sans-serif', textTransform:'uppercase', zIndex:10 }}>{product.badge}</div>
             )}
@@ -120,7 +109,7 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
           <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'0.75rem' }}>
             {productImages.map((img, idx) => (
               <button key={idx} onClick={() => setMainImage(idx)}
-                style={{ background:'#111', border: mainImage===idx ? `2px solid ${T.accent}` : `1px solid ${T.border}`, cursor:'pointer', height:'110px', display:'flex', alignItems:'center', justifyContent:'center', padding:'0.5rem', transition:'border-color 0.2s' }}
+                style={{ background:'var(--sand)', border: mainImage===idx ? `2px solid ${T.accent}` : `1px solid ${T.border}`, cursor:'pointer', height:'110px', display:'flex', alignItems:'center', justifyContent:'center', padding:'0.5rem', transition:'border-color 0.2s' }}
                 onMouseEnter={(e) => { if (mainImage!==idx) e.currentTarget.style.borderColor = T.accent; }}
                 onMouseLeave={(e) => { if (mainImage!==idx) e.currentTarget.style.borderColor = T.border; }}>
                 <img src={img} alt={`View ${idx+1}`} style={{ width:'100%', height:'100%', objectFit:'contain' }} />
@@ -191,19 +180,6 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
             </div>
           </div>
 
-          {/* Color */}
-          <div>
-            <div style={label}>Choose Color</div>
-            <div style={{ display:'flex', gap:'0.9rem', alignItems:'center' }}>
-              {COLOR_SWATCHES.map((c) => (
-                <button key={c.name} onClick={() => setSelectedColor(c)} title={c.name}
-                  style={{ width:46, height:46, borderRadius:'50%', background:c.hex, border: selectedColor.name===c.name ? `3px solid ${T.accent}` : '2px solid transparent', outline: selectedColor.name===c.name ? `2px solid ${T.accent}` : '2px solid transparent', outlineOffset:2, cursor:'pointer', transition:'all 0.18s' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.12)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }} />
-              ))}
-            </div>
-            <div style={{ fontSize:'0.75rem', marginTop:'0.7rem', color:T.muted, fontFamily:'Jost,sans-serif', letterSpacing:'0.06em' }}>{selectedColor.name}</div>
-          </div>
 
           <div style={{ height:1, background:T.borderL }} />
 
@@ -229,16 +205,16 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
             <button onClick={handleBuyWA}
               style={{
                 width:'100%', padding:'1.1rem',
-                background:'transparent', color:'#1aad4f',
-                border:'1.5px solid #1aad4f',
+                background:'transparent', color:T.dark,
+                border:`1.5px solid ${T.border}`,
                 cursor:'pointer', fontFamily:'Jost,sans-serif',
                 fontSize:'0.8rem', fontWeight:500,
                 letterSpacing:'0.18em', textTransform:'uppercase',
                 display:'flex', alignItems:'center', justifyContent:'center', gap:'0.6rem',
-                transition:'background 0.2s, color 0.2s',
+                transition:'background 0.2s, color 0.2s, border-color 0.2s',
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(26,173,79,0.1)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}>
+              onMouseEnter={(e) => { e.currentTarget.style.background = T.accent; e.currentTarget.style.borderColor = T.accent; e.currentTarget.style.color = '#1a0f00'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.dark; }}>
               <WAIcon /> Buy on WhatsApp
             </button>
           </div>
@@ -274,18 +250,26 @@ export default function ProductDetailPage({ product, onBack, onViewProduct }) {
       </div>
 
       {/* ── You May Also Like ── */}
-      <div style={{ borderTop:`1px solid ${T.borderL}`, padding:'4rem 2.5rem', marginTop:'1rem' }}>
-        <div style={{ maxWidth:'1400px', margin:'0 auto' }}>
-          <h2 style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:'2rem', letterSpacing:'0.06em', marginBottom:'2.5rem', textAlign:'center', color:T.dark }}>
-            YOU MAY ALSO LIKE
-          </h2>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:'1.5rem' }}>
-            {SIMILAR_PRODUCTS.map((prod) => (
-              <SimilarCard key={prod.id} prod={prod} onViewProduct={onViewProduct} />
-            ))}
+      {(() => {
+        const similarProducts = allProducts
+          .filter(p => p.id !== product.id)
+          .slice(0, 5);
+        if (similarProducts.length === 0) return null;
+        return (
+          <div style={{ borderTop:`1px solid ${T.borderL}`, padding:'4rem 2.5rem', marginTop:'1rem' }}>
+            <div style={{ maxWidth:'1400px', margin:'0 auto' }}>
+              <h2 style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:'2rem', letterSpacing:'0.06em', marginBottom:'2.5rem', textAlign:'center', color:T.dark }}>
+                YOU MAY ALSO LIKE
+              </h2>
+              <div style={{ display:'grid', gridTemplateColumns:`repeat(${Math.min(similarProducts.length, 5)},1fr)`, gap:'1.5rem' }}>
+                {similarProducts.map((prod) => (
+                  <SimilarCard key={prod.id} prod={prod} onViewProduct={onViewProduct} />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        );
+      })()}
 
       {authPrompt && createPortal(<AuthModal onClose={() => setAuthPrompt(false)} />, document.body)}
     </div>
@@ -305,9 +289,9 @@ function SimilarCard({ prod, onViewProduct }) {
       {prod.badge && (
         <div style={{ position:'absolute', top:'0.7rem', left:'0.7rem', zIndex:2, background: prod.badge==='Limited' ? '#1a1007' : 'var(--accent)', color: prod.badge==='Limited' ? '#F5EDE0' : '#1a0f00', fontSize:'0.58rem', fontWeight:600, letterSpacing:'0.16em', padding:'0.35rem 0.8rem', fontFamily:'Jost,sans-serif', textTransform:'uppercase' }}>{prod.badge}</div>
       )}
-      <div style={{ height:220, overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center', background:'#111' }}>
+      <div style={{ height:220, overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center', background:'var(--sand)' }}>
         <img src={prod.image_url} alt={prod.name}
-          style={{ width:'100%', height:'100%', objectFit:'contain', padding:'0.75rem', transition:'transform 0.4s cubic-bezier(0.16,1,0.3,1)', transform: hovered ? 'scale(1.07)' : 'scale(1)' }} />
+          style={{ width:'100%', height:'100%', objectFit:'cover', transition:'transform 0.4s cubic-bezier(0.16,1,0.3,1)', transform: hovered ? 'scale(1.07)' : 'scale(1)' }} />
       </div>
       <div style={{ padding:'1rem 1.1rem 1.2rem', borderTop:'1px solid var(--border-light)' }}>
         <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:'1.1rem', letterSpacing:'0.04em', marginBottom:'0.3rem', color:'var(--dark)' }}>{prod.name}</div>
