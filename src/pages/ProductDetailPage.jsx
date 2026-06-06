@@ -95,11 +95,6 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
           onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.dark; }}>
           ← Back
         </button>
-        <img
-          src="https://tpsjxaqxsedgshxiqvst.supabase.co/storage/v1/object/public/Web%20images%20Home%20LEEZOO/wear%20your%20edge.png"
-          alt="Wear Your Edge"
-          style={{ height:'52px', width:'auto', objectFit:'contain' }}
-        />
         <div style={{ width:80 }} />
       </div>
 

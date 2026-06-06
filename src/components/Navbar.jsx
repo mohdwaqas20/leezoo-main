@@ -308,7 +308,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         background: scrolled ? 'rgba(240,230,216,0.97)' : 'rgba(245,237,224,0.92)',
         borderBottom: '1px solid var(--border)', backdropFilter: 'blur(12px)',
         display: 'grid', gridTemplateColumns: isCompact ? 'auto 1fr' : '1fr auto 1fr',
-        alignItems: 'center', padding: '0 clamp(1rem,3vw,3rem)', height: 64, transition: 'background 0.3s',
+        alignItems: 'center', padding: isCompact ? '0 0.75rem' : '0 clamp(1rem,3vw,3rem)', height: 64, transition: 'background 0.3s',
       }}>
 
         {/* Left: nav links */}
@@ -372,7 +372,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
               src="https://tpsjxaqxsedgshxiqvst.supabase.co/storage/v1/object/public/Web%20images%20Home%20LEEZOO/LEEZOO%20Logo.png"
               alt="LEEZOO"
               style={{
-                height: '45px',  // Slightly larger
+                height: isCompact ? '32px' : '45px',
                 width: 'auto',
                 objectFit: 'contain',
                 transition: 'opacity 0.3s, transform 0.3s',
@@ -390,102 +390,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         </div>
 
         {/* Right icons */}
-        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'flex-end' }}>
-
-          {/* Clean Absolute-Positioned Search */}
-          <div ref={searchRef} style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <svg style={iconStyle} viewBox="0 0 24 24" onClick={toggleSearch}>
-              <circle cx="11" cy="11" r="7" /><path d="m16.5 16.5 4 4" />
-            </svg>
-
-            {searchOpen && (
-              <div style={{
-                position: 'absolute',
-                top: '100%',
-                right: 0,
-                marginTop: '12px',
-                width: 340,
-                background: '#F0E6D8',
-                border: '1px solid var(--border)',
-                boxShadow: '0 16px 40px rgba(60,42,30,0.14)',
-                zIndex: 9999,
-                borderRadius: 2,
-                padding: '0.5rem 0',
-                animation: 'dropIn 0.18s ease',
-              }}>
-                {/* Arrow up triangle indicator */}
-                <div style={{ position: 'absolute', top: -6, right: 6, width: 0, height: 0, borderLeft: '6px solid transparent', borderRight: '6px solid transparent', borderBottom: '6px solid var(--border)' }} />
-
-                {/* Input Container */}
-                <div style={{ display: 'flex', alignItems: 'center', padding: '0.4rem 1rem 0.6rem', borderBottom: '1px solid var(--border)' }}>
-                  <input
-                    ref={searchInputRef}
-                    value={searchQuery}
-                    onChange={e => setSearchQuery(e.target.value)}
-                    onKeyDown={e => e.key === 'Escape' && setSearchOpen(false)}
-                    placeholder="Search products..."
-                    style={{
-                      flex: 1, background: 'none', border: 'none', outline: 'none',
-                      color: 'var(--dark)', fontFamily: 'Jost,sans-serif',
-                      fontSize: '0.72rem', letterSpacing: '0.05em',
-                      padding: '0.4rem 0',
-                    }}
-                  />
-                  {searchQuery && (
-                    <button onClick={() => setSearchQuery('')} style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '0.75rem' }}>✕</button>
-                  )}
-                </div>
-
-                {/* Results / Suggestions Block */}
-                {searchQuery.trim() ? (
-                  <div style={{ maxHeight: 280, overflowY: 'auto', padding: '0.2rem 0' }}>
-                    {searchResults.length > 0 ? (
-                      searchResults.map(product => (
-                        <button key={product.id} onClick={() => handleSearchResult(product)} style={{
-                          display: 'flex', alignItems: 'center', gap: '0.75rem',
-                          width: '100%', padding: '0.65rem 1rem',
-                          background: 'none', border: 'none', cursor: 'pointer',
-                          textAlign: 'left', transition: 'background 0.15s',
-                        }}
-                          onMouseEnter={e => e.currentTarget.style.background = 'rgba(191,160,106,0.1)'}
-                          onMouseLeave={e => e.currentTarget.style.background = 'none'}
-                        >
-                          <div style={{ width: 24, height: 24, borderRadius: 2, background: product.color_hex, border: '1px solid var(--border)' }} />
-                          <div style={{ flex: 1 }}>
-                            <p style={{ fontSize: '0.62rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--dark)', fontFamily: 'Jost,sans-serif', fontWeight: 500, margin: 0 }}>{product.name}</p>
-                            <p style={{ fontSize: '0.55rem', color: 'var(--muted)', fontFamily: 'Jost,sans-serif', margin: 0 }}>{product.color} · {product.category}</p>
-                          </div>
-                          <p style={{ fontSize: '0.62rem', color: 'var(--accent)', fontFamily: 'Jost,sans-serif', fontWeight: 500 }}>RS {product.price}</p>
-                        </button>
-                      ))
-                    ) : (
-                      <div style={{ padding: '1.5rem 1rem', textAlign: 'center' }}>
-                        <p style={{ fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'Jost,sans-serif', margin: 0 }}>No items found</p>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  /* Quick Tags Suggestions */
-                  <div style={{ padding: '0.8rem 1rem 0.4rem' }}>
-                    <p style={{ fontSize: '0.52rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--muted)', fontFamily: 'Jost,sans-serif', marginBottom: '0.5rem', marginTop: 0 }}>Quick Links</p>
-                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                      {['Men', 'Women', 'Oversized', 'New', 'Black'].map(tag => (
-                        <button key={tag} onClick={() => setSearchQuery(tag)} style={{
-                          padding: '0.3rem 0.6rem', background: 'rgba(191,160,106,0.06)',
-                          border: '1px solid var(--border)', color: 'var(--dark)',
-                          fontFamily: 'Jost,sans-serif', fontSize: '0.55rem', letterSpacing: '0.08em',
-                          textTransform: 'uppercase', cursor: 'pointer', borderRadius: 2, transition: 'all 0.15s',
-                        }}
-                          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)'; }}
-                          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--dark)'; }}
-                        >{tag}</button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+        <div style={{ display: 'flex', gap: isCompact ? '0.85rem' : '1.5rem', alignItems: 'center', justifyContent: 'flex-end' }}>
 
           {/* Account Menu Section */}
           {user ? (
