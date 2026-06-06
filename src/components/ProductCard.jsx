@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -289,7 +289,15 @@ function ProductDetailModal({ product, addItem, onClose }) {
   const [authPrompt, setAuthPrompt] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [imgHovered, setImgHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const { user } = useAuth();
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const handleAddToCart = () => {
     if (!user) { setAuthPrompt(true); return; }
@@ -311,7 +319,7 @@ function ProductDetailModal({ product, addItem, onClose }) {
   return (
     <>
       <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 1000, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }} />
-      <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 1001, background: 'var(--mid)', border: '1px solid rgba(196,153,90,0.2)', width: 'min(880px, 92vw)', maxHeight: '90vh', overflowY: 'auto', display: 'flex', flexDirection: 'row', animation: 'modalIn 0.35s cubic-bezier(0.16,1,0.3,1)', boxShadow: '0 40px 100px rgba(0,0,0,0.5)' }}>
+      <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 1001, background: 'var(--mid)', border: '1px solid rgba(196,153,90,0.2)', width: 'min(880px, 92vw)', maxHeight: '90vh', overflowY: 'auto', display: 'flex', flexDirection: isMobile ? 'column' : 'row', animation: 'modalIn 0.35s cubic-bezier(0.16,1,0.3,1)', boxShadow: '0 40px 100px rgba(0,0,0,0.5)' }}>
 
         <button onClick={onClose}
           style={{ position: 'absolute', top: '1.2rem', right: '1.2rem', zIndex: 10, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.15)', width: 36, height: 36, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--dark)', transition: 'background 0.2s' }}
@@ -324,7 +332,7 @@ function ProductDetailModal({ product, addItem, onClose }) {
 
         {/* Image panel */}
         <div
-          style={{ flex: '0 0 50%', background: imgBg, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 460, padding: '2.5rem', position: 'relative', cursor: 'zoom-in', overflow: 'hidden' }}
+          style={{ flex: isMobile ? 'none' : '0 0 50%', background: imgBg, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: isMobile ? 260 : 460, height: isMobile ? 280 : 'auto', padding: isMobile ? '1.5rem' : '2.5rem', position: 'relative', cursor: 'zoom-in', overflow: 'hidden' }}
           onMouseEnter={() => setImgHovered(true)}
           onMouseLeave={() => setImgHovered(false)}
         >
@@ -365,7 +373,7 @@ function ProductDetailModal({ product, addItem, onClose }) {
         </div>
 
         {/* Details panel */}
-        <div style={{ flex: 1, padding: '2.5rem 2.5rem 2.5rem 2rem', display: 'flex', flexDirection: 'column', gap: '1.4rem' }}>
+        <div style={{ flex: 1, padding: isMobile ? '1.5rem' : '2.5rem 2.5rem 2.5rem 2rem', display: 'flex', flexDirection: 'column', gap: '1.4rem' }}>
           <div>
             <div style={{ fontSize: '0.5rem', letterSpacing: '0.3em', color: 'var(--accent)', textTransform: 'uppercase', fontFamily: 'Jost,sans-serif', marginBottom: '0.6rem', opacity: 0.7 }}>LEEZOO — EDGE COLLECTION</div>
             <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2.2rem', letterSpacing: '0.06em', lineHeight: 1, marginBottom: '0.6rem' }}>{product.name}</h2>

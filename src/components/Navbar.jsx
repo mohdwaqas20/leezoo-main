@@ -14,6 +14,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
   const [shopOpen, setShopOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isCompact, setIsCompact] = useState(false); // true on tablet + mobile (≤768px)
 
   // Search state
   const [searchOpen, setSearchOpen] = useState(false);
@@ -81,6 +82,14 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // ── compact mode (tablet + mobile ≤768px) ──
+  useEffect(() => {
+    const check = () => setIsCompact(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, []);
 
   // ── close dropdowns on outside click ──
@@ -298,7 +307,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         position: 'sticky', top: 0, zIndex: 200,
         background: scrolled ? 'rgba(240,230,216,0.97)' : 'rgba(245,237,224,0.92)',
         borderBottom: '1px solid var(--border)', backdropFilter: 'blur(12px)',
-        display: 'grid', gridTemplateColumns: '1fr auto 1fr',
+        display: 'grid', gridTemplateColumns: isCompact ? 'auto 1fr' : '1fr auto 1fr',
         alignItems: 'center', padding: '0 clamp(1rem,3vw,3rem)', height: 64, transition: 'background 0.3s',
       }}>
 
@@ -355,7 +364,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         </div>
 
         {/* Center logo */}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: isCompact ? 'flex-start' : 'center' }}>
           <button onClick={() => { setShopOpen(false); setServicesOpen(false); onNavigate?.('home'); }} style={{
             background: 'none', border: 'none', cursor: 'pointer', padding: 0, height: 'auto'
           }}>
