@@ -50,11 +50,11 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
   }, []);
 
   const productImages = [
-    product.image_url || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=800&fit=crop',
-    'https://images.unsplash.com/photo-1503341455253-b2e723bb12d5?w=800&h=800&fit=crop',
-    'https://images.unsplash.com/photo-1618354691551-418cb14ba0c0?w=800&h=800&fit=crop',
-    'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&h=800&fit=crop',
-  ];
+    product.image_url,
+    product.img_url_1,
+    product.img_url_2,
+    product.img_url_3,
+  ].filter(Boolean);
 
   const requireAuth = (action) => {
     if (!user) { setAuthPrompt(true); return; }
