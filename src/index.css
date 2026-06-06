@@ -71,6 +71,24 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
 }
 
 /* ═══════════════════════════════════════
+   TABLET / IPAD — 769px to 1024px
+   Navbar only — mobile & desktop untouched
+═══════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  /* Tighter announcement bar */
+  nav + * > div:first-child,
+  [style*="var(--accent)"][style*="0.45rem"] {
+    font-size: 0.52rem !important;
+    letter-spacing: 0.12em !important;
+    padding: 0.35rem 0.5rem !important;
+  }
+
+  /* Nav account chevron — hide text label via class */
+  .nav-display-name { display: none !important; }
+}
+
+/* ═══════════════════════════════════════
    MOBILE RESPONSIVE — max 768px
 ═══════════════════════════════════════ */
 @media (max-width: 768px) {
@@ -99,10 +117,18 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
   /* Footer about section */
   #about { grid-template-columns: 1fr !important; }
 
-  /* Stats row wrap */
-  [style*="gap: '3rem'"][style*="marginTop: '3rem'"] {
-    gap: 1.5rem !important;
-    flex-wrap: wrap !important;
+  /* Hide the dark logo panel on mobile — it has no height and shows as a sliver */
+  #about > div:last-child { display: none !important; }
+
+  /* Stats row — reduce gap so 100% / CUSTOM / INDIA all fit */
+  #about > div:first-child > div:last-child {
+    gap: 1.2rem !important;
+    flex-wrap: nowrap !important;
+  }
+
+  /* Stat numbers slightly smaller on SE */
+  #about > div:first-child > div:last-child span:first-child {
+    font-size: 2rem !important;
   }
 
   /* Section paddings */

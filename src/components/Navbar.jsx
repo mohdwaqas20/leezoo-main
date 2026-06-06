@@ -14,7 +14,8 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
   const [shopOpen, setShopOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isCompact, setIsCompact] = useState(false); // true on tablet + mobile (≤768px)
+  const [isCompact, setIsCompact] = useState(false); // true on mobile (≤768px)
+  const [isTablet, setIsTablet] = useState(false);   // true on iPad (769px–1024px)
 
   // Search state
   const [searchOpen, setSearchOpen] = useState(false);
@@ -39,8 +40,8 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
     border: 'none',
     borderBottom: '1px solid transparent',
     fontFamily: 'Jost, sans-serif',
-    fontSize: '0.68rem',
-    letterSpacing: '0.22em',
+    fontSize: isTablet ? '0.58rem' : '0.68rem',
+    letterSpacing: isTablet ? '0.14em' : '0.22em',
     textTransform: 'uppercase',
     color: 'var(--dark)',
     cursor: 'pointer',
@@ -84,9 +85,13 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // ── compact mode (tablet + mobile ≤768px) ──
+  // ── compact mode (mobile ≤768px only) ──
   useEffect(() => {
-    const check = () => setIsCompact(window.innerWidth <= 768);
+    const check = () => {
+      const w = window.innerWidth;
+      setIsCompact(w <= 768);
+      setIsTablet(w >= 769 && w <= 1024);
+    };
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
@@ -308,11 +313,14 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         background: scrolled ? 'rgba(240,230,216,0.97)' : 'rgba(245,237,224,0.92)',
         borderBottom: '1px solid var(--border)', backdropFilter: 'blur(12px)',
         display: 'grid', gridTemplateColumns: isCompact ? 'auto 1fr' : '1fr auto 1fr',
-        alignItems: 'center', padding: isCompact ? '0 0.75rem' : '0 clamp(1rem,3vw,3rem)', height: 64, transition: 'background 0.3s',
+        alignItems: 'center',
+        padding: isCompact ? '0 0.75rem' : isTablet ? '0 1.25rem' : '0 clamp(1rem,3vw,3rem)',
+        height: isTablet ? 58 : 64,
+        transition: 'background 0.3s',
       }}>
 
         {/* Left: nav links */}
-        <div className="desktop-only" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+        <div className="desktop-only" style={{ display: 'flex', gap: isTablet ? '1rem' : '2rem', alignItems: 'center' }}>
           {currentPage !== 'home' && (
             <button
               onClick={() => onNavigate?.('home')}
@@ -372,7 +380,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
               src="https://tpsjxaqxsedgshxiqvst.supabase.co/storage/v1/object/public/Web%20images%20Home%20LEEZOO/LEEZOO%20Logo.png"
               alt="LEEZOO"
               style={{
-                height: isCompact ? '32px' : '45px',
+                height: isCompact ? '32px' : isTablet ? '36px' : '45px',
                 width: 'auto',
                 objectFit: 'contain',
                 transition: 'opacity 0.3s, transform 0.3s',
@@ -390,7 +398,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         </div>
 
         {/* Right icons */}
-        <div style={{ display: 'flex', gap: isCompact ? '0.85rem' : '1.5rem', alignItems: 'center', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', gap: isCompact ? '0.85rem' : isTablet ? '0.9rem' : '1.5rem', alignItems: 'center', justifyContent: 'flex-end' }}>
 
           {/* Account Menu Section */}
           {user ? (
@@ -410,8 +418,8 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
                 onMouseLeave={e => e.currentTarget.style.background = 'none'}
               >
                 <span style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--accent)', color: '#F0E6D8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.68rem', fontWeight: 700, fontFamily: 'Jost,sans-serif', flexShrink: 0 }}>{avatarLetter}</span>
-                <span className="nav-display-name" style={{ fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--dark)', opacity: 0.8, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName || user.email}</span>
-                <svg viewBox="0 0 10 6" style={{ width: 9, height: 9, stroke: 'var(--dark)', fill: 'none', strokeWidth: 1.5, opacity: 0.5, flexShrink: 0, transform: accountOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' }}><path d="M1 1l4 4 4-4" /></svg>
+                {!isCompact && !isTablet && <span className="nav-display-name" style={{ fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--dark)', opacity: 0.8, maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName || user.email}</span>}
+                {!isCompact && <svg viewBox="0 0 10 6" style={{ width: 9, height: 9, stroke: 'var(--dark)', fill: 'none', strokeWidth: 1.5, opacity: 0.5, flexShrink: 0, transform: accountOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' }}><path d="M1 1l4 4 4-4" /></svg>}
               </button>
 
               {accountOpen && (
