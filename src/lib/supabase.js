@@ -10,7 +10,10 @@ export const signUp = (email, password, name) =>
   supabase.auth.signUp({
     email,
     password,
-    options: { data: { full_name: name } },
+    options: {
+      data: { full_name: name },
+      emailRedirectTo: 'www.leezoo.in',
+    },
   });
 
 export const signIn = (email, password) =>
