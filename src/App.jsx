@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
@@ -36,6 +36,12 @@ function AppContent() {
     setPage(target);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    const goCheckout = () => handleNavigate('checkout');
+    window.addEventListener('leezoo:checkout', goCheckout);
+    return () => window.removeEventListener('leezoo:checkout', goCheckout);
+  }, []);
 
   const renderPage = () => {
     switch (page) {

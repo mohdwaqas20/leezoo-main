@@ -44,7 +44,7 @@ const label = {
 };
 
 export default function ProductDetailPage({ product, onBack, onViewProduct, allProducts = [] }) {
-  const { addItem }           = useCart();
+  const { addItem, openDrawer } = useCart();
   const { toggleWishlist, isWishlisted } = useWishlist();
   const { user }              = useAuth();
   const { placeOrder }        = useOrders();
@@ -88,39 +88,10 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
   };
 
   const handleBuyNow = () => {
-    requireAuth(async () => {
+    requireAuth(() => {
       if (!selectedSize) { setSizeError(true); setTimeout(() => setSizeError(false), 1800); return; }
-      setBuyingNow(true);
-      try {
-        const loaded = await loadRazorpayScript();
-        if (!loaded) { alert('Failed to load payment gateway. Please check your connection.'); setBuyingNow(false); return; }
-        const options = {
-          key: RAZORPAY_KEY_ID,
-          amount: product.price * 100,
-          currency: 'INR',
-          name: 'LEEZOO',
-          description: `${product.name} — Size: ${selectedSize}`,
-          image: '/leezoo-logo.png',
-          prefill: { name: user.user_metadata?.full_name || '', email: user.email || '' },
-          theme: { color: '#231F1A' },
-          modal: { ondismiss: () => setBuyingNow(false) },
-          handler: async (response) => {
-            try {
-              await placeOrder([{ ...product, size: selectedSize, qty: 1 }], product.price, {
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_signature: response.razorpay_signature,
-              });
-              alert(`Payment successful! 🎉\nPayment ID: ${response.razorpay_payment_id}\nYour order has been placed.`);
-            } catch (e) {
-              alert('Payment received but order save failed. Contact support with Payment ID: ' + response.razorpay_payment_id);
-            } finally { setBuyingNow(false); }
-          },
-        };
-        const rzp = new window.Razorpay(options);
-        rzp.on('payment.failed', (r) => { alert('Payment failed: ' + (r.error?.description || 'Unknown error')); setBuyingNow(false); });
-        rzp.open();
-      } catch (e) { alert('Error initiating payment: ' + e.message); setBuyingNow(false); }
+      addItem({ ...product, size: selectedSize, quantity: 1 });
+      window.dispatchEvent(new CustomEvent('leezoo:checkout'));
     });
   };
 
@@ -254,22 +225,20 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
               {added ? '✓  Added to Bag' : 'Add to Bag'}
             </button>
 
-            {/* Buy Now — triggers Razorpay */}
+            {/* Proceed to Checkout — adds to cart and navigates to checkout */}
             <button onClick={handleBuyNow}
-              disabled={buyingNow}
               style={{
                 width:'100%', padding:'1.1rem',
-                background: buyingNow ? T.border : T.accent,
-                color:'#1a0f00',
-                border:'none', cursor: buyingNow ? 'wait' : 'pointer',
+                background: T.dark,
+                color:'#F5EDE0',
+                border:'none', cursor: 'pointer',
                 fontFamily:'Jost,sans-serif', fontSize:'0.8rem',
-                fontWeight:600, letterSpacing:'0.18em', textTransform:'uppercase',
+                fontWeight:600, letterSpacing:'0.22em', textTransform:'uppercase',
                 transition:'background 0.25s',
-                opacity: buyingNow ? 0.7 : 1,
               }}
-              onMouseEnter={(e) => { if (!buyingNow) e.currentTarget.style.background = '#b8922a'; }}
-              onMouseLeave={(e) => { if (!buyingNow) e.currentTarget.style.background = T.accent; }}>
-              {buyingNow ? 'Opening Payment…' : '⚡ Buy Now'}
+              onMouseEnter={(e) => { e.currentTarget.style.background = T.accent; e.currentTarget.style.color = '#1a0f00'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = T.dark; e.currentTarget.style.color = '#F5EDE0'; }}>
+              Proceed to Checkout →
             </button>
           </div>
 
