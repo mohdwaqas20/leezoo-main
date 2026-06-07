@@ -1,4 +1,27 @@
+import { useEffect } from 'react';
+
+const mobileStyles = `
+@media (max-width: 768px) {
+  .policy-hero { padding: 5rem 1.5rem 2.5rem !important; }
+  .policy-hero h1 { font-size: clamp(2.4rem, 11vw, 3.5rem) !important; }
+  .policy-content { padding: 2.5rem 1.5rem !important; }
+  .policy-section-body { padding-left: 0 !important; }
+  .policy-section-heading { gap: 0.8rem !important; flex-wrap: wrap !important; }
+  .policy-contact-box { padding: 1.5rem !important; }
+  .shipping-cards { grid-template-columns: 1fr !important; }
+  .shipping-card { border-right: none !important; border-bottom: 1px solid var(--border) !important; padding: 1.5rem !important; }
+}
+`;
+
 export default function ShippingPolicy({ onBack }) {
+  useEffect(() => {
+    if (!document.getElementById('policy-mobile-css')) {
+      const style = document.createElement('style');
+      style.id = 'policy-mobile-css';
+      style.textContent = mobileStyles;
+      document.head.appendChild(style);
+    }
+  }, []);
   return <PolicyPage title="Shipping Policy" onBack={onBack} sections={shippingContent} lastUpdated="May 2026" />;
 }
 
@@ -6,7 +29,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
   return (
     <div style={{ background: 'var(--sand)', minHeight: '100vh', color: 'var(--dark)' }}>
       {/* Hero */}
-      <div style={{ background: 'var(--sand)', color: 'var(--ink)', padding: '6rem 4rem 4rem', borderBottom: '1px solid rgba(122,92,63,0.2)' }}>
+      <div className="policy-hero" style={{ background: 'var(--sand)', color: 'var(--ink)', padding: '6rem 4rem 4rem', borderBottom: '1px solid rgba(122,92,63,0.2)' }}>
         <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--brown)', fontFamily: 'Jost,sans-serif', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', padding: 0 }}>
           ← Back to Home
         </button>
@@ -21,26 +44,24 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
       </div>
 
       {/* Highlight cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', borderBottom: '1px solid var(--border-light)' }}>
+      <div className="shipping-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', borderBottom: '1px solid var(--border-light)' }}>
         {[
           { label: 'Standard Delivery', value: '3–7 Business Days', sub: 'Pan India' },
           { label: 'Express Delivery', value: '1–3 Business Days', sub: 'Select Pincodes' },
           { label: 'Free Shipping', value: 'Orders Above ₹499', sub: 'Within India' },
         ].map(card => (
-          <div key={card.label} style={{ padding: '3rem 4rem', borderRight: '1px solid var(--border)' }}>
+          <div className="shipping-card" key={card.label} style={{ padding: '3rem 4rem', borderRight: '1px solid var(--border)' }}>
             <p style={{ fontSize: '0.55rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '0.8rem' }}>{card.label}</p>
             <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2rem', letterSpacing: '0.05em', color: 'var(--dark)', marginBottom: '0.3rem' }}>{card.value}</p>
-            {/* FIXED: Swapped subtext color from white-mix to crisp dark-mix */}
             <p style={{ fontSize: '0.65rem', color: 'rgba(26,20,10,0.5)', letterSpacing: '0.08em' }}>{card.sub}</p>
           </div>
         ))}
       </div>
 
       {/* Content */}
-      <div style={{ maxWidth: 860, margin: '0 auto', padding: '5rem 4rem' }}>
+      <div className="policy-content" style={{ maxWidth: 860, margin: '0 auto', padding: '5rem 4rem' }}>
         {/* Intro */}
         <div style={{ marginBottom: '4rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
-          {/* FIXED: Changed text color to clear dark contrast */}
           <p style={{ fontSize: '0.85rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
             <strong style={{ color: 'var(--dark)' }}>LEEZOO </strong>Company, delivers products across India and selected international regions.
             Shipping charges and delivery timelines are displayed during checkout.
@@ -49,19 +70,17 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
 
         {sections.map((s, i) => (
           <div key={i} style={{ marginBottom: '3.5rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.2rem', marginBottom: '1.2rem' }}>
+            <div className="policy-section-heading" style={{ display: 'flex', alignItems: 'baseline', gap: '1.2rem', marginBottom: '1.2rem' }}>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1rem', color: 'var(--accent)', letterSpacing: '0.15em', flexShrink: 0 }}>{String(i + 1).padStart(2, '0')}</span>
               <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.6rem', letterSpacing: '0.08em', color: 'var(--dark)' }}>{s.heading}</h2>
             </div>
-            <div style={{ paddingLeft: '2.6rem' }}>
+            <div className="policy-section-body" style={{ paddingLeft: '2.6rem' }}>
               {s.body.map((para, j) => (
-                /* FIXED: Changed text color to clear dark contrast */
                 <p key={j} style={{ fontSize: '0.8rem', lineHeight: 2, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', marginBottom: '1rem' }}>{para}</p>
               ))}
               {s.bullets && (
                 <ul style={{ marginTop: '0.5rem', paddingLeft: '1.2rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {s.bullets.map((b, j) => (
-                    /* FIXED: Changed list text color to clear dark contrast */
                     <li key={j} style={{ fontSize: '0.78rem', lineHeight: 1.9, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', listStyleType: 'none', display: 'flex', gap: '0.8rem' }}>
                       <span style={{ color: 'var(--accent)', flexShrink: 0 }}>◈</span> {b}
                     </li>
@@ -73,9 +92,8 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         ))}
 
         {/* Support Block */}
-        <div style={{ background: 'rgba(196,153,90,0.06)', border: '1px solid rgba(196,153,90,0.2)', padding: '2.5rem', marginTop: '2rem' }}>
+        <div className="policy-contact-box" style={{ background: 'rgba(196,153,90,0.06)', border: '1px solid rgba(196,153,90,0.2)', padding: '2.5rem', marginTop: '2rem' }}>
           <h3 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.1em', color: 'var(--accent)', marginBottom: '1rem' }}>SHIPPING SUPPORT</h3>
-          {/* FIXED: Tuned fallback text color to a sharp dark blend */}
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
             For shipping queries, tracking issues, or delivery concerns:<br />
             <strong style={{ color: 'var(--dark)' }}>Email:</strong> leezoo.official2026@gmail.com<br />
@@ -119,7 +137,7 @@ const shippingContent = [
   {
     heading: 'Tracking Your Order',
     body: [
-      'Once your order is dispatched, you will receive a tracking number via email and/or WhatsApp. You can use this number on our logistics partner\'s website to monitor your shipment in real time.',
+      "Once your order is dispatched, you will receive a tracking number via email and/or WhatsApp. You can use this number on our logistics partner's website to monitor your shipment in real time.",
       'Tracking may take 24 hours to activate after dispatch.',
     ],
   },

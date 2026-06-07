@@ -1,7 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useOrders } from '../context/OrdersContext';
 import { useAuth } from '../context/AuthContext';
+
+// ─── Load Razorpay script once ────────────────────────────────────────────────
+function loadRazorpayScript() {
+  return new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
+
+// ─── YOUR RAZORPAY KEY ─────────────────────────────────────────────────────────
+// Replace with your actual Razorpay Key ID (starts with rzp_live_ or rzp_test_)
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_yourkeyhere';
 
 export default function CartDrawer() {
   const { items, total, count, drawerOpen, closeDrawer, removeItem, updateQty, clearCart } = useCart();
@@ -18,14 +34,67 @@ export default function CartDrawer() {
   const handlePlaceOrder = async () => {
     if (!user || placing) return;
     setPlacing(true);
+
     try {
-      await placeOrder(items, total);
-      await clearCart();
-      closeDrawer();
-      alert('Order placed! We will contact you to confirm.');
+      // 1. Load Razorpay SDK
+      const loaded = await loadRazorpayScript();
+      if (!loaded) {
+        alert('Failed to load payment gateway. Please check your connection.');
+        setPlacing(false);
+        return;
+      }
+
+      // 2. Open Razorpay checkout
+      // Razorpay amount is in PAISE (1 RS = 100 paise)
+      const options = {
+        key: RAZORPAY_KEY_ID,
+        amount: total * 100,           // in paise
+        currency: 'INR',
+        name: 'LEEZOO',
+        description: `Order of ${count} item${count !== 1 ? 's' : ''}`,
+        image: '/leezoo-logo.png',     // optional: your logo path
+        prefill: {
+          name: user.user_metadata?.full_name || '',
+          email: user.email || '',
+        },
+        theme: {
+          color: '#231F1A',            // matches LEEZOO's dark brand colour
+        },
+        modal: {
+          ondismiss: () => {
+            setPlacing(false);
+          },
+        },
+        handler: async (response) => {
+          // 3. Payment successful — save order to DB
+          try {
+            await placeOrder(items, total, {
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+            await clearCart();
+            closeDrawer();
+            alert(`Payment successful! 🎉\nPayment ID: ${response.razorpay_payment_id}\nYour order has been placed.`);
+          } catch (e) {
+            alert('Payment received but order save failed. Please contact support with Payment ID: ' + response.razorpay_payment_id);
+          } finally {
+            setPlacing(false);
+          }
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+
+      rzp.on('payment.failed', (response) => {
+        alert('Payment failed: ' + (response.error?.description || 'Unknown error'));
+        setPlacing(false);
+      });
+
+      rzp.open();
+
     } catch (e) {
-      alert('Error placing order: ' + e.message);
-    } finally {
+      alert('Error initiating payment: ' + e.message);
       setPlacing(false);
     }
   };
@@ -131,7 +200,7 @@ export default function CartDrawer() {
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.06em', color: 'var(--accent)' }}>RS {total}</span>
             </div>
 
-            {/* Place Order — only for logged-in users, saves to DB */}
+            {/* Place Order — triggers Razorpay payment, then saves to DB */}
             {user && (
               <button
                 onClick={handlePlaceOrder}
@@ -147,7 +216,7 @@ export default function CartDrawer() {
                 onMouseEnter={(e) => { if (!placing) e.currentTarget.style.background = 'var(--accent)'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--dark)'; }}
               >
-                {placing ? 'Placing Order…' : 'Place Order'}
+                {placing ? 'Opening Payment…' : 'Place Order'}
               </button>
             )}
 
@@ -165,7 +234,7 @@ export default function CartDrawer() {
             </button>
 
             <p style={{ fontSize: '0.55rem', letterSpacing: '0.12em', opacity: 0.3, textAlign: 'center', marginTop: '0.8rem' }}>
-              {user ? 'Order saved to your account · Free shipping above 499' : 'Sign in to save your order history'}
+              {user ? 'Secure payment · Free shipping above 499' : 'Sign in to save your order history'}
             </p>
           </div>
         )}

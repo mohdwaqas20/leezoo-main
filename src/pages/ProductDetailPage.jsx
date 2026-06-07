@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
@@ -41,12 +41,20 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
 
   const wishlisted = isWishlisted(product.id);
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   const productImages = [
-    product.image_url || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=800&fit=crop',
-    'https://images.unsplash.com/photo-1503341455253-b2e723bb12d5?w=800&h=800&fit=crop',
-    'https://images.unsplash.com/photo-1618354691551-418cb14ba0c0?w=800&h=800&fit=crop',
-    'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&h=800&fit=crop',
-  ];
+    product.image_url,
+    product.img_url_1,
+    product.img_url_2,
+    product.img_url_3,
+  ].filter(Boolean);
 
   const requireAuth = (action) => {
     if (!user) { setAuthPrompt(true); return; }
@@ -80,33 +88,30 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
     <div style={{ background: T.sand, color: T.dark, minHeight: '100vh' }}>
 
       {/* ── Sticky header ── */}
-      <div style={{ position:'sticky', top:0, zIndex:100, background:T.sand, borderBottom:`1px solid ${T.borderL}`, padding:'1.2rem 2rem', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+      <div style={{ position:'sticky', top:0, zIndex:100, background:T.sand, borderBottom:`1px solid ${T.borderL}`, padding: isMobile ? '1rem' : '1.2rem 2rem', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
         <button onClick={onBack}
           style={{ background:'transparent', border:`1px solid ${T.border}`, color:T.dark, padding:'0.55rem 1.4rem', cursor:'pointer', fontFamily:'Jost,sans-serif', fontSize:'0.72rem', fontWeight:400, letterSpacing:'0.14em', textTransform:'uppercase', transition:'all 0.2s' }}
           onMouseEnter={(e) => { e.currentTarget.style.background = T.accent; e.currentTarget.style.borderColor = T.accent; e.currentTarget.style.color = '#F5EDE0'; }}
           onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.dark; }}>
           ← Back
         </button>
-        <img
-          src="https://tpsjxaqxsedgshxiqvst.supabase.co/storage/v1/object/public/Web%20images%20Home%20LEEZOO/wear%20your%20edge.png"
-          alt="Wear Your Edge"
-          style={{ height:'52px', width:'auto', objectFit:'contain' }}
-        />
         <div style={{ width:80 }} />
       </div>
 
       {/* ── Main grid ── */}
-      <div style={{ display:'grid', gridTemplateColumns:'minmax(0,1fr) minmax(0,1fr)', gap:'3rem', padding:'2.5rem', maxWidth:'1400px', margin:'0 auto', alignItems:'start' }}>
+      <div style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr' : 'minmax(0,1fr) minmax(0,1fr)', gap: isMobile ? '0' : '3rem', padding: isMobile ? '1.2rem 1rem' : '2.5rem', maxWidth:'1400px', margin:'0 auto', alignItems:'start' }}>
 
         {/* Gallery */}
-        <div>
-          <div style={{ position:'relative', background:'var(--sand)', display:'flex', alignItems:'center', justifyContent:'center', minHeight:'600px', marginBottom:'1.2rem', overflow:'hidden' }}>
+        <div style={{ order: isMobile ? 1 : 0 }}>
+          {/* Big image */}
+          <div style={{ position:'relative', background:'var(--sand)', display:'flex', alignItems:'center', justifyContent:'center', minHeight: isMobile ? '300px' : '600px', marginBottom:'1.2rem', overflow:'hidden' }}>
             {product.badge && (
               <div style={{ position:'absolute', top:'1.2rem', left:'1.2rem', background: product.badge === 'Limited' ? '#1a1007' : T.accent, color: product.badge === 'Limited' ? '#F5EDE0' : '#1a0f00', fontSize:'0.62rem', fontWeight:600, letterSpacing:'0.18em', padding:'0.45rem 1rem', fontFamily:'Jost,sans-serif', textTransform:'uppercase', zIndex:10 }}>{product.badge}</div>
             )}
             <img src={productImages[mainImage]} alt={product.name} style={{ width:'100%', height:'100%', objectFit:'contain', padding:'2rem' }} />
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'0.75rem' }}>
+          {/* Thumbnails */}
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'0.75rem', marginBottom: isMobile ? '1.5rem' : '0' }}>
             {productImages.map((img, idx) => (
               <button key={idx} onClick={() => setMainImage(idx)}
                 style={{ background:'var(--sand)', border: mainImage===idx ? `2px solid ${T.accent}` : `1px solid ${T.border}`, cursor:'pointer', height:'110px', display:'flex', alignItems:'center', justifyContent:'center', padding:'0.5rem', transition:'border-color 0.2s' }}
@@ -119,7 +124,7 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
         </div>
 
         {/* ── Product info panel ── */}
-        <div style={{ display:'flex', flexDirection:'column', gap:'1.6rem' }}>
+        <div style={{ display:'flex', flexDirection:'column', gap:'1.6rem', order: isMobile ? 2 : 0 }}>
 
           {/* Title block */}
           <div>
@@ -256,16 +261,28 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
           .slice(0, 5);
         if (similarProducts.length === 0) return null;
         return (
-          <div style={{ borderTop:`1px solid ${T.borderL}`, padding:'4rem 2.5rem', marginTop:'1rem' }}>
+          <div style={{ borderTop:`1px solid ${T.borderL}`, padding: isMobile ? '3rem 1rem' : '4rem 2.5rem', marginTop:'1rem' }}>
             <div style={{ maxWidth:'1400px', margin:'0 auto' }}>
               <h2 style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:'2rem', letterSpacing:'0.06em', marginBottom:'2.5rem', textAlign:'center', color:T.dark }}>
                 YOU MAY ALSO LIKE
               </h2>
-              <div style={{ display:'grid', gridTemplateColumns:`repeat(${Math.min(similarProducts.length, 5)},1fr)`, gap:'1.5rem' }}>
-                {similarProducts.map((prod) => (
-                  <SimilarCard key={prod.id} prod={prod} onViewProduct={onViewProduct} />
-                ))}
-              </div>
+              {isMobile ? (
+                /* Mobile: horizontal scroll row */
+                <div style={{ display:'flex', gap:'1rem', overflowX:'auto', paddingBottom:'0.5rem', WebkitOverflowScrolling:'touch', scrollbarWidth:'none' }}>
+                  {similarProducts.map((prod) => (
+                    <div key={prod.id} style={{ minWidth:'60vw', maxWidth:'60vw', flexShrink:0 }}>
+                      <SimilarCard prod={prod} onViewProduct={onViewProduct} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                /* Desktop: unchanged grid */
+                <div style={{ display:'grid', gridTemplateColumns:`repeat(${Math.min(similarProducts.length, 5)},1fr)`, gap:'1.5rem' }}>
+                  {similarProducts.map((prod) => (
+                    <SimilarCard key={prod.id} prod={prod} onViewProduct={onViewProduct} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         );

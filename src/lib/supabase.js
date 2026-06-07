@@ -85,7 +85,13 @@ export const clearCartDb = async (userId) => {
 };
 
 // ─── Orders ──────────────────────────────────────────────────────
-export const createOrder = async (orderData, orderItems) => {
+export const createOrder = async (orderData, orderItems, paymentDetails = {}) => {
+  // Merge Razorpay payment info into the order row if available
+  if (paymentDetails.razorpay_payment_id) {
+    orderData.payment_id = paymentDetails.razorpay_payment_id;
+    orderData.payment_status = 'paid';
+    orderData.status = 'confirmed';
+  }
   // Insert order
   const { data: order, error: orderError } = await supabase
     .from('orders')

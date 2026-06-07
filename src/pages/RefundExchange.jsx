@@ -1,4 +1,30 @@
+import { useEffect } from 'react';
+
+const mobileStyles = `
+@media (max-width: 768px) {
+  .policy-hero { padding: 5rem 1.5rem 2.5rem !important; }
+  .policy-hero h1 { font-size: clamp(2.4rem, 11vw, 3.5rem) !important; }
+  .policy-content { padding: 2.5rem 1.5rem !important; }
+  .policy-section-body { padding-left: 0 !important; }
+  .policy-section-heading { gap: 0.8rem !important; flex-wrap: wrap !important; }
+  .policy-contact-box { padding: 1.5rem !important; }
+  .refund-cards { grid-template-columns: 1fr 1fr !important; }
+  .refund-card { border-right: none !important; border-bottom: 1px solid var(--border) !important; padding: 1.2rem 1rem !important; }
+}
+@media (max-width: 480px) {
+  .refund-cards { grid-template-columns: 1fr !important; }
+}
+`;
+
 export default function RefundExchange({ onBack }) {
+  useEffect(() => {
+    if (!document.getElementById('policy-mobile-css')) {
+      const style = document.createElement('style');
+      style.id = 'policy-mobile-css';
+      style.textContent = mobileStyles;
+      document.head.appendChild(style);
+    }
+  }, []);
   return <PolicyPage title="Refund & Exchange" onBack={onBack} sections={refundContent} lastUpdated="May 2026" />;
 }
 
@@ -6,7 +32,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
   return (
     <div style={{ background: 'var(--sand)', minHeight: '100vh', color: 'var(--dark)' }}>
       {/* Hero */}
-      <div style={{ background: 'var(--sand)', color: 'var(--ink)', padding: '6rem 4rem 4rem', borderBottom: '1px solid rgba(122,92,63,0.2)' }}>
+      <div className="policy-hero" style={{ background: 'var(--sand)', color: 'var(--ink)', padding: '6rem 4rem 4rem', borderBottom: '1px solid rgba(122,92,63,0.2)' }}>
         <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--brown)', fontFamily: 'Jost,sans-serif', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', padding: 0 }}>
           ← Back to Home
         </button>
@@ -21,27 +47,25 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
       </div>
 
       {/* Quick Reference Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderBottom: '1px solid var(--border-light)' }}>
+      <div className="refund-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderBottom: '1px solid var(--border-light)' }}>
         {[
           { label: 'Return Window', value: '7 Days', sub: 'From delivery date' },
           { label: 'Exchange Window', value: '10 Days', sub: 'Size or colour swap' },
           { label: 'Refund Timeline', value: '5–7 Days', sub: 'After approval' },
           { label: 'Custom Orders', value: 'Non-Refundable', sub: 'Defects excepted' },
         ].map(card => (
-          <div key={card.label} style={{ padding: '2.5rem 3rem', borderRight: '1px solid var(--border)' }}>
+          <div className="refund-card" key={card.label} style={{ padding: '2.5rem 3rem', borderRight: '1px solid var(--border)' }}>
             <p style={{ fontSize: '0.52rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '0.8rem' }}>{card.label}</p>
             <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.6rem', letterSpacing: '0.05em', color: 'var(--dark)', marginBottom: '0.3rem', lineHeight: 1.1 }}>{card.value}</p>
-            {/* FIXED: Swapped card subtext color from white-mix to crisp dark-mix */}
             <p style={{ fontSize: '0.62rem', color: 'rgba(26,20,10,0.5)', letterSpacing: '0.08em' }}>{card.sub}</p>
           </div>
         ))}
       </div>
 
       {/* Content */}
-      <div style={{ maxWidth: 860, margin: '0 auto', padding: '5rem 4rem' }}>
+      <div className="policy-content" style={{ maxWidth: 860, margin: '0 auto', padding: '5rem 4rem' }}>
         {/* Intro */}
         <div style={{ marginBottom: '4rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
-          {/* FIXED: Changed text color to clear dark contrast */}
           <p style={{ fontSize: '0.85rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
             At <strong style={{ color: 'var(--dark)' }}>LEEZOO </strong>, we stand behind the quality of everything we make. If something isn't right, we want to fix it. Please review this policy carefully to understand your options in case of returns, exchanges, or refund requests.
           </p>
@@ -49,19 +73,17 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
 
         {sections.map((s, i) => (
           <div key={i} style={{ marginBottom: '3.5rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.2rem', marginBottom: '1.2rem' }}>
+            <div className="policy-section-heading" style={{ display: 'flex', alignItems: 'baseline', gap: '1.2rem', marginBottom: '1.2rem' }}>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1rem', color: 'var(--accent)', letterSpacing: '0.15em', flexShrink: 0 }}>{String(i + 1).padStart(2, '0')}</span>
               <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.6rem', letterSpacing: '0.08em', color: 'var(--dark)' }}>{s.heading}</h2>
             </div>
-            <div style={{ paddingLeft: '2.6rem' }}>
+            <div className="policy-section-body" style={{ paddingLeft: '2.6rem' }}>
               {s.body.map((para, j) => (
-                /* FIXED: Changed text color to clear dark contrast */
                 <p key={j} style={{ fontSize: '0.8rem', lineHeight: 2, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', marginBottom: '1rem' }}>{para}</p>
               ))}
               {s.bullets && (
                 <ul style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', paddingLeft: '1.2rem' }}>
                   {s.bullets.map((b, j) => (
-                    /* FIXED: Changed list text color to clear dark contrast */
                     <li key={j} style={{ fontSize: '0.78rem', lineHeight: 1.9, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', listStyleType: 'none', display: 'flex', gap: '0.8rem' }}>
                       <span style={{ color: 'var(--accent)', flexShrink: 0 }}>◈</span> {b}
                     </li>
@@ -73,9 +95,8 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         ))}
 
         {/* WhatsApp CTA */}
-        <div style={{ background: 'rgba(191,160,106,0.08)', border: '1px solid rgba(191,160,106,0.25)', padding: '2.5rem', marginTop: '2rem' }}>
+        <div className="policy-contact-box" style={{ background: 'rgba(191,160,106,0.08)', border: '1px solid rgba(191,160,106,0.25)', padding: '2.5rem', marginTop: '2rem' }}>
           <h3 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.1em', color: 'var(--dark)', marginBottom: '1rem' }}>RAISE A RETURN REQUEST</h3>
-          {/* FIXED: Changed description text color to clear dark contrast */}
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>
             To initiate a return or exchange, reach us within your eligible window:<br />
             <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746| +91-9118604515<br />
@@ -142,7 +163,7 @@ const refundContent = [
     ],
     bullets: [
       'UPI / Bank Transfer: 2–5 business days.',
-      'Credit/Debit Card: 5–7 business days (subject to your bank\'s processing time).',
+      "Credit/Debit Card: 5–7 business days (subject to your bank's processing time).",
       'Wallet / Net Banking: 3–5 business days.',
       'Cash on Delivery orders: refund issued via bank transfer after verification.',
     ],
@@ -156,7 +177,7 @@ const refundContent = [
   {
     heading: 'Bulk Order Returns',
     body: [
-      'Bulk or wholesale orders (10+ units) follow a separate returns process. Issues must be reported within 5 days of delivery. Replacement or credit will be offered at LEEZOO\'s discretion after product inspection. Contact us directly for bulk return arrangements.',
+      "Bulk or wholesale orders (10+ units) follow a separate returns process. Issues must be reported within 5 days of delivery. Replacement or credit will be offered at LEEZOO's discretion after product inspection. Contact us directly for bulk return arrangements.",
     ],
   },
 ];
