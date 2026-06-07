@@ -1,11 +1,87 @@
 import { useState, useEffect } from 'react';
 
+const contactMobileStyles = `
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 2.5rem 1.2rem !important;
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .contact-section > div {
+    overflow: hidden !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .contact-details {
+    gap: 1.4rem !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  .contact-item {
+    gap: 0.8rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+  .contact-item > div {
+    overflow: hidden !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+  .contact-item-icon {
+    font-size: 0.9rem !important;
+    margin-top: 0.15rem !important;
+    flex-shrink: 0 !important;
+  }
+  .contact-item-label {
+    font-size: 0.5rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+  .contact-item-value {
+    font-size: 0.72rem !important;
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+    line-height: 1.7 !important;
+    display: block !important;
+    max-width: 100% !important;
+  }
+  .contact-item-sub {
+    font-size: 0.6rem !important;
+  }
+  .contact-btns {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+  .contact-btn-send,
+  .contact-btn-wa {
+    width: 100% !important;
+    text-align: center !important;
+    padding: 0.9rem 1rem !important;
+    box-sizing: border-box !important;
+    display: block !important;
+  }
+}
+`;
+
 export default function Footer({ onNavigate }) {
   const [feedback, setFeedback] = useState({ name: '', email: '', rating: 0, message: '' });
   const [contact, setContact] = useState({ name: '', email: '', phone: '', message: '' });
   const [hoverStar, setHoverStar] = useState(0);
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [contactSent, setContactSent] = useState(false);
+
+  useEffect(() => {
+    if (!document.getElementById('contact-mobile-css')) {
+      const style = document.createElement('style');
+      style.id = 'contact-mobile-css';
+      style.textContent = contactMobileStyles;
+      document.head.appendChild(style);
+    }
+  }, []);
   useEffect(() => {
     if (contactSent) {
       const timer = setTimeout(() => {
@@ -493,7 +569,7 @@ export default function Footer({ onNavigate }) {
       </section>
 
       {/* ── Contact Us ── */}
-      <section id="contact-us" style={{ padding: 'clamp(3rem,6vw,6rem) clamp(1rem,4vw,4rem)', borderBottom: '1px solid rgba(122, 87, 64, 0.15)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'clamp(2rem,4vw,6rem)', alignItems: 'start', background: 'linear-gradient(135deg, #F5EDE0 0%, #EAD8C2 100%)' }}>
+      <section id="contact-us" className="contact-section" style={{ padding: 'clamp(3rem,6vw,6rem) clamp(1rem,4vw,4rem)', borderBottom: '1px solid rgba(122, 87, 64, 0.15)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'clamp(2rem,4vw,6rem)', alignItems: 'start', background: 'linear-gradient(135deg, #F5EDE0 0%, #EAD8C2 100%)' }}>
         {/* Left — contact info */}
         <div>
           <p style={{ fontSize: '0.6rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: '#7A5740', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
@@ -509,7 +585,7 @@ export default function Footer({ onNavigate }) {
           </p>
 
           {/* Contact details */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.8rem' }}>
+          <div className="contact-details" style={{ display: 'flex', flexDirection: 'column', gap: '1.8rem' }}>
             {[
               {
                 icon: '◉',
@@ -547,19 +623,19 @@ export default function Footer({ onNavigate }) {
                 href: 'https://wa.me/919984090593',
               },
             ].map(item => (
-              <div key={item.label} style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
-                <span style={{ color: '#BFA06A', fontSize: '1.2rem', marginTop: '0.2rem', flexShrink: 0 }}>{item.icon}</span>
+              <div key={item.label} className="contact-item" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+                <span className="contact-item-icon" style={{ color: '#BFA06A', fontSize: '1.2rem', marginTop: '0.2rem', flexShrink: 0 }}>{item.icon}</span>
                 <div>
-                  <p style={{ fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#7A5740', marginBottom: '0.3rem', fontWeight: 600 }}>{item.label}</p>
+                  <p className="contact-item-label" style={{ fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#7A5740', marginBottom: '0.3rem', fontWeight: 600 }}>{item.label}</p>
                   {item.href ? (
-                    <a href={item.href} style={{ fontSize: '0.85rem', color: '#2C1F14', textDecoration: 'none', letterSpacing: '0.04em', transition: 'color 0.2s', fontWeight: 500 }}
+                    <a href={item.href} className="contact-item-value" style={{ fontSize: '0.85rem', color: '#2C1F14', textDecoration: 'none', letterSpacing: '0.04em', transition: 'color 0.2s', fontWeight: 500 }}
                       onMouseEnter={e => e.target.style.color = '#BFA06A'}
                       onMouseLeave={e => e.target.style.color = '#2C1F14'}
                     >{item.value}</a>
                   ) : (
-                    <p style={{ fontSize: '0.85rem', color: '#2C1F14', letterSpacing: '0.04em', fontWeight: 500 }}>{item.value}</p>
+                    <p className="contact-item-value" style={{ fontSize: '0.85rem', color: '#2C1F14', letterSpacing: '0.04em', fontWeight: 500 }}>{item.value}</p>
                   )}
-                  <p style={{ fontSize: '0.7rem', color: '#7A5740', marginTop: '0.3rem', letterSpacing: '0.04em' }}>{item.sub}</p>
+                  <p className="contact-item-sub" style={{ fontSize: '0.7rem', color: '#7A5740', marginTop: '0.3rem', letterSpacing: '0.04em' }}>{item.sub}</p>
                 </div>
               </div>
             ))}
@@ -668,9 +744,10 @@ export default function Footer({ onNavigate }) {
                   onBlur={e => e.target.style.borderColor = 'rgba(122, 87, 64, 0.25)'}
                 />
               </div>
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <div className="contact-btns" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                 <button
                   onClick={() => { if (contact.name && contact.message) setContactSent(true); }}
+                  className="contact-btn-send"
                   style={{
                     background: '#BFA06A', color: '#FFFFFF',
                     border: 'none', padding: '0.95rem 2.5rem',
@@ -681,11 +758,13 @@ export default function Footer({ onNavigate }) {
                   onMouseEnter={e => { e.target.style.background = '#A0896D'; e.target.style.transform = 'translateY(-2px)'; }}
                   onMouseLeave={e => { e.target.style.background = '#BFA06A'; e.target.style.transform = 'translateY(0)'; }}
                 >Send Message →</button>
-                <a href="https://wa.me/919984090593" target="_blank" rel="noreferrer" style={{
-                  border: '1px solid #BFA06A', padding: '0.95rem 1.8rem',
-                  fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase',
-                  color: 'var(--dark)', textDecoration: 'none', transition: 'all 0.3s', borderRadius: '4px', fontWeight: 500,
-                }}
+                <a href="https://wa.me/919984090593" target="_blank" rel="noreferrer"
+                  className="contact-btn-wa"
+                  style={{
+                    border: '1px solid #BFA06A', padding: '0.95rem 1.8rem',
+                    fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase',
+                    color: 'var(--dark)', textDecoration: 'none', transition: 'all 0.3s', borderRadius: '4px', fontWeight: 500,
+                  }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.backgroundColor = 'var(--accent)'; e.currentTarget.style.color = '#1a0f00'; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = '#BFA06A'; e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'var(--dark)'; }}
                 >WhatsApp Us</a>

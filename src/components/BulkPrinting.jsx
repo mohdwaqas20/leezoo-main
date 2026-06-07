@@ -89,9 +89,9 @@ export default function BulkPrinting() {
           <p style={{ fontSize: '0.82rem', lineHeight: 2, color: 'rgba(42,31,20,0.7)', letterSpacing: '0.04em', maxWidth: 520, marginBottom: '3rem' }}>
             From a single piece to large-volume runs — LEEZOO's bulk custom printing supports businesses, events, vendors, and organisations across India and beyond. Premium print quality at competitive wholesale pricing. No minimum order. No hassle.
           </p>
-          <div className="bulk-highlights" style={{ display: isMobile ? 'grid' : 'flex', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : undefined, gap: isMobile ? '1.5rem' : '3rem', flexWrap: 'wrap' }}>
+          <div className="bulk-highlights" style={{ display: isMobile ? 'grid' : 'flex', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : undefined, gap: isMobile ? '1.5rem' : '3rem', flexWrap: 'wrap', justifyItems: isMobile ? 'center' : undefined }}>
             {highlights.map(({ val, sub }) => (
-              <div key={sub}>
+              <div key={sub} style={{ textAlign: isMobile ? 'center' : 'left' }}>
                 <span style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: 'italic', fontSize: '2.2rem', color: 'var(--brown)', display: 'block', lineHeight: 1, letterSpacing: '0.02em' }}>{val}</span>
                 <span style={{ fontSize: '0.52rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(42,31,20,0.55)', marginTop: '0.4rem', display: 'block' }}>{sub}</span>
               </div>
