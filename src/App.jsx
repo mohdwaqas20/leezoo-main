@@ -21,6 +21,7 @@ import ShippingPolicy from './pages/ShippingPolicy';
 import RefundExchange from './pages/RefundExchange';
 import CustomizationPolicy from './pages/CustomizationPolicy';
 import ProductDetailPage from './pages/ProductDetailPage';
+import CheckoutPage from './pages/CheckoutPage';
 import { useProducts } from './hooks/useProducts';
 
 function AppContent() {
@@ -38,10 +39,17 @@ function AppContent() {
 
   const renderPage = () => {
     switch (page) {
+      case 'checkout':
+        return (
+          <CheckoutPage
+            onBack={() => handleNavigate('home')}
+            onSuccess={() => handleNavigate('home')}
+          />
+        );
       case 'product-detail':
         return selectedProduct ? (
-          <ProductDetailPage 
-            product={selectedProduct} 
+          <ProductDetailPage
+            product={selectedProduct}
             onBack={() => { setSelectedProduct(null); setPage('home'); }}
             onViewProduct={(product) => { setSelectedProduct(product); setPage('product-detail'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             allProducts={[...menProducts, ...womenProducts]}
@@ -122,7 +130,8 @@ function AppContent() {
         onNavigate={handleNavigate}
         currentPage={page}
       />
-      <CartDrawer />
+      {/* Pass onCheckout to CartDrawer so "Proceed to Checkout" navigates to the page */}
+      <CartDrawer onCheckout={() => handleNavigate('checkout')} />
       {renderPage()}
       {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
     </>

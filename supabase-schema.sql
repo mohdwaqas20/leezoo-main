@@ -114,3 +114,15 @@ alter table cart_items enable row level security;
 create policy "Users manage own cart"
   on cart_items for all using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
+-- ── CHECKOUT FIELDS (add if upgrading existing DB) ───────────────
+-- Run these ALTER statements if the orders table already exists:
+alter table orders add column if not exists delivery_address text;
+alter table orders add column if not exists phone text;
+alter table orders add column if not exists payment_method text default 'online';
+alter table orders add column if not exists payment_status text default 'pending';
+alter table orders add column if not exists payment_id text;
+
+-- Allow guest orders (null user_id) to be inserted
+-- If RLS is blocking guest inserts, add this policy:
+create policy if not exists "Allow guest order inserts"
+  on orders for insert with check (user_id is null);
