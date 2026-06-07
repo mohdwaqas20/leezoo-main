@@ -40,14 +40,15 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
     border: 'none',
     borderBottom: '1px solid transparent',
     fontFamily: 'Jost, sans-serif',
-    fontSize: isTablet ? '0.58rem' : '0.68rem',
-    letterSpacing: isTablet ? '0.14em' : '0.22em',
+    fontSize: isTablet ? '0.5rem' : '0.68rem',
+    letterSpacing: isTablet ? '0.08em' : '0.22em',
     textTransform: 'uppercase',
     color: 'var(--dark)',
     cursor: 'pointer',
     opacity: 0.55,
     padding: '0.4rem 0',
     transition: 'opacity 0.25s, border-color 0.25s',
+    whiteSpace: 'nowrap',
   };
 
   const dropdownItemStyle = {
@@ -262,9 +263,9 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         <button onClick={() => setMenuOpen(false)} style={{
           position: 'absolute', top: '2rem', right: '3rem', background: 'none', border: 'none',
           color: 'var(--dark)', fontFamily: 'Jost,sans-serif', fontSize: '0.62rem',
-          letterSpacing: '0.25em', textTransform: 'uppercase', cursor: 'pointer', opacity: 0.5,
+          letterSpacing: '0.25em', textTransform: 'uppercase', cursor: 'pointer', opacity: 0.7,
         }}>Close ✕</button>
-        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
           {[
             { label: 'Home', fn: () => { setMenuOpen(false); onNavigate?.('home'); } },
             { label: 'Shop Men', fn: () => { setMenuOpen(false); onNavigate?.('shop-men'); } },
@@ -275,19 +276,20 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
             { label: 'Contact Us', fn: () => scrollToSection('contact-us') },
           ].map((item, i) => (
             <li key={i}>
-              <button onClick={item.fn} style={{
-                fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(2.5rem,7vw,6rem)',
+              <button onClick={item.fn} className="mobile-nav-item" style={{
+                fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(2rem,6vw,4rem)',
                 letterSpacing: '0.04em', color: 'var(--dark)', background: 'none', border: 'none',
-                opacity: 0.12, transition: 'opacity 0.3s, transform 0.3s',
-                display: 'inline-block', lineHeight: 1.05, cursor: 'pointer', padding: 0,
+                opacity: 1, transition: 'opacity 0.3s, transform 0.3s, color 0.3s',
+                display: 'inline-block', lineHeight: 1.1, cursor: 'pointer', padding: '0.15rem 0',
+                borderBottom: '1px solid rgba(122,87,64,0.1)', width: '100%', textAlign: 'left',
               }}
-                onMouseEnter={e => { e.target.style.opacity = 1; e.target.style.transform = 'translateX(12px)'; }}
-                onMouseLeave={e => { e.target.style.opacity = 0.12; e.target.style.transform = 'translateX(0)'; }}
+                onMouseEnter={e => { e.target.style.color = 'var(--accent)'; e.target.style.transform = 'translateX(8px)'; }}
+                onMouseLeave={e => { e.target.style.color = 'var(--dark)'; e.target.style.transform = 'translateX(0)'; }}
               >{item.label}</button>
             </li>
           ))}
         </ul>
-        <div style={{ marginTop: '3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' }}>
+        <div style={{ marginTop: '2rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem 2rem' }}>
           {[
             { label: 'Terms Of Service', page: 'terms' },
             { label: 'Privacy Policy', page: 'privacy' },
@@ -296,12 +298,14 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
             { label: 'Customization Policy', page: 'customization' },
           ].map(item => (
             <button key={item.page} onClick={() => { setMenuOpen(false); onNavigate?.(item.page); }} style={{
-              background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-              fontSize: '0.62rem', letterSpacing: '0.22em', textTransform: 'uppercase',
-              color: 'var(--dark)', fontFamily: 'Jost,sans-serif', opacity: 0.3, transition: 'opacity 0.2s',
+              background: 'none', border: 'none', padding: '0.3rem 0', cursor: 'pointer',
+              fontSize: '0.55rem', letterSpacing: '0.18em', textTransform: 'uppercase',
+              color: 'var(--dark)', fontFamily: 'Jost,sans-serif', opacity: 0.55,
+              transition: 'opacity 0.2s, color 0.2s', textAlign: 'left',
+              borderBottom: '1px solid rgba(122,87,64,0.12)',
             }}
-              onMouseEnter={e => e.target.style.opacity = 1}
-              onMouseLeave={e => e.target.style.opacity = 0.3}
+              onMouseEnter={e => { e.target.style.opacity = 1; e.target.style.color = 'var(--accent)'; }}
+              onMouseLeave={e => { e.target.style.opacity = 0.55; e.target.style.color = 'var(--dark)'; }}
             >{item.label}</button>
           ))}
         </div>
@@ -315,12 +319,12 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
         display: 'grid', gridTemplateColumns: isCompact ? 'auto 1fr' : '1fr auto 1fr',
         alignItems: 'center',
         padding: isCompact ? '0 0.75rem' : isTablet ? '0 1.25rem' : '0 clamp(1rem,3vw,3rem)',
-        height: isTablet ? 58 : 64,
+        height: isTablet ? 52 : 64,
         transition: 'background 0.3s',
       }}>
 
         {/* Left: nav links */}
-        <div className="desktop-only" style={{ display: 'flex', gap: isTablet ? '1rem' : '2rem', alignItems: 'center' }}>
+        <div className="desktop-only" style={{ display: 'flex', gap: isTablet ? '0.6rem' : '2rem', alignItems: 'center' }}>
           {currentPage !== 'home' && (
             <button
               onClick={() => onNavigate?.('home')}
@@ -380,7 +384,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
               src="https://tpsjxaqxsedgshxiqvst.supabase.co/storage/v1/object/public/Web%20images%20Home%20LEEZOO/LEEZOO%20Logo.png"
               alt="LEEZOO"
               style={{
-                height: isCompact ? '32px' : isTablet ? '36px' : '45px',
+                height: isCompact ? '32px' : isTablet ? '28px' : '45px',
                 width: 'auto',
                 objectFit: 'contain',
                 transition: 'opacity 0.3s, transform 0.3s',

@@ -213,7 +213,7 @@ export default function ShopPage({ category, onBack, onViewProduct }) {
       {/* PRODUCT GRID */}
       <div style={{ padding: 'clamp(1.5rem,3vw,3rem) clamp(1rem,4vw,4rem) clamp(3rem,6vw,7rem)' }}>
         {loading ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 3 }}>
+          <div className="shop-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 3 }}>
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} style={{
                 height: 480, borderRadius: 2,
@@ -224,7 +224,7 @@ export default function ShopPage({ category, onBack, onViewProduct }) {
             ))}
           </div>
         ) : sorted.length > 0 ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 3 }}>
+          <div className="shop-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 3 }}>
             {sorted.map((product, i) => (
               <ProductCard key={product.id || i} product={product} variant="grid" onView={onViewProduct} />
             ))}
@@ -258,7 +258,7 @@ export default function ShopPage({ category, onBack, onViewProduct }) {
           50% { opacity: 0.75; }
         }
         @media (max-width: 768px) {
-          .shop-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important; }
+          .shop-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 2px !important; }
         }
       `}</style>
     </div>

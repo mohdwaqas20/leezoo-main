@@ -112,6 +112,31 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
 
   /* Bulk printing highlights — 2×2 grid on mobile handled inline */
 
+  /* Shop page — product card grid variant: tighter info section */
+  .shop-grid [style*="padding: '1rem 1.2rem"] ,
+  .shop-grid > * > div:last-child {
+    padding: 0.7rem 0.8rem 1rem !important;
+  }
+  /* Product name */
+  .shop-grid [style*="Bebas Neue"] {
+    font-size: 0.95rem !important;
+  }
+  /* Price text */
+  .shop-grid [style*="0.92rem"][style*="fontWeight: 500"] {
+    font-size: 0.78rem !important;
+  }
+  /* Color label */
+  .shop-grid [style*="0.72rem"][style*="letterSpacing: '0.04em'"] {
+    font-size: 0.6rem !important;
+  }
+  /* Buttons — make them single line */
+  .shop-grid button {
+    font-size: 0.58rem !important;
+    letter-spacing: 0.08em !important;
+    padding: 0.6rem 0.3rem !important;
+    white-space: nowrap !important;
+  }
+
   /* Founder cards — hide description text and reduce card height on mobile */
   .founder-desc { display: none !important; }
   .founder-card {
