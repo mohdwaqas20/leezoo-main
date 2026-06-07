@@ -27,7 +27,7 @@ function getImageBg(product) {
 }
 
 export default function ProductCard({ product, variant = 'slide', onView }) {
-  const { addItem } = useCart();
+  const { addItem, openDrawer } = useCart();
   const { toggleWishlist, isWishlisted } = useWishlist();
   const { user } = useAuth();
   const [hovered, setHovered] = useState(false);
@@ -182,7 +182,7 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
           </div>
         </div>
 
-        {detailOpen && createPortal(<ProductDetailModal product={product} addItem={addItem} onClose={() => setDetailOpen(false)} />, document.body)}
+        {detailOpen && createPortal(<ProductDetailModal product={product} addItem={addItem} openDrawer={openDrawer} onClose={() => setDetailOpen(false)} />, document.body)}
         {authPrompt && createPortal(<AuthModal onClose={() => setAuthPrompt(false)} />, document.body)}
       </>
     );
@@ -287,7 +287,7 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
           </div>
         </div>
 
-        {detailOpen && createPortal(<ProductDetailModal product={product} addItem={addItem} onClose={() => setDetailOpen(false)} />, document.body)}
+        {detailOpen && createPortal(<ProductDetailModal product={product} addItem={addItem} openDrawer={openDrawer} onClose={() => setDetailOpen(false)} />, document.body)}
         {authPrompt && createPortal(<AuthModal onClose={() => setAuthPrompt(false)} />, document.body)}
       </>
     );
@@ -296,7 +296,7 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
   return null;
 }
 
-function ProductDetailModal({ product, addItem, onClose }) {
+function ProductDetailModal({ product, addItem, openDrawer, onClose }) {
   const [selectedSize, setSelectedSize] = useState(null);
   const [added, setAdded] = useState(false);
   const [buyingNow, setBuyingNow] = useState(false);
@@ -322,40 +322,12 @@ function ProductDetailModal({ product, addItem, onClose }) {
     setTimeout(() => setAdded(false), 1800);
   };
 
-  const handleBuyNow = async () => {
+  const handleBuyNow = () => {
     if (!user) { setAuthPrompt(true); return; }
     if (!selectedSize) return;
-    setBuyingNow(true);
-    try {
-      const loaded = await loadRazorpayScript();
-      if (!loaded) { alert('Failed to load payment gateway.'); setBuyingNow(false); return; }
-      const options = {
-        key: RAZORPAY_KEY_ID,
-        amount: product.price * 100,
-        currency: 'INR',
-        name: 'LEEZOO',
-        description: `${product.name} — Size: ${selectedSize}`,
-        image: '/leezoo-logo.png',
-        prefill: { name: user.user_metadata?.full_name || '', email: user.email || '' },
-        theme: { color: '#231F1A' },
-        modal: { ondismiss: () => setBuyingNow(false) },
-        handler: async (response) => {
-          try {
-            await placeOrder([{ ...product, size: selectedSize, qty: 1 }], product.price, {
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
-            });
-            alert(`Payment successful! 🎉\nPayment ID: ${response.razorpay_payment_id}`);
-          } catch (e) {
-            alert('Payment received but order save failed. Contact support with Payment ID: ' + response.razorpay_payment_id);
-          } finally { setBuyingNow(false); }
-        },
-      };
-      const rzp = new window.Razorpay(options);
-      rzp.on('payment.failed', (r) => { alert('Payment failed: ' + (r.error?.description || 'Unknown error')); setBuyingNow(false); });
-      rzp.open();
-    } catch (e) { alert('Error: ' + e.message); setBuyingNow(false); }
+    addItem({ id: product.id, name: product.name, price: product.price, size: selectedSize, image: product.image_url, productId: product.product_id });
+    onClose();
+    window.dispatchEvent(new CustomEvent('leezoo:checkout'));
   };
 
   const { bg: imgBg, isOnLight } = getImageBg(product);
@@ -457,11 +429,10 @@ function ProductDetailModal({ product, addItem, onClose }) {
               {added ? '✓ Added to Bag' : 'Add to Bag'}
             </button>
             <button onClick={handleBuyNow}
-              disabled={buyingNow}
-              style={{ width: '100%', padding: '0.9rem', background: buyingNow ? 'rgba(196,153,90,0.5)' : 'var(--accent)', color: '#1a0f00', border: 'none', cursor: buyingNow ? 'wait' : 'pointer', fontFamily: 'Jost,sans-serif', fontSize: '0.62rem', letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600, transition: 'background 0.25s', opacity: buyingNow ? 0.7 : 1 }}
-              onMouseEnter={(e) => { if (!buyingNow) e.currentTarget.style.background = '#b8922a'; }}
-              onMouseLeave={(e) => { if (!buyingNow) e.currentTarget.style.background = 'var(--accent)'; }}>
-              {buyingNow ? 'Opening Payment…' : '⚡ Buy Now'}
+              style={{ width: '100%', padding: '0.9rem', background: 'var(--dark)', color: '#F5EDE0', border: 'none', cursor: 'pointer', fontFamily: 'Jost,sans-serif', fontSize: '0.62rem', letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600, transition: 'background 0.25s' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.color = '#1a0f00'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--dark)'; e.currentTarget.style.color = '#F5EDE0'; }}>
+              Proceed to Checkout →
             </button>
           </div>
         </div>
