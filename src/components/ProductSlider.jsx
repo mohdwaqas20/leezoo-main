@@ -28,7 +28,7 @@ export default function ProductSlider({ title, products = [], loading = false, o
     return (
       <section style={{ padding: '3rem 0 0', background: 'transparent' }}>
         <div style={{ padding: '0 clamp(1rem,4vw,4rem) 1.5rem', borderBottom: '2px solid rgba(122,87,64,0.25)', marginBottom: '0', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-          <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(3rem,6vw,5rem)', letterSpacing: '0.05em', color: '#1a1008', fontWeight: 900 }}>{title}</h2>
+          <h2 className="slider-section-title" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(3rem,6vw,5rem)', letterSpacing: '0.05em', color: '#1a1008', fontWeight: 900 }}>{title}</h2>
         </div>
         <div style={{ display: 'flex', gap: 2, overflow: 'hidden' }}>
           {[1, 2, 3].map(i => (
@@ -46,7 +46,7 @@ export default function ProductSlider({ title, products = [], loading = false, o
         display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
         padding: '0 clamp(1rem,4vw,4rem) 1.5rem', borderBottom: '2px solid rgba(122,87,64,0.25)', marginBottom: '0',
       }}>
-        <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(3rem,6vw,5rem)', letterSpacing: '0.05em', color: '#1a1008', fontWeight: 900 }}>{title}</h2>
+        <h2 className="slider-section-title" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(3rem,6vw,5rem)', letterSpacing: '0.05em', color: '#1a1008', fontWeight: 900 }}>{title}</h2>
         <button onClick={onShopAll} style={{
           fontSize: '0.72rem', letterSpacing: '0.22em', textTransform: 'uppercase',
           color: '#1a1008', background: 'none', border: 'none', cursor: 'pointer',

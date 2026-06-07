@@ -101,7 +101,7 @@ export default function CustomPrinting() {
       <div style={{ position: 'relative', marginBottom: '5rem' }}>
         {/* Connector line */}
         <div style={{ position: 'absolute', top: 50, left: '10%', right: '10%', height: 1, background: 'rgba(122,92,63,0.2)', zIndex: 0 }} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
+        <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
           {steps.map((step, i) => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <div style={{
@@ -172,9 +172,27 @@ export default function CustomPrinting() {
           #custom-printing { padding: 5rem 2rem !important; }
           #custom-printing .steps-grid { grid-template-columns: repeat(2,1fr) !important; }
           #custom-printing .connector-line { display: none !important; }
+          #custom-printing .steps-grid > *:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 220px;
+            margin: 0 auto;
+          }
         }
         @media (max-width: 560px) {
-          #custom-printing .steps-grid { grid-template-columns: 1fr !important; }
+          #custom-printing .steps-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          #custom-printing .steps-grid > *:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 200px;
+            margin: 0 auto;
+          }
         }
       `}</style>
     </section>

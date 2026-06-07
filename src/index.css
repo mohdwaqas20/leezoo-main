@@ -93,6 +93,15 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
 ═══════════════════════════════════════ */
 @media (max-width: 768px) {
 
+  /* Product slider section titles — "Made for Men / Women" */
+  .slider-section-title {
+    font-size: 1.75rem !important;
+    letter-spacing: 0.04em !important;
+    line-height: 1.1 !important;
+  }
+
+  /* Bulk printing highlights — 2×2 grid on mobile handled inline */
+
   /* Navbar */
   nav { padding: 0 1rem !important; }
 
