@@ -18,9 +18,9 @@ export default function Hero({ onNavigate }) {
       height: 'calc(100vh - 24px)',
       minHeight: 500,
       display: 'flex', alignItems: 'center',
-      overflow: 'hidden',
+      overflow: 'visible',
       background: 'linear-gradient(150deg, #F0E6D8 0%, #EAD8C2 40%, #E2CDB0 75%, #D9C3A5 100%)',
-    }}>
+    }} className="hero-section">
       {/* Linen texture */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none',
         backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(100,70,40,0.035) 3px, rgba(100,70,40,0.035) 6px), repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(100,70,40,0.025) 3px, rgba(100,70,40,0.025) 6px)`,
@@ -46,23 +46,23 @@ export default function Hero({ onNavigate }) {
 
       {/* Main content */}
       <div style={{ position: 'relative', zIndex: 2, padding: '0 clamp(1.5rem,5vw,5rem)', maxWidth: 720 }}>
-        <p style={{ fontSize: '0.65rem', letterSpacing: '0.4em', textTransform: 'uppercase', color: '#7A5740', fontWeight: 500, marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <p className="hero-eyebrow" style={{ fontSize: '0.65rem', letterSpacing: '0.4em', textTransform: 'uppercase', color: '#7A5740', fontWeight: 500, marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <span style={{ width: 36, height: 2, background: '#7A5740', display: 'inline-block', flexShrink: 0 }} />
           EDGE COLLECTION
         </p>
 
-        <h1 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(4rem,11vw,10rem)', lineHeight: 0.9, letterSpacing: '0.02em', color: '#2C1F14', animation: 'heroIn 1.2s cubic-bezier(0.16,1,0.3,1) both', marginBottom: '0.15em' }}>
+        <h1 className="hero-title" style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 'clamp(4rem,11vw,10rem)', lineHeight: 0.9, letterSpacing: '0.02em', color: '#2C1F14', animation: 'heroIn 1.2s cubic-bezier(0.16,1,0.3,1) both', marginBottom: '0.15em' }}>
           IMPOSSIBLE
         </h1>
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 'clamp(3rem,9vw,8rem)', lineHeight: 1, color: '#7A5740', marginBottom: 0, animation: 'heroIn 1.4s cubic-bezier(0.16,1,0.3,1) both' }}>
+        <p className="hero-subtitle" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 'clamp(3rem,9vw,8rem)', lineHeight: 1, color: '#7A5740', marginBottom: 0, animation: 'heroIn 1.4s cubic-bezier(0.16,1,0.3,1) both' }}>
           to overlook.
         </p>
 
-        <p style={{ marginTop: '2.2rem', fontSize: '0.88rem', letterSpacing: '0.08em', color: '#5C3D25', lineHeight: 1.9, maxWidth: 340, fontFamily: "'Jost', sans-serif", fontWeight: 300 }}>
+        <p className="hero-body" style={{ marginTop: '2.2rem', fontSize: '0.88rem', letterSpacing: '0.08em', color: '#5C3D25', lineHeight: 1.9, maxWidth: 340, fontFamily: "'Jost', sans-serif", fontWeight: 300 }}>
           Not made to blend in. Every thread tells your story.
         </p>
 
-        <div style={{ marginTop: '3rem', display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div className="hero-cta" style={{ marginTop: '3rem', display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
           <div ref={dropRef} style={{ position: 'relative', display: 'inline-block' }}>
             <button onClick={() => setDropOpen(o => !o)} style={{
               background: '#2C1F14', color: '#F0E6D8', border: 'none', cursor: 'pointer',
@@ -117,8 +117,58 @@ export default function Hero({ onNavigate }) {
 
       <style>{`
         @keyframes heroDropIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ── MOBILE (≤768px) ── */
         @media (max-width: 768px) {
-          .hero-section { min-height: 85vh !important; }
+          .hero-section {
+            height: auto !important;
+            min-height: unset !important;
+            align-items: flex-start !important;
+            padding-top: 3.5rem !important;
+            padding-bottom: 12rem !important;
+            overflow: visible !important;
+          }
+          .hero-title {
+            font-size: clamp(3rem, 15vw, 5rem) !important;
+          }
+          .hero-subtitle {
+            font-size: clamp(2rem, 12vw, 4rem) !important;
+          }
+          .hero-body {
+            font-size: 0.78rem !important;
+            margin-top: 1.2rem !important;
+          }
+          .hero-cta {
+            margin-top: 2rem !important;
+          }
+          .hero-eyebrow {
+            margin-bottom: 1.2rem !important;
+          }
+        }
+
+        /* ── IPAD / TABLET (769px–1024px) ── */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .hero-section {
+            height: auto !important;
+            min-height: unset !important;
+            align-items: flex-start !important;
+            padding-top: 4rem !important;
+            padding-bottom: 14rem !important;
+            overflow: visible !important;
+          }
+          .hero-title {
+            font-size: clamp(3.5rem, 10vw, 6rem) !important;
+          }
+          .hero-subtitle {
+            font-size: clamp(2.5rem, 8vw, 5rem) !important;
+          }
+          .hero-body {
+            font-size: 0.82rem !important;
+            margin-top: 1.5rem !important;
+          }
+          .hero-cta {
+            margin-top: 2.2rem !important;
+          }
         }
       `}</style>
     </section>
