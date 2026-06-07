@@ -2,8 +2,23 @@ import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
+import { useOrders } from '../context/OrdersContext';
 import { createPortal } from 'react-dom';
 import AuthModal from '../components/AuthModal';
+
+// ─── Load Razorpay script once ────────────────────────────────────────────────
+function loadRazorpayScript() {
+  return new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
+
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_yourkeyhere';
 
 const SIZES = ['S', 'M', 'L', 'XL'];
 
@@ -32,9 +47,11 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
   const { addItem }           = useCart();
   const { toggleWishlist, isWishlisted } = useWishlist();
   const { user }              = useAuth();
+  const { placeOrder }        = useOrders();
   const [selectedSize,  setSelectedSize]  = useState(null);
   const [mainImage,     setMainImage]     = useState(0);
   const [added,         setAdded]         = useState(false);
+  const [buyingNow,     setBuyingNow]     = useState(false);
   const [wishlistAnim,  setWishlistAnim]  = useState(false);
   const [authPrompt,    setAuthPrompt]    = useState(false);
   const [sizeError,     setSizeError]     = useState(false);
@@ -70,10 +87,41 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
     });
   };
 
-  const handleBuyWA = () => {
-    if (!selectedSize) { setSizeError(true); setTimeout(() => setSizeError(false), 1800); return; }
-    const msg = `Hi, I'm interested in buying *${product.name}*\n\n📦 Product ID: ${product.product_id}\n👕 Size: ${selectedSize}\n🎨 💰 Price: RS ${product.price}\n\nPlease confirm availability.`;
-    window.open(`https://wa.me/919984090593?text=${encodeURIComponent(msg)}`, '_blank');
+  const handleBuyNow = () => {
+    requireAuth(async () => {
+      if (!selectedSize) { setSizeError(true); setTimeout(() => setSizeError(false), 1800); return; }
+      setBuyingNow(true);
+      try {
+        const loaded = await loadRazorpayScript();
+        if (!loaded) { alert('Failed to load payment gateway. Please check your connection.'); setBuyingNow(false); return; }
+        const options = {
+          key: RAZORPAY_KEY_ID,
+          amount: product.price * 100,
+          currency: 'INR',
+          name: 'LEEZOO',
+          description: `${product.name} — Size: ${selectedSize}`,
+          image: '/leezoo-logo.png',
+          prefill: { name: user.user_metadata?.full_name || '', email: user.email || '' },
+          theme: { color: '#231F1A' },
+          modal: { ondismiss: () => setBuyingNow(false) },
+          handler: async (response) => {
+            try {
+              await placeOrder([{ ...product, size: selectedSize, qty: 1 }], product.price, {
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+              });
+              alert(`Payment successful! 🎉\nPayment ID: ${response.razorpay_payment_id}\nYour order has been placed.`);
+            } catch (e) {
+              alert('Payment received but order save failed. Contact support with Payment ID: ' + response.razorpay_payment_id);
+            } finally { setBuyingNow(false); }
+          },
+        };
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', (r) => { alert('Payment failed: ' + (r.error?.description || 'Unknown error')); setBuyingNow(false); });
+        rzp.open();
+      } catch (e) { alert('Error initiating payment: ' + e.message); setBuyingNow(false); }
+    });
   };
 
   const handleWishlist = () => {
@@ -206,21 +254,22 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
               {added ? '✓  Added to Bag' : 'Add to Bag'}
             </button>
 
-            {/* Buy on WhatsApp */}
-            <button onClick={handleBuyWA}
+            {/* Buy Now — triggers Razorpay */}
+            <button onClick={handleBuyNow}
+              disabled={buyingNow}
               style={{
                 width:'100%', padding:'1.1rem',
-                background:'transparent', color:T.dark,
-                border:`1.5px solid ${T.border}`,
-                cursor:'pointer', fontFamily:'Jost,sans-serif',
-                fontSize:'0.8rem', fontWeight:500,
-                letterSpacing:'0.18em', textTransform:'uppercase',
-                display:'flex', alignItems:'center', justifyContent:'center', gap:'0.6rem',
-                transition:'background 0.2s, color 0.2s, border-color 0.2s',
+                background: buyingNow ? T.border : T.accent,
+                color:'#1a0f00',
+                border:'none', cursor: buyingNow ? 'wait' : 'pointer',
+                fontFamily:'Jost,sans-serif', fontSize:'0.8rem',
+                fontWeight:600, letterSpacing:'0.18em', textTransform:'uppercase',
+                transition:'background 0.25s',
+                opacity: buyingNow ? 0.7 : 1,
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = T.accent; e.currentTarget.style.borderColor = T.accent; e.currentTarget.style.color = '#1a0f00'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.dark; }}>
-              <WAIcon /> Buy on WhatsApp
+              onMouseEnter={(e) => { if (!buyingNow) e.currentTarget.style.background = '#b8922a'; }}
+              onMouseLeave={(e) => { if (!buyingNow) e.currentTarget.style.background = T.accent; }}>
+              {buyingNow ? 'Opening Payment…' : '⚡ Buy Now'}
             </button>
           </div>
 
@@ -326,14 +375,6 @@ function HeartIcon({ filled }) {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill={filled ? '#dc2626' : 'none'} stroke={filled ? '#dc2626' : 'currentColor'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-    </svg>
-  );
-}
-
-function WAIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
     </svg>
   );
 }
