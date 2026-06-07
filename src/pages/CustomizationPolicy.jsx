@@ -1,4 +1,31 @@
+import { useEffect } from 'react';
+
+const mobileStyles = `
+@media (max-width: 768px) {
+  .policy-hero { padding: 5rem 1.5rem 2.5rem !important; }
+  .policy-hero h1 { font-size: clamp(2.4rem, 11vw, 3.5rem) !important; }
+  .policy-content { padding: 2.5rem 1.5rem !important; }
+  .policy-section-body { padding-left: 0 !important; }
+  .policy-section-heading { gap: 0.8rem !important; flex-wrap: wrap !important; }
+  .policy-contact-box { padding: 1.5rem !important; }
+  .custom-steps { grid-template-columns: 1fr 1fr !important; gap: 1.5rem !important; }
+  .custom-steps-wrapper { padding: 2rem 1.5rem !important; }
+  .custom-step-connector { display: none !important; }
+}
+@media (max-width: 480px) {
+  .custom-steps { grid-template-columns: 1fr !important; }
+}
+`;
+
 export default function CustomizationPolicy({ onBack }) {
+  useEffect(() => {
+    if (!document.getElementById('policy-mobile-css')) {
+      const style = document.createElement('style');
+      style.id = 'policy-mobile-css';
+      style.textContent = mobileStyles;
+      document.head.appendChild(style);
+    }
+  }, []);
   return <PolicyPage title="Customization Policy" onBack={onBack} sections={customContent} lastUpdated="May 2026" />;
 }
 
@@ -6,7 +33,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
   return (
     <div style={{ background: 'var(--sand)', minHeight: '100vh', color: 'var(--dark)' }}>
       {/* Hero */}
-      <div style={{ background: 'var(--sand)', color: 'var(--ink)', padding: '6rem 4rem 4rem', borderBottom: '1px solid rgba(122,92,63,0.2)' }}>
+      <div className="policy-hero" style={{ background: 'var(--sand)', color: 'var(--ink)', padding: '6rem 4rem 4rem', borderBottom: '1px solid rgba(122,92,63,0.2)' }}>
         <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--brown)', fontFamily: 'Jost,sans-serif', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', padding: 0 }}>
           ← Back to Home
         </button>
@@ -21,9 +48,9 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
       </div>
 
       {/* Process Steps */}
-      <div style={{ background: '#0f0f0f', padding: '4rem', borderBottom: '1px solid var(--border-light)' }}>
+      <div className="custom-steps-wrapper" style={{ background: '#0f0f0f', padding: '4rem', borderBottom: '1px solid var(--border-light)' }}>
         <p style={{ fontSize: '0.58rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', textAlign: 'center', marginBottom: '2.5rem' }}>How Custom Printing Works</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0', maxWidth: 900, margin: '0 auto', position: 'relative' }}>
+        <div className="custom-steps" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0', maxWidth: 900, margin: '0 auto', position: 'relative' }}>
           {[
             { step: '01', label: 'WhatsApp Us', desc: 'Share your design idea' },
             { step: '02', label: 'Get a Quote', desc: 'Pricing & timeline confirmed' },
@@ -32,10 +59,9 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
             { step: '05', label: 'Delivered', desc: 'Pan India shipping' },
           ].map((s, i) => (
             <div key={s.step} style={{ textAlign: 'center', padding: '0 1rem', position: 'relative' }}>
-              {i < 4 && <div style={{ position: 'absolute', top: '1.2rem', right: '-1rem', width: '2rem', height: 1, background: 'var(--accent)', opacity: 0.3 }} />}
+              {i < 4 && <div className="custom-step-connector" style={{ position: 'absolute', top: '1.2rem', right: '-1rem', width: '2rem', height: 1, background: 'var(--accent)', opacity: 0.3 }} />}
               <div style={{ width: 44, height: 44, borderRadius: '50%', border: '1px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', fontFamily: "'Bebas Neue',sans-serif", fontSize: '1rem', color: 'var(--accent)', letterSpacing: '0.05em' }}>{s.step}</div>
               <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1rem', letterSpacing: '0.08em', marginBottom: '0.4rem', color: '#fff' }}>{s.label}</p>
-              {/* RETAINED LIGHT COLOR FOR READABILITY AGAINST DARK (#0f0f0f) BACKGROUND */}
               <p style={{ fontSize: '0.62rem', color: 'rgba(245,240,234,0.65)', letterSpacing: '0.05em', lineHeight: 1.5 }}>{s.desc}</p>
             </div>
           ))}
@@ -43,9 +69,8 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
       </div>
 
       {/* Content */}
-      <div style={{ maxWidth: 860, margin: '0 auto', padding: '5rem 4rem' }}>
+      <div className="policy-content" style={{ maxWidth: 860, margin: '0 auto', padding: '5rem 4rem' }}>
         <div style={{ marginBottom: '4rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
-          {/* FIXED: Changed text color to clear dark contrast against sand background */}
           <p style={{ fontSize: '0.85rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
             <strong style={{ color: 'var(--dark)' }}>LEEZOO </strong> specialises in premium custom T-shirt printing for individuals, teams, businesses, and events. This policy covers all rules, responsibilities, and terms applicable to custom printing orders. Please read carefully before placing a custom order.
           </p>
@@ -53,19 +78,17 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
 
         {sections.map((s, i) => (
           <div key={i} style={{ marginBottom: '3.5rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.2rem', marginBottom: '1.2rem' }}>
+            <div className="policy-section-heading" style={{ display: 'flex', alignItems: 'baseline', gap: '1.2rem', marginBottom: '1.2rem' }}>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1rem', color: 'var(--accent)', letterSpacing: '0.15em', flexShrink: 0 }}>{String(i + 1).padStart(2, '0')}</span>
               <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.6rem', letterSpacing: '0.08em', color: 'var(--dark)' }}>{s.heading}</h2>
             </div>
-            <div style={{ paddingLeft: '2.6rem' }}>
+            <div className="policy-section-body" style={{ paddingLeft: '2.6rem' }}>
               {s.body.map((para, j) => (
-                /* FIXED: Changed text color to clear dark contrast */
                 <p key={j} style={{ fontSize: '0.8rem', lineHeight: 2, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', marginBottom: '1rem' }}>{para}</p>
               ))}
               {s.bullets && (
                 <ul style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', paddingLeft: '1.2rem' }}>
                   {s.bullets.map((b, j) => (
-                    /* FIXED: Changed list text color to clear dark contrast */
                     <li key={j} style={{ fontSize: '0.78rem', lineHeight: 1.9, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', listStyleType: 'none', display: 'flex', gap: '0.8rem' }}>
                       <span style={{ color: 'var(--accent)', flexShrink: 0 }}>◈</span> {b}
                     </li>
@@ -77,9 +100,8 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         ))}
 
         {/* CTA Box */}
-        <div style={{ background: 'rgba(196,153,90,0.06)', border: '1px solid rgba(196,153,90,0.2)', padding: '2.5rem', marginTop: '2rem' }}>
+        <div className="policy-contact-box" style={{ background: 'rgba(196,153,90,0.06)', border: '1px solid rgba(196,153,90,0.2)', padding: '2.5rem', marginTop: '2rem' }}>
           <h3 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.1em', color: 'var(--accent)', marginBottom: '1rem' }}>START YOUR CUSTOM ORDER</h3>
-          {/* FIXED: Changed details text color to clear dark contrast */}
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>
             Ready to create something extraordinary? Reach out and let's build it together.<br />
             <strong style={{ color: 'var(--dark)' }}>WhatsApp:</strong> +91-9984090593 | +91-9169697273 | +91-9653026746| +91-9118604515<br />

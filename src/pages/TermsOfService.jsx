@@ -1,4 +1,25 @@
+import { useEffect } from 'react';
+
+const mobileStyles = `
+@media (max-width: 768px) {
+  .policy-hero { padding: 5rem 1.5rem 2.5rem !important; }
+  .policy-hero h1 { font-size: clamp(2.4rem, 11vw, 3.5rem) !important; }
+  .policy-content { padding: 2.5rem 1.5rem !important; }
+  .policy-section-body { padding-left: 0 !important; }
+  .policy-section-heading { gap: 0.8rem !important; flex-wrap: wrap !important; }
+  .policy-contact-box { padding: 1.5rem !important; }
+}
+`;
+
 export default function TermsOfService({ onBack }) {
+  useEffect(() => {
+    if (!document.getElementById('policy-mobile-css')) {
+      const style = document.createElement('style');
+      style.id = 'policy-mobile-css';
+      style.textContent = mobileStyles;
+      document.head.appendChild(style);
+    }
+  }, []);
   return <PolicyPage title="Terms of Service" onBack={onBack} sections={termsContent} lastUpdated="May 2026" />;
 }
 
@@ -6,7 +27,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
   return (
     <div style={{ background: 'var(--sand)', minHeight: '100vh', color: 'var(--dark)' }}>
       {/* Hero */}
-      <div style={{
+      <div className="policy-hero" style={{
         background: 'var(--sand)', color: 'var(--ink)',
         padding: '6rem 4rem 4rem',
         borderBottom: '1px solid rgba(122,92,63,0.2)',
@@ -36,10 +57,9 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
       </div>
 
       {/* Content */}
-      <div style={{ maxWidth: 860, margin: '0 auto', padding: '5rem 4rem' }}>
+      <div className="policy-content" style={{ maxWidth: 860, margin: '0 auto', padding: '5rem 4rem' }}>
         {/* Intro */}
         <div style={{ marginBottom: '4rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
-          {/* FIXED: Changed from light rgba to a solid dark-mix for high readability */}
           <p style={{ fontSize: '0.85rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
             Welcome to <strong style={{ color: 'var(--dark)' }}>LEEZOO</strong>, These Terms of Service govern your access to and use of our website, products, and services. By using our website, purchasing products, or interacting with our services, you agree to comply with these terms.
             If you do not agree with these Terms of Service, please discontinue use of the website immediately.
@@ -47,7 +67,7 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         </div>
         {sections.map((s, i) => (
           <div key={i} style={{ marginBottom: '3.5rem', paddingBottom: '3rem', borderBottom: '1px solid var(--border-light)' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.2rem', marginBottom: '1.2rem' }}>
+            <div className="policy-section-heading" style={{ display: 'flex', alignItems: 'baseline', gap: '1.2rem', marginBottom: '1.2rem' }}>
               <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1rem', color: 'var(--accent)', letterSpacing: '0.15em', flexShrink: 0 }}>
                 {String(i + 1).padStart(2, '0')}
               </span>
@@ -55,9 +75,8 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
                 {s.heading}
               </h2>
             </div>
-            <div style={{ paddingLeft: '2.6rem' }}>
+            <div className="policy-section-body" style={{ paddingLeft: '2.6rem' }}>
               {s.body.map((para, j) => (
-                /* FIXED: Changed text color to clear dark contrast */
                 <p key={j} style={{ fontSize: '0.8rem', lineHeight: 2, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', marginBottom: '1rem' }}>
                   {para}
                 </p>
@@ -65,15 +84,12 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
               {s.bullets && (
                 <ul style={{ marginTop: '0.5rem', paddingLeft: '1.2rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {s.bullets.map((b, j) => (
-                    /* FIXED: Changed bullet text color to clear dark contrast */
                     <li key={j} style={{ fontSize: '0.78rem', lineHeight: 1.9, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', listStyleType: 'none', display: 'flex', gap: '0.8rem' }}>
                       <span style={{ color: 'var(--accent)', flexShrink: 0 }}>◈</span> {b}
                     </li>
                   ))}
                 </ul>
               )}
-
-              {/* ADD THIS BLOCK RIGHT HERE 👇 */}
               {s.note && s.note.map((noteText, j) => (
                 <p key={j} style={{ fontSize: '0.8rem', lineHeight: 2, color: 'rgba(26,20,10,0.75)', letterSpacing: '0.04em', marginTop: '1rem' }}>
                   {noteText}
@@ -84,9 +100,8 @@ function PolicyPage({ title, sections, onBack, lastUpdated }) {
         ))}
 
         {/* Contact */}
-        <div style={{ background: 'rgba(196,153,90,0.06)', border: '1px solid rgba(196,153,90,0.2)', padding: '2.5rem', marginTop: '2rem' }}>
+        <div className="policy-contact-box" style={{ background: 'rgba(196,153,90,0.06)', border: '1px solid rgba(196,153,90,0.2)', padding: '2.5rem', marginTop: '2rem' }}>
           <h3 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', letterSpacing: '0.1em', color: 'var(--accent)', marginBottom: '1rem' }}>CONTACT US</h3>
-          {/* FIXED: Changed fallback text color to a crisp dark tone */}
           <p style={{ fontSize: '0.78rem', lineHeight: 2, color: 'rgba(26,20,10,0.8)', letterSpacing: '0.04em' }}>
             For any questions regarding these terms, reach us at:<br />
             <strong style={{ color: 'var(--dark)' }}>Email:</strong> leezoo.official2026@gmail.com<br />
