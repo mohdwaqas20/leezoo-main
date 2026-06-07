@@ -304,9 +304,9 @@ export default function Footer({ onNavigate }) {
         </p>
 
         {/* All 5 Team Members - Single Row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', maxWidth: '1400px', margin: '0 auto' }} className="founders-grid">
           {founders.map((f) => (
-            <div key={f.name} style={{
+            <div key={f.name} className="founder-card" style={{
               background: f.name === 'Rahul'
                 ? 'linear-gradient(135deg, #FFF9F0 0%, #F8EDE2 100%)'
                 : '#FFFFFF',
@@ -344,7 +344,7 @@ export default function Footer({ onNavigate }) {
               <span style={{ fontSize: '1.5rem', color: '#BFA06A', display: 'block', marginBottom: '0.9rem', position: 'relative', zIndex: 1 }}>{f.icon}</span>
               <h3 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.15rem', letterSpacing: '0.08em', color: '#2C1F14', marginBottom: '0.4rem', textTransform: 'uppercase', position: 'relative', zIndex: 1 }}>{f.name}</h3>
               <p style={{ fontSize: '0.52rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: f.name === 'Rahul' ? '#BFA06A' : '#BFA06A', marginBottom: '1rem', fontWeight: 600, position: 'relative', zIndex: 1 }}>{f.role}</p>
-              <p style={{ fontSize: '0.72rem', lineHeight: 1.7, color: '#5C4B3A', letterSpacing: '0.01em', position: 'relative', zIndex: 1 }}>{f.desc}</p>
+              <p className="founder-desc" style={{ fontSize: '0.72rem', lineHeight: 1.7, color: '#5C4B3A', letterSpacing: '0.01em', position: 'relative', zIndex: 1 }}>{f.desc}</p>
             </div>
           ))}
         </div>
