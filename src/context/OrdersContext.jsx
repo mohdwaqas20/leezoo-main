@@ -22,7 +22,7 @@ export const OrdersProvider = ({ children }) => {
   }, [user?.id]);
 
   // cartItems shape: [{ id, name, price, qty, size, image, product_id, ... }]
-  const placeOrder = useCallback(async (cartItems, total) => {
+  const placeOrder = useCallback(async (cartItems, total, paymentDetails = {}) => {
     if (!user) throw new Error('Must be logged in to place an order');
 
     const displayId = `LZ-${Date.now()}`;
@@ -44,7 +44,7 @@ export const OrdersProvider = ({ children }) => {
       price: i.price,
     }));
 
-    const order = await createOrder(orderData, orderItems);
+    const order = await createOrder(orderData, orderItems, paymentDetails);
 
     // Refresh orders list
     const updated = await fetchUserOrders(user.id);
