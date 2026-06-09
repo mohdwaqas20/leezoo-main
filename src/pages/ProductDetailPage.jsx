@@ -44,7 +44,7 @@ const label = {
 };
 
 export default function ProductDetailPage({ product, onBack, onViewProduct, allProducts = [] }) {
-  const { addItem, openDrawer } = useCart();
+  const { addItem, addItemSilent, openDrawer } = useCart();
   const { toggleWishlist, isWishlisted } = useWishlist();
   const { user }              = useAuth();
   const { placeOrder }        = useOrders();
@@ -90,7 +90,7 @@ export default function ProductDetailPage({ product, onBack, onViewProduct, allP
   const handleBuyNow = () => {
     requireAuth(() => {
       if (!selectedSize) { setSizeError(true); setTimeout(() => setSizeError(false), 1800); return; }
-      addItem({ ...product, size: selectedSize, quantity: 1 });
+      addItemSilent({ ...product, size: selectedSize, quantity: 1 });
       window.dispatchEvent(new CustomEvent('leezoo:checkout'));
     });
   };

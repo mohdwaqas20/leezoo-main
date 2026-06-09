@@ -93,7 +93,7 @@ function OrderCard({ order }) {
           </div>
           <div>
             <p style={{ fontSize: '0.52rem', letterSpacing: '0.18em', opacity: 0.4, textTransform: 'uppercase', marginBottom: '0.2rem' }}>Total</p>
-            <p style={{ fontSize: '0.68rem', letterSpacing: '0.06em', fontFamily: 'Jost,sans-serif', color: 'var(--dark)' }}>RS {order.total.toFixed(0)}</p>
+            <p style={{ fontSize: '0.68rem', letterSpacing: '0.06em', fontFamily: 'Jost,sans-serif', color: 'var(--dark)' }}>RS {Number(order.total_amount || 0).toFixed(0)}</p>
           </div>
         </div>
 
@@ -138,7 +138,7 @@ function OrderCard({ order }) {
               <div style={{ display: 'flex', gap: '1.2rem', flexWrap: 'wrap' }}>
                 <span style={metaStyle}>Size: <span style={{ color: 'var(--dark)', opacity: 0.8 }}>{item.size}</span></span>
                 <span style={metaStyle}>Qty: <span style={{ color: 'var(--dark)', opacity: 0.8 }}>{item.qty}</span></span>
-                <span style={metaStyle}>RS <span style={{ color: 'var(--accent)' }}>{(item.price * item.qty).toFixed(0)}</span></span>
+                <span style={metaStyle}>RS <span style={{ color: 'var(--accent)' }}>{(Number(item.unit_price || item.price || 0) * item.qty).toFixed(0)}</span></span>
               </div>
             </div>
           </div>
