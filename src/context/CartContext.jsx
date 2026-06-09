@@ -90,6 +90,15 @@ export const CartProvider = ({ children }) => {
 
   // ── DB-synced actions ──────────────────────────────────────────
 
+  const addItemSilent = useCallback(async (item) => {
+    dispatch({ type: 'ADD_ITEM', item });
+    if (user) {
+      const existing = state.items.find((i) => i.id === item.id && i.size === item.size);
+      const newQty = existing ? existing.qty + 1 : 1;
+      try { await upsertCartItem(user.id, item.id, item.size, newQty); } catch (e) { console.error(e); }
+    }
+  }, [user, state.items]);
+
   const addItem = useCallback(async (item) => {
     // Optimistic update
     dispatch({ type: 'ADD_ITEM', item });
@@ -158,6 +167,7 @@ export const CartProvider = ({ children }) => {
         total,
         count,
         addItem,
+        addItemSilent,
         removeItem,
         updateQty,
         clearCart,

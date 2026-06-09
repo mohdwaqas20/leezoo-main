@@ -1,8 +1,16 @@
+import React from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
 export default function CartDrawer({ onCheckout }) {
   const { items, total, count, drawerOpen, closeDrawer, removeItem, updateQty } = useCart();
+
+  // Close drawer when checkout navigation is triggered
+  React.useEffect(() => {
+    const handler = () => closeDrawer();
+    window.addEventListener('leezoo:close-drawer', handler);
+    return () => window.removeEventListener('leezoo:close-drawer', handler);
+  }, [closeDrawer]);
   const { user } = useAuth();
 
   return (

@@ -17,35 +17,20 @@ function loadRazorpayScript() {
 
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_yourkeyhere';
 
-// ─── Send confirmation email via EmailJS ──────────────────────────────────────
+// ─── Send confirmation email via Supabase Edge Function ───────────────────────
 async function sendOrderEmail({ to_email, to_name, order_id, items, total, address, payment_method }) {
-  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-  if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-    console.warn('EmailJS not configured. Skipping email.');
-    return;
-  }
-
-  const itemsSummary = items
-    .map((i) => `${i.name} (${i.size}) × ${i.qty} — ₹${i.price * i.qty}`)
-    .join('\n');
-
-  const templateParams = {
-    to_email,
-    to_name,
-    order_id,
-    items_summary: itemsSummary,
-    total: `₹${total}`,
-    delivery_address: address,
-    payment_method,
-  };
+  const SUPABASE_URL      = import.meta.env.VITE_SUPABASE_URL;
+  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
   try {
-    const { init, send } = await import('@emailjs/browser');
-    init(EMAILJS_PUBLIC_KEY);
-    await send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+    await fetch(`${SUPABASE_URL}/functions/v1/send-order-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+      body: JSON.stringify({ to_email, to_name, order_id, items, total, address, payment_method }),
+    });
   } catch (e) {
     console.error('Email send error:', e);
   }
@@ -136,7 +121,7 @@ function FocusSelect({ style, children, ...props }) {
 
 export default function CheckoutPage({ onBack, onSuccess }) {
   const { items, total, count, clearCart } = useCart();
-  const { placeOrder } = useOrders();
+  useOrders(); // keeps order list in sync
   const { user } = useAuth();
 
   const [form, setForm] = useState({
@@ -203,14 +188,8 @@ export default function CheckoutPage({ onBack, onSuccess }) {
         price: i.price,
       }));
 
-      let order;
-      if (user) {
-        order = await placeOrder(items, total, {});
-      } else {
-        // Guest order — direct supabase insert
-        const { createOrder } = await import('../lib/supabase');
-        order = await createOrder(orderData, orderItems, {});
-      }
+      const { createOrder } = await import('../lib/supabase');
+      const order = await createOrder(orderData, orderItems, {});
 
       await sendOrderEmail({
         to_email: form.email,
@@ -264,51 +243,44 @@ export default function CheckoutPage({ onBack, onSuccess }) {
         },
         handler: async (response) => {
           try {
-            let order;
-            if (user) {
-              order = await placeOrder(items, total, {
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_signature: response.razorpay_signature,
-              });
-            } else {
-              const { createOrder } = await import('../lib/supabase');
-              const orderData = {
-                user_id: null,
-                total_amount: total,
-                status: 'confirmed',
-                display_id: `LZ-${Date.now()}`,
-                customer_email: form.email,
-                customer_name: `${form.firstName} ${form.lastName}`.trim(),
-                delivery_address: buildAddress(),
-                phone: form.phone,
-                payment_method: 'online',
-                payment_status: 'paid',
-                payment_id: response.razorpay_payment_id,
-              };
-              const orderItems = items.map((i) => ({
-                productDbId: i.id,
-                size: i.size,
-                qty: i.qty,
-                price: i.price,
-              }));
-              order = await createOrder(orderData, orderItems, {
-                razorpay_payment_id: response.razorpay_payment_id,
-              });
-            }
+            const { createOrder } = await import('../lib/supabase');
+            const orderData = {
+              user_id: user?.id || null,
+              total_amount: total,
+              status: 'confirmed',
+              display_id: `LZ-${Date.now()}`,
+              customer_email: form.email,
+              customer_name: `${form.firstName} ${form.lastName}`.trim(),
+              delivery_address: buildAddress(),
+              phone: form.phone,
+              payment_method: 'online',
+              payment_status: 'paid',
+              payment_id: response.razorpay_payment_id,
+            };
+            const orderItems = items.map((i) => ({
+              productDbId: i.id,
+              size: i.size,
+              qty: i.qty,
+              price: i.price,
+            }));
+
+            const order = await createOrder(orderData, orderItems, {
+              razorpay_payment_id: response.razorpay_payment_id,
+            });
 
             await sendOrderEmail({
               to_email: form.email,
               to_name: `${form.firstName} ${form.lastName}`.trim(),
-              order_id: order?.display_id || `LZ-${Date.now()}`,
+              order_id: order?.display_id || orderData.display_id,
               items,
               total,
               address: buildAddress(),
-              payment_method: `Online (Payment ID: ${response.razorpay_payment_id})`,
+              payment_method: `Online (Razorpay)`,
             });
 
+            const finalTotal = total;
             await clearCart();
-            setSuccessOrder({ ...order, payMode: 'Online Payment', paymentId: response.razorpay_payment_id });
+            setSuccessOrder({ ...order, payMode: 'Online Payment', paymentId: response.razorpay_payment_id, finalTotal });
             setStep('success');
           } catch (e) {
             alert('Payment received but order save failed. Payment ID: ' + response.razorpay_payment_id);
@@ -384,7 +356,7 @@ export default function CheckoutPage({ onBack, onSuccess }) {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '1rem', borderTop: '1px solid var(--border-light)' }}>
               <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', opacity: 0.5 }}>TOTAL</span>
-              <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.2rem', color: 'var(--accent)' }}>₹{total}</span>
+              <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.2rem', color: 'var(--accent)' }}>₹{successOrder?.finalTotal || successOrder?.total_amount}</span>
             </div>
           </div>
 

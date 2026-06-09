@@ -95,18 +95,22 @@ export const createOrder = async (orderData, orderItems, paymentDetails = {}) =>
     orderData.payment_status = 'paid';
     orderData.status = 'confirmed';
   }
+
   // Insert order
   const { data: order, error: orderError } = await supabase
     .from('orders')
     .insert([orderData])
     .select()
     .single();
-  if (orderError) throw orderError;
+
+  if (orderError) {
+    throw new Error('Order insert failed: ' + orderError.message + ' (code: ' + orderError.code + ')');
+  }
 
   // Insert order items
   const items = orderItems.map((i) => ({
     order_id: order.id,
-    product_id: i.productDbId,   // the UUID from products table
+    product_id: i.productDbId,
     size: i.size,
     qty: i.qty,
     unit_price: i.price,
@@ -115,7 +119,10 @@ export const createOrder = async (orderData, orderItems, paymentDetails = {}) =>
   const { error: itemsError } = await supabase
     .from('order_items')
     .insert(items);
-  if (itemsError) throw itemsError;
+
+  if (itemsError) {
+    throw new Error('Order items insert failed: ' + itemsError.message + ' (code: ' + itemsError.code + ')');
+  }
 
   return order;
 };

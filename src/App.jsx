@@ -35,6 +35,10 @@ function AppContent() {
   const handleNavigate = (target) => {
     setPage(target);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Always close cart drawer when navigating
+    if (target === 'checkout') {
+      window.dispatchEvent(new CustomEvent('leezoo:close-drawer'));
+    }
   };
 
   useEffect(() => {
