@@ -138,11 +138,10 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
                   onError={() => setImgError(true)}
                   style={{
                     width: '100%', height: '100%',
-                    objectFit: 'contain', objectPosition: 'center',
+                    objectFit: 'cover', objectPosition: 'center',
                     transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
-                    transform: hovered ? 'scale(1.05) translateY(-2px)' : 'scale(1) translateY(0)',
+                    transform: hovered ? 'scale(1.09) translateY(-4px)' : 'scale(1) translateY(0)',
                     position: 'relative', zIndex: 2,
-                    WebkitBackfaceVisibility: 'hidden',
                   }}
                 />
               : <div style={{
@@ -244,7 +243,7 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
                   alt={product.name}
                   onError={() => setImgError(true)}
                   style={{
-                    width: '100%', height: '100%', objectFit: 'contain',
+                    width: '100%', height: '100%', objectFit: 'cover',
                     transform: hovered ? 'scale(1.09) translateY(-4px)' : 'scale(1)',
                     transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)',
                     position: 'relative', zIndex: 2,
@@ -377,7 +376,7 @@ function ProductDetailModal({ product, addItem, openDrawer, onClose }) {
                 onError={() => setImgError(true)}
                 style={{
                   width: '100%', height: '100%',
-                  objectFit: 'contain', objectPosition: 'center',
+                  objectFit: 'cover', objectPosition: 'center',
                   position: 'relative', zIndex: 2,
                   transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
                   transform: imgHovered ? 'scale(1.07) translateY(-4px)' : 'scale(1)',
