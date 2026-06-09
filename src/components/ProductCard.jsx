@@ -392,22 +392,22 @@ function ProductDetailModal({ product, addItem, openDrawer, onClose }) {
         {/* Details panel */}
         <div style={{ flex: 1, padding: isMobile ? '1.5rem' : '2.5rem 2.5rem 2.5rem 2rem', display: 'flex', flexDirection: 'column', gap: '1.4rem' }}>
           <div>
-            <div style={{ fontSize: '0.65rem', letterSpacing: '0.25em', color: 'var(--accent)', textTransform: 'uppercase', fontFamily: 'Jost,sans-serif', marginBottom: '0.6rem' }}>LEEZOO — EDGE COLLECTION</div>
+            <div style={{ fontSize: '0.5rem', letterSpacing: '0.3em', color: 'var(--accent)', textTransform: 'uppercase', fontFamily: 'Jost,sans-serif', marginBottom: '0.6rem', opacity: 0.7 }}>LEEZOO — EDGE COLLECTION</div>
             <h2 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2.2rem', letterSpacing: '0.06em', lineHeight: 1, marginBottom: '0.6rem' }}>{product.name}</h2>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
               <span style={{ fontSize: '1.1rem', color: 'var(--accent)', fontFamily: 'Jost,sans-serif', fontWeight: 300 }}>RS {product.price}</span>
               {product.color && <>
                 <span style={{ width: 1, height: 14, background: 'var(--border)' }} />
-                <span style={{ fontSize: '0.7rem', letterSpacing: '0.15em', color: 'var(--dark)', textTransform: 'uppercase', fontFamily: 'Jost,sans-serif' }}>{product.color}</span>
+                <span style={{ fontSize: '0.6rem', letterSpacing: '0.18em', opacity: 0.5, textTransform: 'uppercase', fontFamily: 'Jost,sans-serif' }}>{product.color}</span>
               </>}
             </div>
-            {product.product_id && <div style={{ fontSize: '0.65rem', letterSpacing: '0.1em', color: 'var(--muted)', marginTop: '0.4rem', fontFamily: 'Jost,sans-serif' }}>Product ID: {product.product_id}</div>}
+            {product.product_id && <div style={{ fontSize: '0.5rem', letterSpacing: '0.15em', opacity: 0.25, marginTop: '0.4rem', fontFamily: 'Jost,sans-serif' }}>Product ID: {product.product_id}</div>}
           </div>
 
           <div style={{ height: 1, background: 'var(--border)' }} />
 
           <div>
-            <div style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dark)', marginBottom: '0.75rem', fontFamily: 'Jost,sans-serif' }}>Select Size</div>
+            <div style={{ fontSize: '0.55rem', letterSpacing: '0.25em', textTransform: 'uppercase', opacity: 0.45, marginBottom: '0.75rem', fontFamily: 'Jost,sans-serif' }}>Select Size</div>
             <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
               {SIZES.map((s) => (
                 <button key={s} onClick={() => setSelectedSize(s)}
@@ -418,7 +418,7 @@ function ProductDetailModal({ product, addItem, openDrawer, onClose }) {
                 </button>
               ))}
             </div>
-            {!selectedSize && <p style={{ fontSize: '0.65rem', letterSpacing: '0.1em', color: 'var(--accent)', marginTop: '0.5rem', fontFamily: 'Jost,sans-serif' }}>Choose a size to add to bag</p>}
+            {!selectedSize && <p style={{ fontSize: '0.5rem', letterSpacing: '0.1em', color: 'rgba(196,153,90,0.45)', marginTop: '0.5rem', fontFamily: 'Jost,sans-serif' }}>Choose a size to add to bag</p>}
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: 'auto', paddingTop: '0.5rem' }}>
