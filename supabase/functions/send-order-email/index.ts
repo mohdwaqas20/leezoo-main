@@ -1,8 +1,8 @@
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
 
 const BREVO_API_KEY = Deno.env.get('BREVO_API_KEY') ?? '';
-const FROM_EMAIL = Deno.env.get('FROM_EMAIL') ?? 'shop@leezoo.in';
-const FROM_NAME = 'LEEZOO';
+const FROM_EMAIL    = Deno.env.get('FROM_EMAIL') ?? 'shop@leezoo.in';
+const FROM_NAME     = 'LEEZOO';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -127,7 +127,8 @@ serve(async (req) => {
           <tr>
             <td style="background:#f7f4ef;padding:24px 40px;text-align:center;border-top:1px solid #e8e0d4;">
               <p style="font-size:12px;color:#9b8b78;margin:0 0 6px;">
-                Questions? Email us at leezoo.official2026@gmail.com or WhatsApp: +91-9984090593          </p>
+                Questions? Reply to this email or reach us at support@leezoo.in
+              </p>
               <p style="font-size:11px;color:#c4b9aa;margin:0;">
                 © ${new Date().getFullYear()} LEEZOO. All rights reserved.
               </p>
@@ -150,9 +151,9 @@ serve(async (req) => {
         'api-key': BREVO_API_KEY,
       },
       body: JSON.stringify({
-        sender: { name: FROM_NAME, email: FROM_EMAIL },
-        to: [{ email: to_email, name: to_name }],
-        subject: `Your LEEZOO order is confirmed — ${order_id}`,
+        sender:      { name: FROM_NAME, email: FROM_EMAIL },
+        to:          [{ email: to_email, name: to_name }],
+        subject:     `Your LEEZOO order is confirmed — ${order_id}`,
         htmlContent,
       }),
     });
