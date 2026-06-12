@@ -746,7 +746,22 @@ export default function Footer({ onNavigate }) {
               </div>
               <div className="contact-btns" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                 <button
-                  onClick={() => { if (contact.name && contact.message) setContactSent(true); }}
+                  onClick={() => {
+                    if (contact.name && contact.message) {
+                      const waMessage = encodeURIComponent(
+                        `Hello LEEZOO Team,\n\n` +
+                        `I am reaching out regarding an enquiry. Here are my details:\n\n` +
+                        `*Name:* ${contact.name}\n` +
+                        `*Phone:* ${contact.phone || 'Not provided'}\n` +
+                        `*Email:* ${contact.email || 'Not provided'}\n\n` +
+                        `*My Message:*\n${contact.message}\n\n` +
+                        `Kindly get back to me at your earliest convenience.\n` +
+                        `Thank you.`
+                      );
+                      window.open(`https://wa.me/919984090593?text=${waMessage}`, '_blank');
+                      setContactSent(true);
+                    }
+                  }}
                   className="contact-btn-send"
                   style={{
                     background: '#BFA06A', color: '#FFFFFF',
@@ -758,7 +773,7 @@ export default function Footer({ onNavigate }) {
                   onMouseEnter={e => { e.target.style.background = '#A0896D'; e.target.style.transform = 'translateY(-2px)'; }}
                   onMouseLeave={e => { e.target.style.background = '#BFA06A'; e.target.style.transform = 'translateY(0)'; }}
                 >Send Message →</button>
-                <a href="https://wa.me/919984090593" target="_blank" rel="noreferrer"
+                <a href="mailto:leezoo.official2026@gmail.com"
                   className="contact-btn-wa"
                   style={{
                     border: '1px solid #BFA06A', padding: '0.95rem 1.8rem',
@@ -767,7 +782,7 @@ export default function Footer({ onNavigate }) {
                   }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.backgroundColor = 'var(--accent)'; e.currentTarget.style.color = '#1a0f00'; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = '#BFA06A'; e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'var(--dark)'; }}
-                >WhatsApp Us</a>
+                >Email Us</a>
               </div>
             </div>
           )}
