@@ -238,9 +238,22 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
     min-width: 92vw !important;
   }
 
+  /* Product card image height — reduce for iPhone */
+  [style*="height: 'clamp(240px,50vw,460px)'"] {
+    height: 280px !important;
+  }
+  [style*="height: 'clamp(200px,40vw,300px)'"] {
+    height: 220px !important;
+  }
+
   /* Hero heading already uses clamp, just ensure padding */
   [style*="padding: 'clamp(2rem,5vw,5rem)'"] {
     padding: 1.5rem !important;
+  }
+
+  /* Hero section — reduce bottom padding on iPhone since image is now visible */
+  .hero-section {
+    padding-bottom: 8rem !important;
   }
 
   /* Founders cards */
@@ -261,5 +274,60 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
   /* Platform buttons wrap nicely */
   [style*="flexWrap: 'wrap'"][style*="justifyContent: 'center'"] {
     gap: 0.5rem !important;
+  }
+
+  /* Product card info section — tighter padding on iPhone */
+  [style*="padding: '1.4rem 1.6rem 1.8rem'"] {
+    padding: 1rem 1rem 1.2rem !important;
+  }
+
+  /* Product card name — smaller on iPhone */
+  [style*="fontSize: '1.5rem'"][style*="Bebas Neue"] {
+    font-size: 1.2rem !important;
+  }
+
+  /* Product card buttons — smaller padding on iPhone */
+  [style*="padding: '0.9rem'"][style*="fontSize: '0.72rem'"] {
+    padding: 0.7rem 0.5rem !important;
+    font-size: 0.62rem !important;
+  }
+
+  /* Shop page grid — single column on very small screens */
+  [style*="minmax(160px"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.6rem !important;
+  }
+
+  /* Product detail page — ensure image fits */
+  [style*="objectFit: 'contain'"] {
+    max-height: 60vh !important;
+  }
+}
+
+/* ═══════════════════════════════════════
+   IPHONE SE / SMALL — max 375px
+═══════════════════════════════════════ */
+@media (max-width: 375px) {
+
+  /* Product cards in slider — full width on iPhone SE */
+  [style*="minWidth: '33.333%'"],
+  [style*="minWidth: \"33.333%\""] {
+    min-width: 95vw !important;
+  }
+
+  /* Product card image height — even smaller for SE */
+  [style*="height: 'clamp(240px,50vw,460px)'"] {
+    height: 260px !important;
+  }
+
+  /* Hero title — ensure it fits */
+  .hero-title {
+    font-size: clamp(2.8rem, 14vw, 4.5rem) !important;
+  }
+
+  /* Announcement bar — smaller text */
+  [style*="letterSpacing: 'clamp(0.05em,1vw,0.25em)'"] {
+    font-size: 0.45rem !important;
+    letter-spacing: 0.05em !important;
   }
 }
