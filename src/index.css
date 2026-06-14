@@ -172,9 +172,14 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
   }
 
   /* Product slider cards — show 1 at a time */
-  [style*="minWidth: '33.333%'"],
-  [style*="minWidth: \"33.333%\""] {
+  [style*="min-width: 33.333%"] {
     min-width: 85vw !important;
+    max-width: 85vw !important;
+  }
+
+  /* Prevent images from forcing cards wider than viewport */
+  [style*="min-width: 33.333%"] img {
+    max-width: 100% !important;
   }
 
   /* Shop page grid — 2 cols min */
@@ -233,9 +238,9 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
 @media (max-width: 480px) {
 
   /* Product cards in slider — almost full width */
-  [style*="minWidth: '33.333%'"],
-  [style*="minWidth: \"33.333%\""] {
+  [style*="min-width: 33.333%"] {
     min-width: 92vw !important;
+    max-width: 92vw !important;
   }
 
   /* Product card image height — reduce for iPhone */
@@ -310,9 +315,9 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
 @media (max-width: 375px) {
 
   /* Product cards in slider — full width on iPhone SE */
-  [style*="minWidth: '33.333%'"],
-  [style*="minWidth: \"33.333%\""] {
+  [style*="min-width: 33.333%"] {
     min-width: 95vw !important;
+    max-width: 95vw !important;
   }
 
   /* Product card image height — even smaller for SE */
