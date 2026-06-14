@@ -72,7 +72,6 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
       <>
         <div
           style={{
-            minWidth: '33.333%',
             position: 'relative',
             cursor: 'pointer',
             flexShrink: 0,

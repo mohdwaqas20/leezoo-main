@@ -171,10 +171,11 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
     padding-top: 3rem !important;
   }
 
-  /* Product slider cards — show 1 at a time */
+  /* Product slider cards — show 1 at a time, full width with no gap */
   .slider-card {
-    min-width: 85vw !important;
-    max-width: 85vw !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
   }
 
   /* Prevent images from forcing cards wider than viewport */
@@ -237,10 +238,11 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
 ═══════════════════════════════════════ */
 @media (max-width: 480px) {
 
-  /* Product cards in slider — almost full width */
+  /* Product cards in slider — full width on small mobile */
   .slider-card {
-    min-width: 92vw !important;
-    max-width: 92vw !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
   }
 
   /* Product card image height — reduce for iPhone */
@@ -316,8 +318,9 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
 
   /* Product cards in slider — full width on iPhone SE */
   .slider-card {
-    min-width: 95vw !important;
-    max-width: 95vw !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
   }
 
   /* Product card image height — even smaller for SE */

@@ -4,18 +4,23 @@ import ProductCard from './ProductCard';
 export default function ProductSlider({ title, products = [], loading = false, onShopAll, onViewProduct }) {
   const [current, setCurrent] = useState(0);
   const [perView, setPerView] = useState(3);
+  const [gap, setGap] = useState(8);
 
   const maxIdx = Math.max(0, products.length - perView);
 
   useEffect(() => {
     const getPerView = () => window.innerWidth < 768 ? 1 : window.innerWidth < 1100 ? 2 : 3;
-    const update = () => setPerView(getPerView());
+    const getGap = () => window.innerWidth < 768 ? 0 : window.innerWidth < 1100 ? 12 : 16;
+    const update = () => { setPerView(getPerView()); setGap(getGap()); };
     update();
     window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
+    window.addEventListener('orientationchange', () => setTimeout(update, 100));
+    return () => {
+      window.removeEventListener('resize', update);
+      window.removeEventListener('orientationchange', update);
+    };
   }, []);
 
-  // Clamp current index when perView changes
   useEffect(() => {
     setCurrent(c => Math.min(c, Math.max(0, products.length - perView)));
   }, [perView, products.length]);
@@ -59,15 +64,16 @@ export default function ProductSlider({ title, products = [], loading = false, o
       </div>
 
       {/* Track */}
-      <div style={{ position: 'relative', overflow: 'hidden', width: '100%' }}>
-        <div style={{
+      <div className="slider-viewport" style={{ position: 'relative', overflow: 'hidden', width: '100%' }}>
+        <div className="slider-track" style={{
           display: 'flex',
-          transform: `translateX(-${(100 / perView) * current}%)`,
+          gap: `${gap}px`,
+          transform: `translateX(calc(${-current} * ((100% - ${(perView - 1) * gap}px) / ${perView} + ${gap}px)))`,
           transition: 'transform 0.65s cubic-bezier(0.16,1,0.3,1)',
           willChange: 'transform',
         }}>
           {products.map((product, i) => (
-            <div key={product.id || i} className="slider-card" style={{ minWidth: `${100 / perView}%`, flexShrink: 0 }}>
+            <div key={product.id || i} className="slider-card" style={{ minWidth: `calc((100% - ${(perView - 1) * gap}px) / ${perView})`, flexShrink: 0 }}>
               <ProductCard product={product} variant="slide" onView={onViewProduct} />
             </div>
           ))}
