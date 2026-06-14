@@ -172,13 +172,13 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
   }
 
   /* Product slider cards — show 1 at a time */
-  [style*="min-width: 33.333%"] {
+  .slider-card {
     min-width: 85vw !important;
     max-width: 85vw !important;
   }
 
   /* Prevent images from forcing cards wider than viewport */
-  [style*="min-width: 33.333%"] img {
+  .slider-card img {
     max-width: 100% !important;
   }
 
@@ -238,7 +238,7 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
 @media (max-width: 480px) {
 
   /* Product cards in slider — almost full width */
-  [style*="min-width: 33.333%"] {
+  .slider-card {
     min-width: 92vw !important;
     max-width: 92vw !important;
   }
@@ -315,7 +315,7 @@ input::placeholder, textarea::placeholder { color: var(--muted) !important; }
 @media (max-width: 375px) {
 
   /* Product cards in slider — full width on iPhone SE */
-  [style*="min-width: 33.333%"] {
+  .slider-card {
     min-width: 95vw !important;
     max-width: 95vw !important;
   }

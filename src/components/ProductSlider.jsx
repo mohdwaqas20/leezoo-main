@@ -67,7 +67,7 @@ export default function ProductSlider({ title, products = [], loading = false, o
           willChange: 'transform',
         }}>
           {products.map((product, i) => (
-            <div key={product.id || i} style={{ minWidth: `${100 / perView}%`, flexShrink: 0 }}>
+            <div key={product.id || i} className="slider-card" style={{ minWidth: `${100 / perView}%`, flexShrink: 0 }}>
               <ProductCard product={product} variant="slide" onView={onViewProduct} />
             </div>
           ))}
