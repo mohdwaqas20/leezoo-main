@@ -18,7 +18,7 @@ export default function Hero({ onNavigate }) {
       height: 'calc(100vh - 24px)',
       minHeight: 500,
       display: 'flex', alignItems: 'center',
-      overflow: 'visible',
+      overflow: 'hidden',
       background: 'linear-gradient(150deg, #F0E6D8 0%, #EAD8C2 40%, #E2CDB0 75%, #D9C3A5 100%)',
     }} className="hero-section">
       {/* Linen texture */}
