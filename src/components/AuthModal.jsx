@@ -81,6 +81,7 @@ export default function AuthModal({ onClose }) {
           position: 'fixed', inset: 0, zIndex: 1000,
           background: 'rgba(0,0,0,0.75)',
           backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
           animation: 'authBackdropIn 0.25s ease both',
         }}
       />

@@ -273,7 +273,7 @@ export default function ProductPage({ product, onBack }) {
             {/* Image counter */}
             <div style={{
               position: 'absolute', top: '1.2rem', right: '1.2rem',
-              background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)',
+              background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
               border: '1px solid rgba(255,255,255,0.1)',
               padding: '0.25rem 0.6rem',
               fontFamily: 'Barlow,sans-serif', fontSize: '0.5rem',
@@ -455,7 +455,7 @@ export default function ProductPage({ product, onBack }) {
 
 const arrowStyle = {
   width: 36, height: 36, borderRadius: '50%',
-  background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(6px)',
+  background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
   border: '1px solid rgba(255,255,255,0.12)',
   cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
   color: 'rgba(255,255,255,0.7)', transition: 'background 0.2s, border-color 0.2s',

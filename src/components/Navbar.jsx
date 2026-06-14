@@ -315,7 +315,7 @@ export default function Navbar({ onAuthClick, onNavigate, currentPage = 'home' }
       <nav style={{
         position: 'sticky', top: 0, zIndex: 200,
         background: scrolled ? 'rgba(240,230,216,0.97)' : 'rgba(245,237,224,0.92)',
-        borderBottom: '1px solid var(--border)', backdropFilter: 'blur(12px)',
+        borderBottom: '1px solid var(--border)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
         display: 'grid', gridTemplateColumns: isCompact ? 'auto 1fr' : '1fr auto 1fr',
         alignItems: 'center',
         padding: isCompact ? '0 0.75rem' : isTablet ? '0 1.25rem' : '0 clamp(1rem,3vw,3rem)',

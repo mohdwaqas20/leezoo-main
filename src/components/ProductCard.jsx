@@ -93,7 +93,7 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
               fontSize: '0.52rem', letterSpacing: '0.22em',
               padding: '0.3rem 0.85rem', fontWeight: 500,
               fontFamily: 'Jost,sans-serif', textTransform: 'uppercase',
-              border: `1px solid ${badgeBdr}`, backdropFilter: 'blur(6px)',
+              border: `1px solid ${badgeBdr}`, backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
             }}>{product.badge}</div>
           )}
 
@@ -104,8 +104,10 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
             borderRadius: '50%', width: 38, height: 38,
             display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
             transform: wishlistAnim ? 'scale(1.4)' : 'scale(1)',
+            WebkitTransform: wishlistAnim ? 'scale(1.4)' : 'scale(1)',
             transition: 'transform 0.25s cubic-bezier(0.34,1.56,0.64,1), background 0.2s',
             backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
           }}>
             <HeartIcon filled={wishlisted} onLight={isOnLight} />
           </button>
@@ -211,8 +213,10 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
             borderRadius: '50%', width: 34, height: 34,
             display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
             transform: wishlistAnim ? 'scale(1.4)' : 'scale(1)',
+            WebkitTransform: wishlistAnim ? 'scale(1.4)' : 'scale(1)',
             transition: 'transform 0.25s cubic-bezier(0.34,1.56,0.64,1)',
             backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
           }}>
             <HeartIcon filled={wishlisted} onLight={isOnLight} />
           </button>
@@ -365,7 +369,7 @@ function ProductDetailModal({ product, addItem, openDrawer, onClose }) {
           }} />
 
           {product.badge && (
-            <div style={{ position: 'absolute', top: '1.2rem', left: '1.2rem', zIndex: 3, background: isOnLight ? 'rgba(20,20,20,0.85)' : 'rgba(232,224,213,0.92)', color: isOnLight ? '#D4A853' : '#1A1A1A', fontSize: '0.5rem', letterSpacing: '0.22em', padding: '0.3rem 0.8rem', fontFamily: 'Jost,sans-serif', textTransform: 'uppercase', border: isOnLight ? '1px solid rgba(212,168,83,0.5)' : '1px solid rgba(20,20,20,0.25)', backdropFilter: 'blur(6px)' }}>{product.badge}</div>
+            <div style={{ position: 'absolute', top: '1.2rem', left: '1.2rem', zIndex: 3, background: isOnLight ? 'rgba(20,20,20,0.85)' : 'rgba(232,224,213,0.92)', color: isOnLight ? '#D4A853' : '#1A1A1A', fontSize: '0.5rem', letterSpacing: '0.22em', padding: '0.3rem 0.8rem', fontFamily: 'Jost,sans-serif', textTransform: 'uppercase', border: isOnLight ? '1px solid rgba(212,168,83,0.5)' : '1px solid rgba(20,20,20,0.25)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>{product.badge}</div>
           )}
 
           {(product.image_url && !imgError)
