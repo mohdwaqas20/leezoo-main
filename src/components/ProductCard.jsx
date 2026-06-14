@@ -63,7 +63,9 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
   const badgeBg    = isOnLight ? 'rgba(20,20,20,0.85)'  : 'rgba(232,224,213,0.92)';
   const badgeColor = isOnLight ? '#D4A853'               : '#1A1A1A';
   const badgeBdr   = isOnLight ? 'rgba(212,168,83,0.5)'  : 'rgba(20,20,20,0.25)';
-  const wlBg       = isOnLight ? 'rgba(255,255,255,0.75)' : 'rgba(20,20,20,0.55)';
+  // FIX 2: Increased opacity on wlBg so button is always visible even if
+  // backdrop-filter silently fails in Safari fullscreen
+  const wlBg       = isOnLight ? 'rgba(255,255,255,0.92)' : 'rgba(20,20,20,0.75)';
   const wlBdr      = isOnLight ? 'rgba(0,0,0,0.15)'      : 'rgba(255,255,255,0.2)';
   const shadowStr  = isOnLight ? 'rgba(0,0,0,0.2)'       : 'rgba(0,0,0,0.5)';
 
@@ -80,7 +82,9 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
             boxShadow: hovered
               ? '0 20px 60px rgba(0,0,0,0.25), 0 8px 24px rgba(191,160,106,0.12)'
               : '0 2px 16px rgba(0,0,0,0.06)',
+            // FIX 4: Added WebkitTransform alongside transform for Safari
             transform: hovered ? 'translateY(-8px) scale(1.01)' : 'translateY(0) scale(1)',
+            WebkitTransform: hovered ? 'translateY(-8px) scale(1.01)' : 'translateY(0) scale(1)',
             transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
           }}
           onMouseEnter={() => setHovered(true)}
@@ -97,9 +101,11 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
             }}>{product.badge}</div>
           )}
 
+          {/* FIX 2: Wishlist button — higher-opacity solid background so it's always
+              visible in Safari fullscreen even if backdrop-filter doesn't composite */}
           <button onClick={handleWishlist} style={{
             position: 'absolute', top: '1rem', right: '1rem', zIndex: 3,
-            background: wishlisted ? 'rgba(220,38,38,0.18)' : wlBg,
+            background: wishlisted ? 'rgba(220,38,38,0.35)' : wlBg,
             border: wishlisted ? '1px solid rgba(220,38,38,0.5)' : `1px solid ${wlBdr}`,
             borderRadius: '50%', width: 38, height: 38,
             display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
@@ -112,11 +118,16 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
             <HeartIcon filled={wishlisted} onLight={isOnLight} />
           </button>
 
-          {/* IMAGE ZONE */}
+          {/* FIX 1 (slide): Replaced vw-based clamp height with aspect-ratio so Safari
+              fullscreen doesn't miscalculate the image zone height */}
           <div
             onClick={handleView}
             style={{
-              width: '100%', height: 'clamp(240px,50vw,460px)', overflow: 'hidden',
+              width: '100%',
+              aspectRatio: '3 / 4',
+              maxHeight: 460,
+              minHeight: 240,
+              overflow: 'hidden',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               background: imgBg, cursor: 'pointer', position: 'relative',
             }}
@@ -142,12 +153,14 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
                     objectFit: 'cover', objectPosition: 'center',
                     transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
                     transform: hovered ? 'scale(1.09) translateY(-4px)' : 'scale(1) translateY(0)',
+                    WebkitTransform: hovered ? 'scale(1.09) translateY(-4px)' : 'scale(1) translateY(0)',
                     position: 'relative', zIndex: 2,
                   }}
                 />
               : <div style={{
                   transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)',
                   transform: hovered ? 'scale(1.06)' : 'scale(1)',
+                  WebkitTransform: hovered ? 'scale(1.06)' : 'scale(1)',
                   position: 'relative', zIndex: 2,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem',
                 }}>
@@ -200,15 +213,18 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
             boxShadow: hovered
               ? '0 20px 60px rgba(0,0,0,0.2), 0 8px 24px rgba(191,160,106,0.1)'
               : '0 2px 12px rgba(0,0,0,0.05)',
+            // FIX 4: Added WebkitTransform for Safari
             transform: hovered ? 'translateY(-6px) scale(1.01)' : 'translateY(0) scale(1)',
+            WebkitTransform: hovered ? 'translateY(-6px) scale(1.01)' : 'translateY(0) scale(1)',
             transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
           }}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
         >
+          {/* FIX 2: Wishlist button — higher-opacity solid background */}
           <button onClick={handleWishlist} style={{
             position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 3,
-            background: wishlisted ? 'rgba(220,38,38,0.18)' : wlBg,
+            background: wishlisted ? 'rgba(220,38,38,0.35)' : wlBg,
             border: wishlisted ? '1px solid rgba(220,38,38,0.5)' : `1px solid ${wlBdr}`,
             borderRadius: '50%', width: 34, height: 34,
             display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
@@ -221,10 +237,15 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
             <HeartIcon filled={wishlisted} onLight={isOnLight} />
           </button>
 
+          {/* FIX 1 (grid): Replaced vw-based clamp height with aspect-ratio */}
           <div
             onClick={handleView}
             style={{
-              height: 'clamp(200px,40vw,300px)', overflow: 'hidden',
+              width: '100%',
+              aspectRatio: '4 / 5',
+              maxHeight: 300,
+              minHeight: 200,
+              overflow: 'hidden',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               background: imgBg, cursor: 'pointer', position: 'relative',
             }}
@@ -248,6 +269,7 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
                   style={{
                     width: '100%', height: '100%', objectFit: 'cover',
                     transform: hovered ? 'scale(1.09) translateY(-4px)' : 'scale(1)',
+                    WebkitTransform: hovered ? 'scale(1.09) translateY(-4px)' : 'scale(1)',
                     transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)',
                     position: 'relative', zIndex: 2,
                   }}
@@ -255,6 +277,7 @@ export default function ProductCard({ product, variant = 'slide', onView }) {
               : <div style={{
                   transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)',
                   transform: hovered ? 'scale(1.06)' : 'scale(1)',
+                  WebkitTransform: hovered ? 'scale(1.06)' : 'scale(1)',
                   position: 'relative', zIndex: 2,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem',
                 }}>
@@ -339,7 +362,27 @@ function ProductDetailModal({ product, addItem, openDrawer, onClose }) {
   return (
     <>
       <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 1000, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }} />
-      <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 1001, background: 'var(--mid)', border: '1px solid rgba(196,153,90,0.2)', width: 'min(880px, 92vw)', maxHeight: '90vh', overflowY: 'auto', display: 'flex', flexDirection: isMobile ? 'column' : 'row', animation: 'modalIn 0.35s cubic-bezier(0.16,1,0.3,1)', boxShadow: '0 40px 100px rgba(0,0,0,0.5)' }}>
+
+      {/* FIX 3: Replaced translate(-50%,-50%) centering with inset:0 + margin:auto.
+          Safari fullscreen recalculates the fixed positioning context when entering
+          fullscreen, causing translate-based centering to misfire. inset+margin:auto
+          is handled entirely in layout and is immune to this Safari quirk. */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        margin: 'auto',
+        zIndex: 1001,
+        background: 'var(--mid)',
+        border: '1px solid rgba(196,153,90,0.2)',
+        width: 'min(880px, 92vw)',
+        height: 'fit-content',
+        maxHeight: '90vh',
+        overflowY: 'auto',
+        display: 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
+        animation: 'modalIn 0.35s cubic-bezier(0.16,1,0.3,1)',
+        boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
+      }}>
 
         <button onClick={onClose}
           style={{ position: 'absolute', top: '1.2rem', right: '1.2rem', zIndex: 10, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.15)', width: 36, height: 36, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--dark)', transition: 'background 0.2s' }}
@@ -383,6 +426,7 @@ function ProductDetailModal({ product, addItem, openDrawer, onClose }) {
                   position: 'relative', zIndex: 2,
                   transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
                   transform: imgHovered ? 'scale(1.07) translateY(-4px)' : 'scale(1)',
+                  WebkitTransform: imgHovered ? 'scale(1.07) translateY(-4px)' : 'scale(1)',
                 }}
               />
             : <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
@@ -441,10 +485,12 @@ function ProductDetailModal({ product, addItem, openDrawer, onClose }) {
         </div>
       </div>
 
+      {/* FIX 3 continued: Updated modalIn keyframes to not use translate values,
+          since the modal no longer relies on translate for centering */}
       <style>{`
         @keyframes modalIn {
-          from { opacity: 0; transform: translate(-50%,-46%) scale(0.97); }
-          to   { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+          from { opacity: 0; transform: scale(0.97); }
+          to   { opacity: 1; transform: scale(1); }
         }
       `}</style>
       {authPrompt && createPortal(<AuthModal onClose={() => setAuthPrompt(false)} />, document.body)}
