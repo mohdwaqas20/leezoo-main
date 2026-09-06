@@ -351,7 +351,7 @@ export default function Footer({ onNavigate }) {
         </div>
       </section>
 
-      {/* ── Meet the Founders ── */}
+      {/* ── Meet the Founders ── 
       <section id="founders" style={{ padding: 'clamp(3rem,6vw,6rem) clamp(1rem,4vw,4rem)', borderBottom: '1px solid rgba(122, 87, 64, 0.15)', background: 'linear-gradient(135deg, #F5EDE0 0%, #EAD8C2 100%)' }}>
         <p style={{
           fontSize: '0.6rem', letterSpacing: '0.35em', textTransform: 'uppercase',
@@ -379,7 +379,7 @@ export default function Footer({ onNavigate }) {
           The people driving LEEZOO forward through innovation, production excellence, operations management, and customer-focused growth.
         </p>
 
-        {/* All 5 Team Members - Single Row */}
+        {/* All 5 Team Members - Single Row */}{/*
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', maxWidth: '1400px', margin: '0 auto' }} className="founders-grid">
           {founders.map((f) => (
             <div key={f.name} className="founder-card" style={{
@@ -424,7 +424,7 @@ export default function Footer({ onNavigate }) {
             </div>
           ))}
         </div>
-      </section>
+      </section>*/}
 
       {/* ── Customer Feedback ── */}
       <section id="feedback" style={{ padding: 'clamp(3rem,6vw,6rem) clamp(1rem,4vw,4rem)', borderBottom: '1px solid rgba(122, 87, 64, 0.15)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'clamp(2rem,4vw,6rem)', alignItems: 'center', background: 'linear-gradient(135deg, #F5EDE0 0%, #EAD8C2 100%)' }}>
